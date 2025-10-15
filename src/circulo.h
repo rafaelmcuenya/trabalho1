@@ -11,7 +11,7 @@
 
 typedef void* Circulo;
 
-Circulo criaCirculo(int i, double x, double y, double r, const char* corb, const char* corp);
+Circulo criaCirculo(int i, double x, double y, double r, char* corb, char* corp);
 /*
    Cria um círculo cujo ID é o ‘i’, com o centro (âncora) dado pelos 2° e 3° parâmetros e com um raio dado pelo quarto parâmetro.
    A cor de borda e preenchimento são dadas pelos dois últimos parâmetros.
@@ -52,12 +52,12 @@ double getYCirculo(Circulo c);
    Retorna a coordenada Y da âncora do círculo.
 */
 
-const char* getCorBordaCirculo(Circulo c);
+char* getCorBordaCirculo(Circulo c);
 /*
    Retorna a cor de borda do círculo, descrita no padrão sRGB de 6 dígitos.
 */
 
-const char* getCorPreenchimentoCirculo(Circulo c);
+char* getCorPreenchimentoCirculo(Circulo c);
 /*
    Retorna a cor de preenchimento do círculo, descrita no padrão sRGB de 6 dígitos.
 */
