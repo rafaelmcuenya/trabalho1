@@ -11,28 +11,28 @@
 
 typedef void* Circulo;
 
-Circulo criaCirculo(int i, double x, double y, double r, char* corb, char* corp);
+Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp);
 /*
    Cria um círculo cujo ID é o ‘i’, com o centro (âncora) dado pelos 2° e 3° parâmetros e com um raio dado pelo quarto parâmetro.
    A cor de borda e preenchimento são dadas pelos dois últimos parâmetros.
 */
 
-double areaCirculo(Circulo c);
+double areaCircle(Circulo c);
 /*
    Calcula a área de um círculo com o ID repassado pelo primeiro parâmetro, baseando-se na fórmula geral dada por A = πr², sendo ‘r’ o raio do círculo, ‘A’ a área final e pi(π) uma constante universal equivalente a aproximadamente 3,14.
 */
 
-int idCirculo(Circulo c);
+int idCircle(Circulo c);
 /*
    Coleta o ID de um círculo específico para possíveis manipulações no mesmo, retornando tal identificador.
 */
 
-void moveCirculo(Circulo c, double x, double y);
+void moveCircle(Circulo c, double x, double y);
 /*
    Por meio do ID repassado pelo primeiro parâmetro, move a âncora de tal círculo em tantas coordenadas no eixo x e eixo y, valores repassados respectivamente pelos segundo e terceiro parâmetros.
 */
 
-Circulo clonaCirculo(Circulo c);
+Circulo clonaCircle(Circulo c);
 /*
    Cria uma cópia do círculo, retornando um ponteiro para o novo círculo com os mesmos atributos.
 */
@@ -42,32 +42,29 @@ TipoForma getTipo(Circulo c);
    Retorna o tipo da forma como enum TipoForma círculo.
 */
 
-double getXCirculo(Circulo c);
+double getXCircle(Circulo c);
 /*
    Retorna a coordenada X da âncora do círculo.
 */
 
-double getYCirculo(Circulo c);
+double getYCircle(Circulo c);
 /*
    Retorna a coordenada Y da âncora do círculo.
 */
 
-char* getCorBordaCirculo(Circulo c);
+char* getCorBCircle(Circulo c);
 /*
    Retorna a cor de borda do círculo, descrita no padrão sRGB de 6 dígitos.
 */
 
-char* getCorPreenchimentoCirculo(Circulo c);
+char* getCorPCircle(Circulo c);
 /*
    Retorna a cor de preenchimento do círculo, descrita no padrão sRGB de 6 dígitos.
 */
 
-void liberaCirculo(Circulo c);
+void liberaCircle(Circulo c);
 /*
    Libera toda a memória associada ao círculo passado como parâmetro.Essa função deve ser utilizada sempre que o círculo não for mais necessário.
 */
 
 #endif
-
-
-
