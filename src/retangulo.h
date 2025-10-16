@@ -13,7 +13,7 @@
 
 typedef void* Retangulo;
 
-Retangulo criaRet(int i, double x, double y, double w, double h, const char* corb, const char* corp);
+Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, char* corp);
 /*
    Cria um retângulo com a âncora posicionada nos dados repassados pelos parâmetros 3 e 4, com tal forma possuindo um ID dado pelo primeiro parâmetro. 
    O mesmo terá comprimento e altura das informações enviadas pelos 4° e 5° parâmetros, respectivamente.
@@ -55,15 +55,12 @@ double getYRet(Retangulo r);
    Retorna a coordenada Y da âncora do retangulo.
 */
 
-const char* getCorBRet(Retangulo c);
+char* getCorBRet(Retangulo c);
 /*
    Retorna a cor de borda do retangulo, descrita no padrão sRGB de 6 dígitos.
 */
 
-
-
-
-const char* getCorPRet(Retangulo r);
+char* getCorPRet(Retangulo r);
 /*
    Retorna a cor de preenchimento do retangulo, descrita no padrão sRGB de 6 dígitos.
 */
@@ -74,6 +71,3 @@ void liberaRet(Retangulo r);
 */
 
 #endif
-
-
-
