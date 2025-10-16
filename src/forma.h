@@ -3,6 +3,13 @@
 
 #include <stdio.h>
 
+typedef enum {
+    Tc,
+    Tr,
+    Tl,
+    Tt
+} TipoForma;
+
 typedef void* Forma;
 
 /*
@@ -45,12 +52,12 @@ double getYForma(Forma f);
    Retorna a coordenada Y da âncora da forma.
 */
 
-char* getCorBordaForma(Forma f);
+const char* getCorBForma(Forma f);
 /*
    Retorna a cor da borda da forma, descrita no padrão sRGB de 6 dígitos.
 */
 
-char* getCorPreenchimentoForma(Forma f);
+const char* getCorPForma(Forma f);
 /*
    Retorna a cor de preenchimento da forma, descrita no padrão sRGB de 6 dígitos.
 */
@@ -61,5 +68,3 @@ void liberaForma(Forma f);
 */
 
 #endif
-
-
