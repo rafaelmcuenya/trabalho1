@@ -11,7 +11,7 @@
 
 typedef void* Linha;
 
-Linha criaLinha(int i, double x1, double y1, double x2, double y2, const char* cor);
+Linha criaLinha(int i, double x1, double y1, double x2, double y2, char* cor);
 /*
    Cria uma linha delimitada pelos pontos dados nos parâmetros. 
    Dentre os parâmetros x1, y1, x2 e y2, somente no máximo três podem possuir o mesmo valor, sendo obrigatório, no mínimo, um deles possuir um valor diferente de, pelo menos, um dos outros parâmetros. 
@@ -56,18 +56,15 @@ double getYLinha(Linha l);
    Retorna a coordenada Y da âncora da linha.
 */
 
-const char* getCorBLinha(Linha l);
+char* getCorBLinha(Linha l);
 /*
    Retorna a cor de borda da linha, descrita no padrão sRGB de 6 dígitos.
 */
 
-const char* getCorPLinha(Linha l);
+char* getCorPLinha(Linha l);
 /*
    Retorna a cor de preenchimento da linha, descrita no padrão sRGB de 6 dígitos.
 */
-
-
-
 
 void liberaLinha(Linha l);
 /*
