@@ -36,7 +36,6 @@ double areaForma(Forma f);
    Calcula e retorna a área da forma, independentemente do tipo. A função internamente identifica o tipo da forma e chama o cálculo correspondente.
 */
 
-
 void moveForma(Forma f, double dx, double dy);
 /*
    Move a forma no plano, deslocando sua posição em tantas unidades nos eixos X e Y quanto forem passadas pelos parâmetros. A operação afeta a âncora da figura, dependendo do tipo.
@@ -52,12 +51,12 @@ double getYForma(Forma f);
    Retorna a coordenada Y da âncora da forma.
 */
 
-const char* getCorBForma(Forma f);
+char* getCorBForma(Forma f);
 /*
    Retorna a cor da borda da forma, descrita no padrão sRGB de 6 dígitos.
 */
 
-const char* getCorPForma(Forma f);
+char* getCorPForma(Forma f);
 /*
    Retorna a cor de preenchimento da forma, descrita no padrão sRGB de 6 dígitos.
 */
