@@ -33,7 +33,7 @@ Retorna, sem remover, a primeira forma do chão.
 
 int voidChao(Chao c);
 /*
-Verifica se o chC#o está vazio.
+Verifica se o chão está vazio.
 */
 
 void freeChao(Chao c);
