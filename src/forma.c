@@ -77,35 +77,49 @@ void moveForma(Forma f, double dx, double dy) {
 }
 
 double getXForma(Forma f) {
-	FormStruct* form = (FormStruct*)f;
-	switch (form->tipo) {
-	case Tc:
-		return getXCirculo(form->elemento);
-	case Tr:
-		return getXRetangulo(form->elemento);
-	case Tl:
-		return getXLinha(form->elemento);
-	case Tt:
-		return getXTexto(form->elemento);
-	default:
-		return 0.0;
-	}
+    FormStruct* form = (FormStruct*)f;
+    switch (form->tipo) {
+        case Tc:
+            return getXCirculo(form->elemento);
+        case Tr:
+            return getXRetangulo(form->elemento);
+        case Tl: {
+            double x1 = getX1Linha(form->elemento);
+            double y1 = getY1Linha(form->elemento);
+            double x2 = getX2Linha(form->elemento);
+            double y2 = getY2Linha(form->elemento);
+            if (x1 < x2) return x1;
+            if (x2 < x1) return x2;
+            return (y1 < y2) ? x1 : x2;
+        }
+        case Tt:
+            return getXTexto(form->elemento);
+        default:
+            return 0.0;
+    }
 }
 
 double getYForma(Forma f) {
-	FormStruct* form = (FormStruct*)f;
-	switch (form->tipo) {
-	case Tc:
-		return getYCirculo(form->elemento);
-	case Tr:
-		return getYRetangulo(form->elemento);
-	case Tl:
-		return getYLinha(form->elemento);
-	case Tt:
-		return getYTexto(form->elemento);
-	default:
-		return 0.0;
-	}
+    FormStruct* form = (FormStruct*)f;
+    switch (form->tipo) {
+        case Tc:
+            return getYCirculo(form->elemento);
+        case Tr:
+            return getYRetangulo(form->elemento);
+        case Tl: {
+            double x1 = getX1Linha(form->elemento);
+            double y1 = getY1Linha(form->elemento);
+            double x2 = getX2Linha(form->elemento);
+            double y2 = getY2Linha(form->elemento);
+            if (x1 < x2) return y1;
+            if (x2 < x1) return y2;
+            return (y1 < y2) ? y1 : y2;
+        }
+        case Tt:
+            return getYTexto(form->elemento);
+        default:
+            return 0.0;
+    }
 }
 
 char* getCorBForma(Forma f) {
