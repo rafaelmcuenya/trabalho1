@@ -5,9 +5,7 @@
 #include "forma.h"
 
 /*
-   Um texto é um conjunto de caracteres exibidos sobre um plano de forma linear. 
-   Tal estrutura possui uma âncora, que pode ser posicionada no começo do texto (i), 
-   no meio dele (m) ou em seu final (f). 
+   Um texto é um conjunto de caracteres exibidos sobre um plano de forma linear. Tal estrutura possui uma âncora, que pode ser posicionada no começo do texto (i), no meio dele (m) ou em seu final (f).
    As cores de borda e preenchimento são descritas utilizando o padrão sRGB de 6 dígitos.
 */
 
@@ -15,16 +13,15 @@ typedef void* Texto;
 
 Texto criaTexto(int i, double x, double y, char* corb, char* corp, char a, char* txto);
 /*
-   Cria um texto contendo os caracteres do último parâmetro, com a âncora posicionada baseada 
-   no caractere recebido pelo sexto parâmetro. 
+   Cria um texto contendo os caracteres do último parâmetro, com a âncora posicionada baseada no caractere recebido pelo sexto parâmetro. 
    Os 2° e 3° parâmetros são a posição da âncora do texto sobre o plano. 
    As cores padrão de preenchimento e borda são dadas pelos quarto e quinto parâmetros.
 */
 
 double areaTexto(Texto t);
 /*
-   Calcula uma área teórica associada ao texto, apenas para fins de padronização do sistema. 
-   A área é estimada de forma simbólica, não geométrica, podendo representar o espaço ocupado pelo texto no plano.
+   Calcula uma área teórica associada ao texto, apenas para fins de padronização do sistema, dada por 20 vezes o número de characteres do texto.
+   A área é estimada de forma simbólica, não geométrica, representando o espaço ocupado pelo texto no plano.
 */
 
 int idTexto(Texto t);
@@ -63,12 +60,12 @@ double getYTexto(Texto t);
    Retorna a coordenada Y da âncora do texto.
 */
 
-char* getCorBordaTexto(Texto t);
+char* getCorBTexto(Texto t);
 /*
    Retorna a cor de borda do texto, descrita no padrão sRGB de 6 dígitos.
 */
 
-char* getCorPreenchimentoTexto(Texto t);
+char* getCorPTexto(Texto t);
 /*
    Retorna a cor de preenchimento do texto, descrita no padrão sRGB de 6 dígitos.
 */
