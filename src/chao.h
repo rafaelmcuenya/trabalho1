@@ -5,8 +5,8 @@
 #include "forma.h"
 
 /*
-   O chão se trata de um local onde as formas lidas a partir do .geo serão criadas e armazenadas.
-    Será do chão que os carregadores retirarão as formas, e também para onde as formas restantes após a arena retornarão, além do local onde as formas recém criadas, sejam elas pelo .geo ou clonadas, irão ser colocadas.
+   O chão se trata de um local onde as formas lidas a partir do .geo serão criadas e armazenadas. 
+   Será do chão que os carregadores retirarão as formas, e também para onde as formas restantes após a arena retornarão, além do local onde as formas recém criadas, sejam elas pelo .geo ou clonadas, irão ser colocadas.
 */
 
 typedef void* Chao;
@@ -16,17 +16,17 @@ Chao criaChao();
 Cria um novo chão vazio.
 */
 
-void insereFormaChao(Chao c, Forma f);
+void inFormaChao(Chao c, Forma f);
 /*
 Adiciona uma forma no final do chão.
 */
 
-Forma retiraFormaC(Chao c);
+Forma outFormaChao(Chao c);
 /*
 Remove e retorna a primeira forma do chão.
 */
 
-Forma verFormaC(Chao c);
+Forma seePFChao(Chao c);
 /*
 Retorna, sem remover, a primeira forma do chão.
 */
