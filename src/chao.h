@@ -41,12 +41,9 @@ int tamChao(Chao c);
 Retorna o número de formas atualmente no chão.
 */
 
-
-
 void freeChao(Chao c);
 /*
 Libera toda a memória do chão.
 */
 
 #endif
-
