@@ -37,11 +37,6 @@ Circulo clonaCircle(Circulo c);
    Cria uma cópia do círculo, retornando um ponteiro para o novo círculo com os mesmos atributos.
 */
 
-TipoForma getTipo(Circulo c);
-/*
-   Retorna o tipo da forma como enum TipoForma círculo.
-*/
-
 double getXCircle(Circulo c);
 /*
    Retorna a coordenada X da âncora do círculo.
