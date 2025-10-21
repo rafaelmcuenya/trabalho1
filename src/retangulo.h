@@ -22,7 +22,7 @@ Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, cha
 
 double areaRet(Retangulo r);
 /*
-   Calcula a área de um retângulo, baseando-se na fórmula geral dada por A = l*c, sendo ‘c’ o comprimento do retângulo, ‘A’ a área final e ‘l’ a largura do mesmo.
+   Calcula a área de um retângulo, baseando-se na fórmula geral dada por A = l*c, sendo 'c' o comprimento do retângulo, 'A' a área final e 'l' a largura do mesmo.
 */
 
 int idRet(Retangulo r);
@@ -40,11 +40,6 @@ Retangulo clonaRet(Retangulo r);
    Cria uma cópia idêntica do retângulo, retornando um ponteiro para o novo retângulo com os mesmos atributos.
 */
 
-TipoForma getTipo(Retangulo r);
-/*
-   Retorna o tipo da forma como enum TipoForma retângulo.
-*/
-
 double getXRet(Retangulo r);
 /*
    Retorna a coordenada X da âncora do retangulo.
@@ -55,7 +50,7 @@ double getYRet(Retangulo r);
    Retorna a coordenada Y da âncora do retangulo.
 */
 
-char* getCorBRet(Retangulo c);
+char* getCorBRet(Retangulo r);  // CORREÇÃO 1: mudado 'c' para 'r'
 /*
    Retorna a cor de borda do retangulo, descrita no padrão sRGB de 6 dígitos.
 */
