@@ -1,90 +1,232 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "texto.h"
 
-typedef struct {
+typedef struct{
     int id;
     double x, y;
-    char corB[8];
-    char corP[8];
-    char a;      
-    char* txto; 
-} TextoStruct;
+    char* corBorda;
+    char* corPreenchimento;
+    char ancora; 
+    char* texto;
+    char* fontFamily;    
+    char* fontWeight;    
+    double fontSize;     
+}TextoStruct;
 
-Texto criaTexto(int i, double x, double y, char* corb, char* corp, char a, char* txto) {
-    TextoStruct* t = (TextoStruct*)malloc(sizeof(TextoStruct));
-    if (!t) return NULL;
-    t->id = i;
-    t->x = x;
-    t->y = y;
-    t->a = a;
-    strncpy(t->corB, corb, 7);
-    t->corB[7] = '\0';
-    strncpy(t->corP, corp, 7);
-    t->corP[7] = '\0';
-    t->txto = (char*)malloc(strlen(txto) + 1);
-    if (!t->txto) {
-        free(t);
+Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimento, char ancora, char* texto){
+
+    if (id <= 0){
+        fprintf(stderr, "Erro: ID do texto deve ser positivo\n");
         return NULL;
     }
-    strcpy(t->txto, txto);
-    return (Texto)t;
+    
+    if (!corBorda || !corPreenchimento || !texto){
+        fprintf(stderr, "Erro: parâmetros string não podem ser NULL\n");
+        return NULL;
+    }
+    
+    if (strlen(texto) == 0){
+        fprintf(stderr, "Erro: texto não pode ser vazio\n");
+        return NULL;
+    }
+  
+    if (ancora != 'i' && ancora != 'm' && ancora != 'f'){
+        fprintf(stderr, "Erro: âncora inválida. Use 'i', 'm' ou 'f'\n");
+        return NULL;
+    }
+  
+    if (x != x || y != y){ 
+        fprintf(stderr, "Erro: coordenadas inválidas\n");
+        return NULL;
+    }
+    
+    TextoStruct* txt = (TextoStruct*)malloc(sizeof(TextoStruct));
+    if (!txt){
+        fprintf(stderr, "Erro: falha na alocação de texto\n");
+        return NULL;
+    }
+    
+    txt->id = id;
+    txt->x = x;
+    txt->y = y;
+    txt->ancora = ancora;
+    txt->corBorda = strdup(corBorda);
+    txt->corPreenchimento = strdup(corPreenchimento);
+    txt->texto = strdup(texto);
+    
+    if (!txt->corBorda || !txt->corPreenchimento || !txt->texto){
+        fprintf(stderr, "Erro: falha na alocação de strings\n");
+        if (txt->corBorda) free(txt->corBorda);
+        if (txt->corPreenchimento) free(txt->corPreenchimento);
+        if (txt->texto) free(txt->texto);
+        free(txt);
+        return NULL;
+    }
+
+    txt->fontFamily = strdup("sans");
+    txt->fontWeight = strdup("n");
+    txt->fontSize = 12.0; 
+    
+    if (!txt->fontFamily || !txt->fontWeight){
+        fprintf(stderr, "Erro: falha na alocação de estilo\n");
+        liberaTexto(txt);
+        return NULL;
+    }
+    return txt;
 }
 
-double areaTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return 20.0 * strlen(Texto->txto);
+char getAncoraTexto(Texto t){
+    if (!t){
+        fprintf(stderr, "Erro: texto NULL em getAncoraTexto\n");
+        return '\0';
+    }
+    TextoStruct* txt = (TextoStruct*)t;
+    return txt->ancora;
 }
 
-int idTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->id;
+void setAncoraTexto(Texto t, char ancora){
+    if (!t){
+        fprintf(stderr, "Erro: texto NULL em setAncoraTexto\n");
+        return;
+    }
+
+    if (ancora != 'i' && ancora != 'm' && ancora != 'f'){
+        fprintf(stderr, "Erro: âncora inválida. Use 'i', 'm' ou 'f'\n");
+        return;
+    }
+    TextoStruct* txt = (TextoStruct*)t;
+    txt->ancora = ancora;
 }
 
-void moveTexto(Texto t, double dx, double dy) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    Texto->x += dx;
-    Texto->y += dy;
+double areaTexto(Texto t){
+    if (!t){
+        fprintf(stderr, "Erro: texto NULL em areaTexto\n");
+        return -1.0;
+    }
+    
+    TextoStruct* txt = (TextoStruct*)t;
+    if (!txt->texto){
+        fprintf(stderr, "Erro: string de texto NULL em areaTexto\n");
+        return -1.0;
+    }
+    return 20.0 * strlen(txt->texto);
 }
 
-Texto clonaTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return criaTexto(Texto->id, Texto->x, Texto->y, Texto->corB, Texto->corP, Texto->a, Texto->txto);
+void moveTexto(Texto t, double dx, double dy){
+    if (!t){
+        fprintf(stderr, "Erro: texto NULL em moveTexto\n");
+        return;
+    }
+
+    if (dx != dx || dy != dy || isinf(dx) || isinf(dy)){
+        fprintf(stderr, "Erro: deltas inválidos em moveTexto\n");
+        return;
+    }
+    
+    TextoStruct* txt = (TextoStruct*)t;
+    txt->x += dx;
+    txt->y += dy;
+    
+    if (txt->x != txt->x || txt->y != txt->y || isinf(txt->x) || isinf(txt->y)){
+        fprintf(stderr, "Erro: coordenadas corrompidas após movimento\n");
+        txt->x -= dx;
+        txt->y -= dy;
+    }
 }
 
-TipoForma getTipo(Texto t) {
-    (void)t; // ignorado, pois o tipo é fixo
-    return Tt;
+int colideTexto(Texto t, double x1, double y1, double x2, double y2){
+    if (!t) return 0;
+    
+    TextoStruct* txt = (TextoStruct*)t;
+    if (!txt->texto) return 0;
+    
+    double comprimento = 10.0 * strlen(txt->texto);
+    double seg_x1, seg_y1, seg_x2, seg_y2;
+
+    switch (txt->ancora){
+        case 'i': 
+            seg_x1 = txt->x;
+            seg_y1 = txt->y;
+            seg_x2 = txt->x + comprimento;
+            seg_y2 = txt->y;
+            break;
+        case 'f': 
+            seg_x1 = txt->x - comprimento;
+            seg_y1 = txt->y;
+            seg_x2 = txt->x;
+            seg_y2 = txt->y;
+            break;
+        case 'm': 
+            seg_x1 = txt->x - comprimento / 2.0;
+            seg_y1 = txt->y;
+            seg_x2 = txt->x + comprimento / 2.0;
+            seg_y2 = txt->y;
+            break;
+        default:
+            fprintf(stderr, "Erro: âncora desconhecida em colideTexto\n");
+            return 0;
+    }
+    return detectaColisaoSegmentos(seg_x1, seg_y1, seg_x2, seg_y2, x1, y1, x2, y2);
 }
 
-double getXTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->x;
+void aplicaStyleTexto(Texto t, char* fontFamily, char* fontWeight, double fontSize){
+    if (!t){
+        fprintf(stderr, "Erro: texto NULL em aplicaStyleTexto\n");
+        return;
+    }
+    TextoStruct* txt = (TextoStruct*)t;
+
+    if (!fontFamily || (strcmp(fontFamily, "sans") != 0 && strcmp(fontFamily, "serif") != 0 && strcmp(fontFamily, "cursive") != 0)){
+        fprintf(stderr, "Erro: fontFamily inválida. Use 'sans', 'serif' ou 'cursive'\n");
+        return;
+    }
+    
+    if (!fontWeight || (strcmp(fontWeight, "n") != 0 &&  strcmp(fontWeight, "b") != 0 && strcmp(fontWeight, "b+") != 0 && strcmp(fontWeight, "l") != 0)){
+        fprintf(stderr, "Erro: fontWeight inválido. Use 'n', 'b', 'b+' ou 'l'\n");
+        return;
+    }
+    
+    if (fontSize <= 0 || fontSize != fontSize || isinf(fontSize)){
+        fprintf(stderr, "Erro: fontSize deve ser positivo\n");
+        return;
+    }
+    
+    free(txt->fontFamily);
+    free(txt->fontWeight);
+    
+    txt->fontFamily = strdup(fontFamily);
+    txt->fontWeight = strdup(fontWeight);
+    txt->fontSize = fontSize;
+    
+    if (!txt->fontFamily || !txt->fontWeight){
+        fprintf(stderr, "Erro: falha na alocação de estilo\n");
+        txt->fontFamily = strdup("sans");
+        txt->fontWeight = strdup("n");
+        txt->fontSize = 12.0;
+    }
 }
 
-double getYTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->y;
+void liberaTexto(Texto t){
+    if (!t) return;
+    TextoStruct* txt = (TextoStruct*)t;
+    
+    if (txt->corBorda) free(txt->corBorda);
+    if (txt->corPreenchimento) free(txt->corPreenchimento);
+    if (txt->texto) free(txt->texto);
+    if (txt->fontFamily) free(txt->fontFamily);
+    if (txt->fontWeight) free(txt->fontWeight);
+    
+    free(txt);
 }
 
-char* getCorBTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->corB;
-}
-
-char* getCorPTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->corP;
-}
-
-char getAncoraTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    return Texto->a;
-}
-
-void liberaTexto(Texto t) {
-    TextoStruct* Texto = (TextoStruct*)t;
-    free(Texto->txto);
-    free(Texto);
+int validaTexto(void* t){
+    if (!t) return 0;
+    TextoStruct* txt = (TextoStruct*)t;
+    
+    return (txt->id > 0) && 
+           (txt->corBorda != NULL) && (txt->corPreenchimento != NULL) &&  (txt->texto != NULL) && 
+           (txt->ancora == 'i' || txt->ancora == 'm' || txt->ancora == 'f') &&(txt->fontFamily != NULL) && (txt->fontWeight != NULL) && (txt->fontSize > 0);
 }
