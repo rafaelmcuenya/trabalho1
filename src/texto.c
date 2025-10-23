@@ -137,41 +137,6 @@ void moveTexto(Texto t, double dx, double dy){
     }
 }
 
-int colideTexto(Texto t, double x1, double y1, double x2, double y2){
-    if (!t) return 0;
-    
-    TextoStruct* txt = (TextoStruct*)t;
-    if (!txt->texto) return 0;
-    
-    double comprimento = 10.0 * strlen(txt->texto);
-    double seg_x1, seg_y1, seg_x2, seg_y2;
-
-    switch (txt->ancora){
-        case 'i': 
-            seg_x1 = txt->x;
-            seg_y1 = txt->y;
-            seg_x2 = txt->x + comprimento;
-            seg_y2 = txt->y;
-            break;
-        case 'f': 
-            seg_x1 = txt->x - comprimento;
-            seg_y1 = txt->y;
-            seg_x2 = txt->x;
-            seg_y2 = txt->y;
-            break;
-        case 'm': 
-            seg_x1 = txt->x - comprimento / 2.0;
-            seg_y1 = txt->y;
-            seg_x2 = txt->x + comprimento / 2.0;
-            seg_y2 = txt->y;
-            break;
-        default:
-            fprintf(stderr, "Erro: âncora desconhecida em colideTexto\n");
-            return 0;
-    }
-    return detectaColisaoSegmentos(seg_x1, seg_y1, seg_x2, seg_y2, x1, y1, x2, y2);
-}
-
 void aplicaStyleTexto(Texto t, char* fontFamily, char* fontWeight, double fontSize){
     if (!t){
         fprintf(stderr, "Erro: texto NULL em aplicaStyleTexto\n");
