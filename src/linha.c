@@ -134,7 +134,7 @@ Linha clonaLinha(Linha l) {
 double getX1Linha(Linha l) {
     if (!l) {
         fprintf(stderr, "Erro: linha NULL em getX1Linha\n");
-        return -999999.0;
+        return -1.0;
     }
     LinhaStruct* linha = (LinhaStruct*)l;
     return linha->x1;
@@ -143,7 +143,7 @@ double getX1Linha(Linha l) {
 double getY1Linha(Linha l) {
     if (!l) {
         fprintf(stderr, "Erro: linha NULL em getY1Linha\n");
-        return -999999.0;
+        return -1.0;
     }
     LinhaStruct* linha = (LinhaStruct*)l;
     return linha->y1;
@@ -152,7 +152,7 @@ double getY1Linha(Linha l) {
 double getX2Linha(Linha l) {
     if (!l) {
         fprintf(stderr, "Erro: linha NULL em getX2Linha\n");
-        return -999999.0;
+        return -1.0;
     }
     LinhaStruct* linha = (LinhaStruct*)l;
     return linha->x2;
@@ -161,7 +161,7 @@ double getX2Linha(Linha l) {
 double getY2Linha(Linha l) {
     if (!l) {
         fprintf(stderr, "Erro: linha NULL em getY2Linha\n");
-        return -999999.0;
+        return -1.0;
     }
     LinhaStruct* linha = (LinhaStruct*)l;
     return linha->y2;
