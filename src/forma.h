@@ -61,6 +61,30 @@ char* getCorPForma(Forma f);
    Retorna a cor de preenchimento da forma, descrita no padrão sRGB de 6 dígitos.
 */
 
+int validaCirculo(void* circ);
+/*
+   Função interna de validação para verificar se uma estrutura de círculo é válida.
+   Retorna 1 se válido, 0 caso contrário.
+*/
+
+int validaRetangulo(void* ret);
+/*
+   Função interna de validação para verificar se uma estrutura de retângulo é válida.
+   Retorna 1 se válido, 0 caso contrário.
+*/
+
+int validaLinha(void* lin);
+/*
+   Função interna de validação para verificar se uma estrutura de linha é válida.
+   Retorna 1 se válida, 0 caso contrário.
+*/
+
+int validaTexto(void* txt);
+/*
+   Função interna de validação para verificar se uma estrutura de texto é válida.
+   Retorna 1 se válido, 0 caso contrário.
+*/
+
 void liberaForma(Forma f);
 /*
    Libera toda a memória associada à forma passada como parâmetro, de acordo com o tipo. Essa função deve ser utilizada sempre que a forma não for mais necessária.
