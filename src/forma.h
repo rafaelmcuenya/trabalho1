@@ -85,7 +85,7 @@ int validaTexto(void* txt);
    Retorna 1 se válido, 0 caso contrário.
 */
 
-void liberaForma(Forma f);
+void freeForma(Forma f);
 /*
    Libera toda a memória associada à forma passada como parâmetro, de acordo com o tipo. Essa função deve ser utilizada sempre que a forma não for mais necessária.
 */
