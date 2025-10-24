@@ -191,6 +191,24 @@ char* getCorPRet(Retangulo r) {
     return temp;
 }
 
+double getLarguraRetangulo(Retangulo r) {
+    if (!r) {
+        fprintf(stderr, "Erro: retângulo NULL em getLarguraRetangulo\n");
+        return -1.0;
+    }
+    RetStruct* rect = (RetStruct*)r;
+    return rect->largura;
+}
+
+double getAlturaRetangulo(Retangulo r) {
+    if (!r) {
+        fprintf(stderr, "Erro: retângulo NULL em getAlturaRetangulo\n");
+        return -1.0;
+    }
+    RetStruct* rect = (RetStruct*)r;
+    return rect->altura;
+}
+
 void liberaRet(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Aviso: tentativa de liberar retângulo NULL\n");
