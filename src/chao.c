@@ -72,7 +72,7 @@ int voidChao(Chao c) {
     return (ch->inicio == NULL);
 }
 
-int tamanhoChao(Chao c) {
+int tamChao(Chao c) {
     if (!c) return 0;
     ChaoStruct* ch = (ChaoStruct*)c;
     return ch->tamanho;
