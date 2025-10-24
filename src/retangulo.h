@@ -50,14 +50,22 @@ double getYRet(Retangulo r);
    Retorna a coordenada Y da âncora do retangulo.
 */
 
-char* getCorBRet(Retangulo r);  // CORREÇÃO 1: mudado 'c' para 'r'
+char* getCorBRet(Retangulo r);
 /*
    Retorna a cor de borda do retangulo, descrita no padrão sRGB de 6 dígitos.
+   ATENÇÃO: O chamador é responsável por liberar a memória retornada.
 */
 
 char* getCorPRet(Retangulo r);
 /*
    Retorna a cor de preenchimento do retangulo, descrita no padrão sRGB de 6 dígitos.
+   ATENÇÃO: O chamador é responsável por liberar a memória retornada.
+*/
+
+int validaRetangulo(void* r);
+/*
+   Função interna de validação para verificar se uma estrutura de retângulo é válida.
+   Retorna 1 se válido, 0 caso contrário.
 */
 
 void liberaRet(Retangulo r);
