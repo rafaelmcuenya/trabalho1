@@ -7,7 +7,7 @@
 #include "linha.h"
 #include "texto.h"
 
-typedef struct {
+typedef struct{
     TipoForma tipo;
     void* elemento;
 } FormStruct;
@@ -17,19 +17,19 @@ int validaRetangulo(void* ret);
 int validaLinha(void* lin);
 int validaTexto(void* txt);
 
-Forma criaForma(TipoForma tipo, void* elemento) {
-    if (!elemento) {
+Forma criaForma(TipoForma tipo, void* elemento){
+    if (!elemento){
         fprintf(stderr, "Erro: elemento NULL na criação da forma\n");
         return NULL;
     }
     
-    if (tipo < Tc || tipo > Tt) {
+    if (tipo < Tc || tipo > Tt){
         fprintf(stderr, "Erro: tipo de forma inválido: %d\n", tipo);
         return NULL;
     }
     
     int elementoValido = 0;
-    switch (tipo) {
+    switch (tipo){
         case Tc: elementoValido = validaCirculo(elemento); break;
         case Tr: elementoValido = validaRetangulo(elemento); break;
         case Tl: elementoValido = validaLinha(elemento); break;
@@ -37,13 +37,13 @@ Forma criaForma(TipoForma tipo, void* elemento) {
         default: elementoValido = 0;
     }
     
-    if (!elementoValido) {
+    if (!elementoValido){
         fprintf(stderr, "Erro: elemento inválido para o tipo %d\n", tipo);
         return NULL;
     }
     
     FormStruct* f = (FormStruct*)malloc(sizeof(FormStruct));
-    if (!f) {
+    if (!f){
         fprintf(stderr, "Erro: falha na alocação de memória para Forma\n");
         return NULL;
     }
@@ -53,8 +53,8 @@ Forma criaForma(TipoForma tipo, void* elemento) {
     return (Forma)f;
 }
 
-TipoForma getTipoForma(Forma f) {
-    if (!f) {
+TipoForma getTipoForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getTipoForma\n");
         return -1; 
     }
@@ -63,20 +63,20 @@ TipoForma getTipoForma(Forma f) {
     return form->tipo;
 }
 
-int getIdForma(Forma f) {
-    if (!f) {
+int getIdForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getIdForma\n");
         return -1; 
     }
     
     FormStruct* form = (FormStruct*)f;
 
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma\n");
         return -1;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return idCirculo(form->elemento);
         case Tr: return idRetangulo(form->elemento);
         case Tl: return idLinha(form->elemento);
@@ -87,20 +87,20 @@ int getIdForma(Forma f) {
     }
 }
 
-double areaForma(Forma f) {
-    if (!f) {
+double areaForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em areaForma\n");
         return -1.0; 
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em areaForma\n");
         return -1.0;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return areaCirculo(form->elemento);
         case Tr: return areaRetangulo(form->elemento);
         case Tl: return areaLinha(form->elemento);
@@ -111,25 +111,25 @@ double areaForma(Forma f) {
     }
 }
 
-void moveForma(Forma f, double dx, double dy) {
-    if (!f) {
+void moveForma(Forma f, double dx, double dy){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em moveForma\n");
         return;
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em moveForma\n");
         return;
     }
     
-    if (dx != dx || dy != dy) { 
+    if (dx != dx || dy != dy){ 
         fprintf(stderr, "Erro: deltas inválidos em moveForma: %f, %f\n", dx, dy);
         return;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: moveCirculo(form->elemento, dx, dy); break;
         case Tr: moveRetangulo(form->elemento, dx, dy); break;
         case Tl: moveLinha(form->elemento, dx, dy); break;
@@ -140,20 +140,20 @@ void moveForma(Forma f, double dx, double dy) {
     }
 }
 
-double getXForma(Forma f) {
-    if (!f) {
+double getXForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getXForma\n");
         return -1.0; 
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em getXForma\n");
         return -1.0;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return getXCirculo(form->elemento);
         case Tr: return getXRetangulo(form->elemento);
         case Tl: return getXLinha(form->elemento);
@@ -164,20 +164,20 @@ double getXForma(Forma f) {
     }
 }
 
-double getYForma(Forma f) {
-    if (!f) {
+double getYForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getYForma\n");
         return -1.0;
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em getYForma\n");
         return -999999.0;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return getYCirculo(form->elemento);
         case Tr: return getYRetangulo(form->elemento);
         case Tl: return getYLinha(form->elemento);
@@ -188,20 +188,20 @@ double getYForma(Forma f) {
     }
 }
 
-char* getCorBForma(Forma f) {
-    if (!f) {
+char* getCorBForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getCorBForma\n");
         return NULL;
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em getCorBForma\n");
         return NULL;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return getCorBCirculo(form->elemento);
         case Tr: return getCorBordaRetangulo(form->elemento);
         case Tl: return getCorLinha(form->elemento);
@@ -212,20 +212,20 @@ char* getCorBForma(Forma f) {
     }
 }
 
-char* getCorPForma(Forma f) {
-    if (!f) {
+char* getCorPForma(Forma f){
+    if (!f){
         fprintf(stderr, "Erro: forma NULL em getCorPForma\n");
         return NULL;
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (!form->elemento) {
+    if (!form->elemento){
         fprintf(stderr, "Erro: elemento NULL na forma em getCorPForma\n");
         return NULL;
     }
     
-    switch (form->tipo) {
+    switch (form->tipo){
         case Tc: return getCorPCirculo(form->elemento);
         case Tr: return getCorPreenchimentoRetangulo(form->elemento);
         case Tl: return getCorLinha(form->elemento);
@@ -236,16 +236,68 @@ char* getCorPForma(Forma f) {
     }
 }
 
-void freeForma(Forma f) {
-    if (!f) {
+Circulo getCirculoFromForma(Forma f){
+    if (!f){
+        fprintf(stderr, "Erro: forma NULL em getCirculoFromForma\n");
+        return NULL;
+    }
+    FormStruct* form = (FormStruct*)f;
+    if (form->tipo != Tc){
+        fprintf(stderr, "Erro: forma não é do tipo círculo\n");
+        return NULL;
+    }
+    return (Circulo)form->elemento;
+}
+
+Retangulo getRetanguloFromForma(Forma f){
+    if (!f){
+        fprintf(stderr, "Erro: forma NULL em getRetanguloFromForma\n");
+        return NULL;
+    }
+    FormStruct* form = (FormStruct*)f;
+    if (form->tipo != Tr){
+        fprintf(stderr, "Erro: forma não é do tipo retângulo\n");
+        return NULL;
+    }
+    return (Retangulo)form->elemento;
+}
+
+Linha getLinhaFromForma(Forma f){
+    if (!f){
+        fprintf(stderr, "Erro: forma NULL em getLinhaFromForma\n");
+        return NULL;
+    }
+    FormStruct* form = (FormStruct*)f;
+    if (form->tipo != Tl){
+        fprintf(stderr, "Erro: forma não é do tipo linha\n");
+        return NULL;
+    }
+    return (Linha)form->elemento;
+}
+
+Texto getTextoFromForma(Forma f){
+    if (!f){
+        fprintf(stderr, "Erro: forma NULL em getTextoFromForma\n");
+        return NULL;
+    }
+    FormStruct* form = (FormStruct*)f;
+    if (form->tipo != Tt){
+        fprintf(stderr, "Erro: forma não é do tipo texto\n");
+        return NULL;
+    }
+    return (Texto)form->elemento;
+}
+
+void freeForma(Forma f){
+    if (!f){
         fprintf(stderr, "Aviso: tentativa de liberar forma NULL\n");
         return;
     }
     
     FormStruct* form = (FormStruct*)f;
     
-    if (form->elemento) {
-        switch (form->tipo) {
+    if (form->elemento){
+        switch (form->tipo){
             case Tc: liberaCirculo(form->elemento); break;
             case Tr: liberaRetangulo(form->elemento); break;
             case Tl: liberaLinha(form->elemento); break;
@@ -254,7 +306,7 @@ void freeForma(Forma f) {
                 fprintf(stderr, "Erro: tipo de forma desconhecido em liberaForma: %d\n", form->tipo);
                 break;
         }
-    } else {
+    } else{
         fprintf(stderr, "Aviso: elemento NULL na forma ao liberar\n");
     }
     free(form);
