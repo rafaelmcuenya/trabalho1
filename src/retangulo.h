@@ -78,6 +78,16 @@ int validaRetangulo(void* r);
    Retorna 1 se válido, 0 caso contrário.
 */
 
+void setCorBRetangulo(Retangulo r, char* novaCor);
+/*
+   Altera a cor da borda do retângulo.
+*/
+
+void setCorPRetangulo(Retangulo r, char* novaCor);
+/*
+   Altera a cor de preenchimento do retângulo.
+*/
+
 void liberaRet(Retangulo r);
 /*
    Libera toda a memória associada ao retangulo passado como parâmetro.Essa função deve ser utilizada sempre que o retangulo não for mais necessário.
