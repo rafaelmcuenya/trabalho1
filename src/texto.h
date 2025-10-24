@@ -104,6 +104,16 @@ int validaTexto(void* t);
    Retorna 1 se válido, 0 caso contrário.
 */
 
+void setCorBTexto(Texto t, char* novaCor);
+/*
+   Altera a cor da borda do texto.
+*/
+
+void setCorPTexto(Texto t, char* novaCor);
+/*
+   Altera a cor de preenchimento do texto.
+*/
+
 void liberaTexto(Texto t);
 /*
    Libera toda a memória associada ao texto passado como parâmetro.
