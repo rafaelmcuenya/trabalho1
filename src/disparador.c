@@ -51,7 +51,7 @@ void liberaDisparador(Disparador d) {
     if (dis->posDisparo) {
         formaSalva = dis->posDisparo; 
     }
-    limpaDisparador(d);
+    freeDisparador(d);
     
     if (dis->posDisparo != NULL) {
         fprintf(stderr, "Erro na liberação da forma\n");
