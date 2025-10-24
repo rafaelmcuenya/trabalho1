@@ -163,8 +163,7 @@ int sobrepoeRetanguloLinha(Retangulo r, Linha l){
     double x2 = linha_get_x2(l);
     double y2 = linha_get_y2(l);
 
-    if ((x1 >= rx && x1 <= rx + w && y1 >= ry && y1 <= ry + h) ||
-        (x2 >= rx && x2 <= rx + w && y2 >= ry && y2 <= ry + h)){
+    if ((x1 >= rx && x1 <= rx + w && y1 >= ry && y1 <= ry + h) || (x2 >= rx && x2 <= rx + w && y2 >= ry && y2 <= ry + h)){
         return 1;
     }
       
@@ -176,9 +175,7 @@ int sobrepoeRetanguloLinha(Retangulo r, Linha l){
     };
 
     for (int i = 0; i < 4; i++){
-        if (segmentosSeIntersectam(x1, y1, x2, y2, 
-                                 bordas[i][0], bordas[i][1], 
-                                 bordas[i][2], bordas[i][3])){
+        if (segmentosSeIntersectam(x1, y1, x2, y2, bordas[i][0], bordas[i][1], bordas[i][2], bordas[i][3])){
             return 1;
         }
     }
@@ -219,9 +216,7 @@ int sobrepoeLinhaTexto(Linha l, Texto t){
     };
 
     for (int i = 0; i < 4; i++){
-        if (segmentosSeIntersectam(x1, y1, x2, y2, 
-                                 bordas[i][0], bordas[i][1], 
-                                 bordas[i][2], bordas[i][3])){
+        if (segmentosSeIntersectam(x1, y1, x2, y2, bordas[i][0], bordas[i][1], bordas[i][2], bordas[i][3])){
             return 1;
         }
     }
