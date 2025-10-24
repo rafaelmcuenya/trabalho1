@@ -35,7 +35,7 @@ int voidCarregador(Carregador car);
    Verifica se o carregador está vazio. Retorna 1 se vazio, 0 caso contrário.
 */
 
-int tamanhoCarregador(Carregador car);
+int tamCarregador(Carregador car);
 /*
    Retorna o número de formas atualmente no carregador.
 */
