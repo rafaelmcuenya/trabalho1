@@ -186,6 +186,16 @@ char* getCorPCircle(Circulo c) {
     return copia; 
 }
 
+double getRaioCirculo(Circulo c) {
+    if (!c) {
+        fprintf(stderr, "Erro: círculo NULL em getRaioCirculo\n");
+        return -1.0;
+    }
+    
+    CircleStruct* circle = (CircleStruct*)c;
+    return circle->r;
+}
+
 void liberaCircle(Circulo c) {
     if (!c) {
         fprintf(stderr, "Aviso: tentativa de liberar círculo NULL\n");
