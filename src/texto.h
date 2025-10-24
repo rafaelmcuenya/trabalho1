@@ -70,9 +70,43 @@ char* getCorPTexto(Texto t);
    Retorna a cor de preenchimento do texto, descrita no padrão sRGB de 6 dígitos.
 */
 
+void setAncoraTexto(Texto t, char ancora);
+/*
+   Define o tipo de âncora para o texto.
+*/
+
+void aplicaStyleTexto(Texto t, char* fontFamily, char* fontWeight, double fontSize);
+/*
+   Aplica configurações de estilo de fonte ao texto conforme comando ts.
+   fontFamily: "sans", "serif", "cursive"
+   fontWeight: "n" (normal), "b" (bold), "b+" (bolder), "l" (lighter)
+   fontSize: tamanho da fonte em pontos (px)
+*/
+
+char* getFontFamilyTexto(Texto t);
+/*
+   Retorna a família de fonte atual do texto.
+*/
+
+char* getFontWeightTexto(Texto t);
+/*
+   Retorna o peso da fonte atual do texto.
+*/
+
+double getFontSizeTexto(Texto t);
+/*
+   Retorna o tamanho da fonte atual do texto.
+*/
+
+int validaTexto(void* t);
+/*
+   Função de validação interna para verificar se a estrutura do texto é válida.
+   Retorna 1 se válido, 0 caso contrário.
+*/
+
 void liberaTexto(Texto t);
 /*
-   Libera toda a memória associada ao texto passado como parâmetro.Essa função deve ser utilizada sempre que o texto não for mais necessário.
+   Libera toda a memória associada ao texto passado como parâmetro.
 */
 
 #endif

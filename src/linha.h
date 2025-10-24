@@ -20,8 +20,7 @@ Linha criaLinha(int i, double x1, double y1, double x2, double y2, char* cor);
 
 double areaLinha(Linha l);
 /*
-   Calcula a área teórica de uma linha, utilizando uma fórmula auxiliar dada por 
-A = 2c, onde ‘A’ é a área final e ‘c’ o comprimento total da linha. 
+   Calcula a área teórica de uma linha, utilizando uma fórmula auxiliar dada por A = 2c, onde 'A' é a área final e 'c' o comprimento total da linha. 
    Essa área não é geométrica, servindo apenas como valor teórico para o programa.
 */
 
@@ -29,7 +28,6 @@ int idLinha(Linha l);
 /*
    Coleta o ID de uma linha específica para possíveis manipulações no mesmo, retornando tal identificador.
 */
-
 
 void moveLinha(Linha l, double dx, double dy);
 /*
@@ -66,9 +64,40 @@ char* getCorPLinha(Linha l);
    Retorna a cor de preenchimento da linha, descrita no padrão sRGB de 6 dígitos.
 */
 
+double getX1Linha(Linha l);
+/*
+   Retorna a coordenada X do primeiro ponto da linha.
+*/
+
+double getY1Linha(Linha l);
+/*
+   Retorna a coordenada Y do primeiro ponto da linha.
+*/
+
+double getX2Linha(Linha l);
+/*
+   Retorna a coordenada X do segundo ponto da linha.
+*/
+
+double getY2Linha(Linha l);
+/*
+   Retorna a coordenada Y do segundo ponto da linha.
+*/
+
+char* getCorLinha(Linha l);
+/*
+   Retorna a cor da linha, descrita no padrão sRGB de 6 dígitos.
+*/
+
+int validaLinha(void* l);
+/*
+   Função de validação interna para verificar se a estrutura da linha é válida.
+   Retorna 1 se válida, 0 caso contrário.
+*/
+
 void liberaLinha(Linha l);
 /*
-   Libera toda a memória associada a linha passada como parâmetro.Essa função deve ser utilizada sempre que a linha não for mais necessária.
+   Libera toda a memória associada a linha passada como parâmetro.
 */
 
 #endif
