@@ -295,6 +295,26 @@ int validaTexto(void* t){
            (txt->fontFamily != NULL) && (txt->fontWeight != NULL) && (txt->fontSize > 0);
 }
 
+void setCorBTexto(Texto t, char* novaCor){
+    if (!t || !novaCor){
+        fprintf(stderr, "Erro: parâmetros inválidos em setCorBTexto\n");
+        return;
+    }
+    TextoStruct* txt = (TextoStruct*)t;
+    free(txt->corBorda);
+    txt->corBorda = strdup(novaCor);
+}
+
+void setCorPTexto(Texto t, char* novaCor){
+    if (!t || !novaCor){
+        fprintf(stderr, "Erro: parâmetros inválidos em setCorPTexto\n");
+        return;
+    }
+    TextoStruct* txt = (TextoStruct*)t;
+    free(txt->corPreenchimento);
+    txt->corPreenchimento = strdup(novaCor);
+}
+
 void liberaTexto(Texto t){
     if (!t) return;
     TextoStruct* txt = (TextoStruct*)t;
