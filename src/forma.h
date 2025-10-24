@@ -109,6 +109,12 @@ Texto getTextoFromForma(Forma f);
    ATENÇÃO: Apenas para formas do tipo Tt.
 */
 
+int formasSobrepoem(Forma f1, Forma f2);
+/*
+   Verifica se duas formas genéricas se sobrepõem no plano.
+   Retorna 1 se há sobreposição, 0 caso contrário.
+*/
+
 void freeForma(Forma f);
 /*
    Libera toda a memória associada à forma passada como parâmetro, de acordo com o tipo. Essa função deve ser utilizada sempre que a forma não for mais necessária.
