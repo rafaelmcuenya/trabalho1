@@ -263,7 +263,7 @@ Forma getPosDisparo(Disparador d) {
     return dis->posDisparo;
 }
 
-void limpaDisparador(Disparador d) {
+void freeDisparador(Disparador d) {
     DisparadorStruct* dis = (DisparadorStruct*) d;
     if (!dis) return;
     
