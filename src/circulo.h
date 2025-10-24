@@ -59,6 +59,11 @@ char* getCorPCircle(Circulo c);
    Retorna a cor de preenchimento do círculo, descrita no padrão sRGB de 6 dígitos.
 */
 
+double getRaioCirculo(Circulo c);
+/*
+   Retorna o raio do círculo.
+*/
+
 int validaCirculo(void* circ);
 /*
    Função interna de validação para verificar se uma estrutura de círculo é válida.
