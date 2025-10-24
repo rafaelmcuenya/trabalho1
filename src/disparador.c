@@ -153,8 +153,8 @@ static void pressionaBotaoOnce(DisparadorStruct* dis, char lado) {
 
 void shftDisparador(Disparador d, char lado, int n) {
     DisparadorStruct* dis = (DisparadorStruct*) d;
-    if (!dis) return;
-        fprintf(stderr, "Erro:parâmetro inválido\n");
+    if (!dis) {
+        fprintf(stderr, "Erro: disparador NULL\n");
         return;
     }
     
@@ -165,6 +165,11 @@ void shftDisparador(Disparador d, char lado, int n) {
   
     if (dis->cesq == NULL || dis->cdir == NULL) {
         fprintf(stderr, "Erro: ausência de um ou mais carregadores acoplados\n");
+        return;
+    }
+
+    if (n <= 0){
+        fprintf(stderr, "Erro: número de operações inválido\n");
         return;
     }
 
