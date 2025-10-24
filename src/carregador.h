@@ -30,7 +30,7 @@ Forma desempilhaCarregador(Carregador car);
    Remove e retorna a forma do topo do carregador. Retorna NULL se o carregador estiver vazio.
 */
 
-int estaVazioCarregador(Carregador car);
+int voidCarregador(Carregador car);
 /*
    Verifica se o carregador está vazio. Retorna 1 se vazio, 0 caso contrário.
 */
@@ -50,13 +50,13 @@ Forma topoCarregador(Carregador car);
    Retorna a forma do topo do carregador sem removê-la. Retorna NULL se o carregador estiver vazio.
 */
 
-void limpaCarregador(Carculador car);
+void limpaCarregador(Carregador car);
 /*
    Remove todas as formas do carregador, liberando a estrutura interna.
    ATENÇÃO: Esta função NÃO libera as formas - apenas a estrutura do carregador.
 */
 
-void liberaCarregador(Carregador car);
+void freeCarregador(Carregador car);
 /*
    Libera toda a memória associada ao carregador passado como parâmetro.
    ATENÇÃO: Esta função NÃO libera as formas armazenadas.
