@@ -15,10 +15,10 @@ static double min(double a, double b){
 }
 
 static void calcularBoundingBoxTexto(Texto t, double *x1, double *y1, double *x2, double *y2){
-    double tx = texto_get_x(t);
-    double ty = texto_get_y(t);
-    char ancora = texto_get_ancora(t);
-    char* conteudo = texto_get_conteudo(t);
+    double tx = getXTexto(t);
+    double ty = getYTexto(t);
+    char ancora = getAncoraTexto(t);
+    char* conteudo = getTexto(t);
     int len = strlen(conteudo);
     double comprimento = 10.0 * len;  
 
@@ -47,6 +47,8 @@ static void calcularBoundingBoxTexto(Texto t, double *x1, double *y1, double *x2
             *x2 = tx + comprimento;
             *y2 = ty;
     }
+    
+    free(conteudo);
 }
 
 static int segmentosSeIntersectam(double x1, double y1, double x2, double y2,double x3, double y3, double x4, double y4){
@@ -89,24 +91,24 @@ static double distanciaPontoSegmento(double px, double py, double x1, double y1,
 }
 
 int sobrepoeCirculoCirculo(Circulo c1, Circulo c2){
-    double x1 = circulo_get_x(c1);
-    double y1 = circulo_get_y(c1);
-    double r1 = circulo_get_raio(c1);
-    double x2 = circulo_get_x(c2);
-    double y2 = circulo_get_y(c2);
-    double r2 = circulo_get_raio(c2);
+    double x1 = getXCircle(c1);
+    double y1 = getYCircle(c1);
+    double r1 = getRaioCirculo(c1);
+    double x2 = getXCircle(c2);
+    double y2 = getYCircle(c2);
+    double r2 = getRaioCirculo(c2);
 
     return (distancia(x1, y1, x2, y2) <= (r1 + r2));
 }
 
 int sobrepoeCirculoRetangulo(Circulo c, Retangulo r){
-    double cx = circulo_get_x(c);
-    double cy = circulo_get_y(c);
-    double raio = circulo_get_raio(c);
-    double rx = retangulo_get_x(r);
-    double ry = retangulo_get_y(r);
-    double w = retangulo_get_width(r);
-    double h = retangulo_get_height(r);
+    double cx = getXCircle(c);
+    double cy = getYCircle(c);
+    double raio = getRaioCirculo(c);
+    double rx = getXRet(r);
+    double ry = getYRet(r);
+    double w = getLarguraRetangulo(r);
+    double h = getAlturaRetangulo(r);
     double px = max(rx, min(cx, rx + w));
     double py = max(ry, min(cy, ry + h));
     double dist = distancia(cx, cy, px, py);
@@ -115,22 +117,22 @@ int sobrepoeCirculoRetangulo(Circulo c, Retangulo r){
 }
 
 int sobrepoeCirculoLinha(Circulo c, Linha l){
-    double cx = circulo_get_x(c);
-    double cy = circulo_get_y(c);
-    double raio = circulo_get_raio(c);
-    double x1 = linha_get_x1(l);
-    double y1 = linha_get_y1(l);
-    double x2 = linha_get_x2(l);
-    double y2 = linha_get_y2(l);
+    double cx = getXCircle(c);
+    double cy = getYCircle(c);
+    double raio = getRaioCirculo(c);
+    double x1 = getX1Linha(l);
+    double y1 = getY1Linha(l);
+    double x2 = getX2Linha(l);
+    double y2 = getY2Linha(l);
     double dist = distanciaPontoSegmento(cx, cy, x1, y1, x2, y2);
   
     return (dist <= raio);
 }
 
 int sobrepoeCirculoTexto(Circulo c, Texto t){
-    double cx = circulo_get_x(c);
-    double cy = circulo_get_y(c);
-    double raio = circulo_get_raio(c);
+    double cx = getXCircle(c);
+    double cy = getYCircle(c);
+    double raio = getRaioCirculo(c);
     double x1, y1, x2, y2;
     calcularBoundingBoxTexto(t, &x1, &y1, &x2, &y2);
     double px = max(x1, min(cx, x2));
@@ -139,29 +141,30 @@ int sobrepoeCirculoTexto(Circulo c, Texto t){
   
     return (dist <= raio);
 }
-int sobrepoeRetanguloRetangulo(Retangulo r1, Retangulo r2){
-    double x1 = retangulo_get_x(r1);
-    double y1 = retangulo_get_y(r1);
-    double w1 = retangulo_get_width(r1);
-    double h1 = retangulo_get_height(r1);
 
-    double x2 = retangulo_get_x(r2);
-    double y2 = retangulo_get_y(r2);
-    double w2 = retangulo_get_width(r2);
-    double h2 = retangulo_get_height(r2);
+int sobrepoeRetanguloRetangulo(Retangulo r1, Retangulo r2){
+    double x1 = getXRet(r1);
+    double y1 = getYRet(r1);
+    double w1 = getLarguraRetangulo(r1);
+    double h1 = getAlturaRetangulo(r1);
+
+    double x2 = getXRet(r2);
+    double y2 = getYRet(r2);
+    double w2 = getLarguraRetangulo(r2);
+    double h2 = getAlturaRetangulo(r2);
 
     return !(x1 + w1 < x2 || x2 + w2 < x1 || y1 + h1 < y2 || y2 + h2 < y1);
 }
 
 int sobrepoeRetanguloLinha(Retangulo r, Linha l){
-    double rx = retangulo_get_x(r);
-    double ry = retangulo_get_y(r);
-    double w = retangulo_get_width(r);
-    double h = retangulo_get_height(r);
-    double x1 = linha_get_x1(l);
-    double y1 = linha_get_y1(l);
-    double x2 = linha_get_x2(l);
-    double y2 = linha_get_y2(l);
+    double rx = getXRet(r);
+    double ry = getYRet(r);
+    double w = getLarguraRetangulo(r);
+    double h = getAlturaRetangulo(r);
+    double x1 = getX1Linha(l);
+    double y1 = getY1Linha(l);
+    double x2 = getX2Linha(l);
+    double y2 = getY2Linha(l);
 
     if ((x1 >= rx && x1 <= rx + w && y1 >= ry && y1 <= ry + h) || (x2 >= rx && x2 <= rx + w && y2 >= ry && y2 <= ry + h)){
         return 1;
@@ -183,10 +186,10 @@ int sobrepoeRetanguloLinha(Retangulo r, Linha l){
 }
 
 int sobrepoeRetanguloTexto(Retangulo r, Texto t){
-    double rx = retangulo_get_x(r);
-    double ry = retangulo_get_y(r);
-    double w = retangulo_get_width(r);
-    double h = retangulo_get_height(r);
+    double rx = getXRet(r);
+    double ry = getYRet(r);
+    double w = getLarguraRetangulo(r);
+    double h = getAlturaRetangulo(r);
     double tx1, ty1, tx2, ty2;
     calcularBoundingBoxTexto(t, &tx1, &ty1, &tx2, &ty2);
 
@@ -194,17 +197,17 @@ int sobrepoeRetanguloTexto(Retangulo r, Texto t){
 }
 
 int sobrepoeLinhaLinha(Linha l1, Linha l2){
-    double x1 = linha_get_x1(l1), y1 = linha_get_y1(l1);
-    double x2 = linha_get_x2(l1), y2 = linha_get_y2(l1);
-    double x3 = linha_get_x1(l2), y3 = linha_get_y1(l2);
-    double x4 = linha_get_x2(l2), y4 = linha_get_y2(l2);
+    double x1 = getX1Linha(l1), y1 = getY1Linha(l1);
+    double x2 = getX2Linha(l1), y2 = getY2Linha(l1);
+    double x3 = getX1Linha(l2), y3 = getY1Linha(l2);
+    double x4 = getX2Linha(l2), y4 = getY2Linha(l2);
 
     return segmentosSeIntersectam(x1, y1, x2, y2, x3, y3, x4, y4);
 }
 
 int sobrepoeLinhaTexto(Linha l, Texto t){
-    double x1 = linha_get_x1(l), y1 = linha_get_y1(l);
-    double x2 = linha_get_x2(l), y2 = linha_get_y2(l);
+    double x1 = getX1Linha(l), y1 = getY1Linha(l);
+    double x2 = getX2Linha(l), y2 = getY2Linha(l);
     double tx1, ty1, tx2, ty2;
     calcularBoundingBoxTexto(t, &tx1, &ty1, &tx2, &ty2);
 
