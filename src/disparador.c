@@ -46,19 +46,9 @@ void liberaDisparador(Disparador d) {
         return;
     }
     DisparadorStruct* dis = (DisparadorStruct*)d;
-
-    Forma formaSalva = NULL;
-    if (dis->posDisparo) {
-        formaSalva = dis->posDisparo; 
-    }
-    freeDisparador(d);
     
-    if (dis->posDisparo != NULL) {
-        fprintf(stderr, "Erro na liberação da forma\n");
-        if (dis->posDisparo) {
-            liberaForma(dis->posDisparo);
-            dis->posDisparo = NULL;
-        }
+    if (dis->posDisparo) {
+        liberaForma(dis->posDisparo);
     }
     free(dis);
 }
@@ -174,7 +164,6 @@ void shftDisparador(Disparador d, char lado, int n) {
     }
 
     int operacoesBemSucedidas = 0;
-    Forma backupPosDisparo = dis->posDisparo;
     
     for (int i = 0; i < n; i++) {
         Forma estadoAntes = dis->posDisparo;
@@ -183,7 +172,7 @@ void shftDisparador(Disparador d, char lado, int n) {
         if (dis->posDisparo != estadoAntes) {
             operacoesBemSucedidas++;
         } else {
-            fprintf(stderr, "Erro: falha na operação %d%d\n", i + 1, n);
+            fprintf(stderr, "Erro: falha na operação %d de %d\n", i + 1, n);
         }
     }
     
