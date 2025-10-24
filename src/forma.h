@@ -85,6 +85,30 @@ int validaTexto(void* txt);
    Retorna 1 se válido, 0 caso contrário.
 */
 
+Circulo getCirculoFromForma(Forma f);
+/*
+   Retorna o elemento Circulo contido na Forma.
+   ATENÇÃO: Apenas para formas do tipo Tc.
+*/
+
+Retangulo getRetanguloFromForma(Forma f);
+/*
+   Retorna o elemento Retangulo contido na Forma.
+   ATENÇÃO: Apenas para formas do tipo Tr.
+*/
+
+Linha getLinhaFromForma(Forma f);
+/*
+   Retorna o elemento Linha contida na Forma.
+   ATENÇÃO: Apenas para formas do tipo Tl.
+*/
+
+Texto getTextoFromForma(Forma f);
+/*
+   Retorna o elemento Texto contido na Forma.
+   ATENÇÃO: Apenas para formas do tipo Tt.
+*/
+
 void freeForma(Forma f);
 /*
    Libera toda a memória associada à forma passada como parâmetro, de acordo com o tipo. Essa função deve ser utilizada sempre que a forma não for mais necessária.
