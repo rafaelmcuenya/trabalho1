@@ -6,6 +6,7 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "sobrepor.h"
 
 typedef struct{
     TipoForma tipo;
