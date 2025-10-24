@@ -57,11 +57,13 @@ double getYLinha(Linha l);
 char* getCorBLinha(Linha l);
 /*
    Retorna a cor de borda da linha, descrita no padrão sRGB de 6 dígitos.
+    Como a linha possui apenas uma cor, retorna a mesma cordefinida para a linha.
 */
 
 char* getCorPLinha(Linha l);
 /*
    Retorna a cor de preenchimento da linha, descrita no padrão sRGB de 6 dígitos.
+   Como a linha possui apenas uma cor, retorna a mesma cordefinida para a linha.
 */
 
 double getX1Linha(Linha l);
