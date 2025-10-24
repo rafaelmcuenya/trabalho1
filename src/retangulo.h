@@ -62,6 +62,16 @@ char* getCorPRet(Retangulo r);
    ATENÇÃO: O chamador é responsável por liberar a memória retornada.
 */
 
+double getLarguraRetangulo(Retangulo r);
+/*
+   Retorna a largura do retângulo.
+*/
+
+double getAlturaRetangulo(Retangulo r);
+/*
+   Retorna a altura do retângulo.
+*/
+
 int validaRetangulo(void* r);
 /*
    Função interna de validação para verificar se uma estrutura de retângulo é válida.
