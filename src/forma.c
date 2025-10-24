@@ -56,7 +56,7 @@ Forma criaForma(TipoForma tipo, void* elemento) {
 TipoForma getTipoForma(Forma f) {
     if (!f) {
         fprintf(stderr, "Erro: forma NULL em getTipoForma\n");
-        return -1; /
+        return -1; 
     }
     
     FormStruct* form = (FormStruct*)f;
