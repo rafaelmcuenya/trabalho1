@@ -13,37 +13,43 @@ typedef void* Chao;
 
 Chao criaChao();
 /*
-Cria um novo chão vazio.
+   Cria um novo chão vazio.
 */
 
 void inFormaChao(Chao c, Forma f);
 /*
-Adiciona uma forma no final do chão.
+  Adiciona uma forma no final do chão.
 */
 
 Forma outFormaChao(Chao c);
 /*
-Remove e retorna a primeira forma do chão.
+   Remove e retorna a primeira forma do chão.
 */
 
 Forma seePFChao(Chao c);
 /*
-Retorna, sem remover, a primeira forma do chão.
+   Retorna, sem remover, a primeira forma do chão.
 */
 
 int voidChao(Chao c);
 /*
-Verifica se o chão está vazio.
+   Verifica se o chão está vazio.
 */
 
 int tamChao(Chao c);
 /*
-Retorna o número de formas atualmente no chão.
+   Retorna o número de formas atualmente no chão.
+*/
+
+void percorreChao(Chao c, void (*funcao)(Forma));
+/*
+  Percorre todas as formas do chão aplicando a função fornecida. A função recebe cada forma como parâmetro, sem modificar a estrutura do chão.
 */
 
 void freeChao(Chao c);
 /*
-Libera toda a memória do chão.
+   Libera toda a memória do chão.
+   Atenção: Esta função assume que o chão é proprietário exclusivo das formas.
 */
 
 #endif
