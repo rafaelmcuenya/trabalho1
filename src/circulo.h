@@ -70,6 +70,16 @@ int validaCirculo(void* circ);
    Retorna 1 se válido, 0 caso contrário.
 */
 
+void setCorBCirculo(Circulo c, char* novaCor);
+/*
+   Altera a cor da borda do círculo.
+*/
+
+void setCorPCirculo(Circulo c, char* novaCor);
+/*
+   Altera a cor de preenchimento do círculo.
+*/
+
 void liberaCircle(Circulo c);
 /*
    Libera toda a memória associada ao círculo passado como parâmetro.Essa função deve ser utilizada sempre que o círculo não for mais necessário.
