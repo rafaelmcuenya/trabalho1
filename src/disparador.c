@@ -118,12 +118,12 @@ static void pressionaBotaoOnce(DisparadorStruct* dis, char lado) {
         return;
     }
   
-    if (lado == 'd' && estaVazioCarregador(dis->cesq)) {
+    if (lado == 'd' && voidCarregador(dis->cesq)) {
         fprintf(stderr, "Erro: carregador esquerdo vazio\n");
         return;
     }
     
-    if (lado == 'e' && estaVazioCarregador(dis->cdir)) {
+    if (lado == 'e' && voidCarregador(dis->cdir)) {
         fprintf(stderr, "Erro: carregador direito vazio\n");
         return;
     }
