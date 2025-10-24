@@ -234,3 +234,59 @@ int sobrepoeTextoTexto(Texto t1, Texto t2){
 
     return !(x12 < x21 || x22 < x11 || y12 < y21 || y22 < y11);
 }
+
+int formasSobrepoem(Forma f1, Forma f2) {
+    if (!f1 || !f2) return 0;
+    TipoForma tipo1 = getTipoForma(f1);
+    TipoForma tipo2 = getTipoForma(f2);
+    
+    if (tipo1 == Tc && tipo2 == Tc) {
+        return sobrepoeCirculoCirculo(getCirculoFromForma(f1), getCirculoFromForma(f2));
+    }
+    else if (tipo1 == Tc && tipo2 == Tr) {
+        return sobrepoeCirculoRetangulo(getCirculoFromForma(f1), getRetanguloFromForma(f2));
+    }
+    else if (tipo1 == Tc && tipo2 == Tl) {
+        return sobrepoeCirculoLinha(getCirculoFromForma(f1), getLinhaFromForma(f2));
+    }
+    else if (tipo1 == Tc && tipo2 == Tt) {
+        return sobrepoeCirculoTexto(getCirculoFromForma(f1), getTextoFromForma(f2));
+    }
+    else if (tipo1 == Tr && tipo2 == Tc) {
+        return sobrepoeCirculoRetangulo(getCirculoFromForma(f2), getRetanguloFromForma(f1));
+    }
+    else if (tipo1 == Tr && tipo2 == Tr) {
+        return sobrepoeRetanguloRetangulo(getRetanguloFromForma(f1), getRetanguloFromForma(f2));
+    }
+    else if (tipo1 == Tr && tipo2 == Tl) {
+        return sobrepoeRetanguloLinha(getRetanguloFromForma(f1), getLinhaFromForma(f2));
+    }
+    else if (tipo1 == Tr && tipo2 == Tt) {
+        return sobrepoeRetanguloTexto(getRetanguloFromForma(f1), getTextoFromForma(f2));
+    }
+    else if (tipo1 == Tl && tipo2 == Tc) {
+        return sobrepoeCirculoLinha(getCirculoFromForma(f2), getLinhaFromForma(f1));
+    }
+    else if (tipo1 == Tl && tipo2 == Tr) {
+        return sobrepoeRetanguloLinha(getRetanguloFromForma(f2), getLinhaFromForma(f1));
+    }
+    else if (tipo1 == Tl && tipo2 == Tl) {
+        return sobrepoeLinhaLinha(getLinhaFromForma(f1), getLinhaFromForma(f2));
+    }
+    else if (tipo1 == Tl && tipo2 == Tt) {
+        return sobrepoeLinhaTexto(getLinhaFromForma(f1), getTextoFromForma(f2));
+    }
+    else if (tipo1 == Tt && tipo2 == Tc) {
+        return sobrepoeCirculoTexto(getCirculoFromForma(f2), getTextoFromForma(f1));
+    }
+    else if (tipo1 == Tt && tipo2 == Tr) {
+        return sobrepoeRetanguloTexto(getRetanguloFromForma(f2), getTextoFromForma(f1));
+    }
+    else if (tipo1 == Tt && tipo2 == Tl) {
+        return sobrepoeLinhaTexto(getLinhaFromForma(f2), getTextoFromForma(f1));
+    }
+    else if (tipo1 == Tt && tipo2 == Tt) {
+        return sobrepoeTextoTexto(getTextoFromForma(f1), getTextoFromForma(f2));
+    }
+    return 0;
+}
