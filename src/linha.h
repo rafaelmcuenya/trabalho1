@@ -95,6 +95,11 @@ int validaLinha(void* l);
    Retorna 1 se válida, 0 caso contrário.
 */
 
+void setCorLinha(Linha l, char* novaCor);
+/*
+   Altera a cor da linha.
+*/
+
 void liberaLinha(Linha l);
 /*
    Libera toda a memória associada a linha passada como parâmetro.
