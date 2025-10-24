@@ -236,7 +236,7 @@ char* getCorPForma(Forma f) {
     }
 }
 
-void liberaForma(Forma f) {
+void freeForma(Forma f) {
     if (!f) {
         fprintf(stderr, "Aviso: tentativa de liberar forma NULL\n");
         return;
