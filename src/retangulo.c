@@ -209,6 +209,30 @@ double getAlturaRetangulo(Retangulo r) {
     return rect->altura;
 }
 
+void setCorBRetangulo(Retangulo r, char* novaCor) {
+    if (!r || !novaCor) {
+        fprintf(stderr, "Erro: parâmetros inválidos em setCorBRetangulo\n");
+        return;
+    }
+    RetStruct* rect = (RetStruct*)r;
+    if (strlen(novaCor) >= 6) {
+        strncpy(rect->corB, novaCor, 6);
+        rect->corB[6] = '\0';
+    }
+}
+
+void setCorPRetangulo(Retangulo r, char* novaCor) {
+    if (!r || !novaCor) {
+        fprintf(stderr, "Erro: parâmetros inválidos em setCorPRetangulo\n");
+        return;
+    }
+    RetStruct* rect = (RetStruct*)r;
+    if (strlen(novaCor) >= 6) {
+        strncpy(rect->corP, novaCor, 6);
+        rect->corP[6] = '\0';
+    }
+}
+
 void liberaRet(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Aviso: tentativa de liberar retângulo NULL\n");
