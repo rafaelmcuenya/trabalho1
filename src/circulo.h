@@ -13,13 +13,15 @@ typedef void* Circulo;
 
 Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp);
 /*
-   Cria um círculo cujo ID é o ‘i’, com o centro (âncora) dado pelos 2° e 3° parâmetros e com um raio dado pelo quarto parâmetro.
+   Cria um círculo cujo ID é o 'i', com o centro (âncora) dado pelos 2° e 3° parâmetros e com um raio dado pelo quarto parâmetro.
    A cor de borda e preenchimento são dadas pelos dois últimos parâmetros.
+   
+   ATENÇÃO: Será usado "000000" (preto) para borda e "FFFFFF" (branco) para preenchimento caso ocorra algum erro durante o processo.
 */
 
 double areaCircle(Circulo c);
 /*
-   Calcula a área de um círculo com o ID repassado pelo primeiro parâmetro, baseando-se na fórmula geral dada por A = πr², sendo ‘r’ o raio do círculo, ‘A’ a área final e pi(π) uma constante universal equivalente a aproximadamente 3,14.
+   Calcula a área de um círculo com o ID repassado pelo primeiro parâmetro, baseando-se na fórmula geral dada por A = πr², sendo 'r' o raio do círculo, 'A' a área final e pi(π) uma constante universal equivalente a aproximadamente 3,14.
 */
 
 int idCircle(Circulo c);
@@ -55,6 +57,12 @@ char* getCorBCircle(Circulo c);
 char* getCorPCircle(Circulo c);
 /*
    Retorna a cor de preenchimento do círculo, descrita no padrão sRGB de 6 dígitos.
+*/
+
+int validaCirculo(void* circ);
+/*
+   Função interna de validação para verificar se uma estrutura de círculo é válida.
+   Retorna 1 se válido, 0 caso contrário.
 */
 
 void liberaCircle(Circulo c);
