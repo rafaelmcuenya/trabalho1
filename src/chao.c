@@ -1,7 +1,7 @@
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "chao.h"
+#include "forma.h"
 
 typedef struct No {
     Forma forma;
@@ -24,9 +24,11 @@ Chao criaChao() {
 }
 
 void inFormaChao(Chao c, Forma f) {
+    if (!c || !f) return;
     ChaoStruct* ch = (ChaoStruct*)c;
     No* novo = (No*)malloc(sizeof(No));
     if (!novo) return;
+    
     novo->forma = f;
     novo->prox = NULL;
 
@@ -40,6 +42,7 @@ void inFormaChao(Chao c, Forma f) {
 }
 
 Forma outFormaChao(Chao c) {
+    if (!c) return NULL;
     ChaoStruct* ch = (ChaoStruct*)c;
     if (ch->inicio == NULL) return NULL;
 
@@ -57,24 +60,40 @@ Forma outFormaChao(Chao c) {
 }
 
 Forma seePFChao(Chao c) {
+    if (!c) return NULL;
     ChaoStruct* ch = (ChaoStruct*)c;
     if (ch->inicio == NULL) return NULL;
     return ch->inicio->forma;
 }
 
 int voidChao(Chao c) {
+    if (!c) return 1;
     ChaoStruct* ch = (ChaoStruct*)c;
     return (ch->inicio == NULL);
 }
 
 int tamanhoChao(Chao c) {
+    if (!c) return 0;
     ChaoStruct* ch = (ChaoStruct*)c;
     return ch->tamanho;
 }
 
-void freeChao(Chao c) {
+void percorreChao(Chao c, void (*funcao)(Forma)) {
+    if (!c || !funcao) return;
     ChaoStruct* ch = (ChaoStruct*)c;
     No* atual = ch->inicio;
+    
+    while (atual) {
+        funcao(atual->forma);
+        atual = atual->prox;
+    }
+}
+
+void freeChao(Chao c) {
+    if (!c) return;
+    ChaoStruct* ch = (ChaoStruct*)c;
+    No* atual = ch->inicio;
+ 
     while (atual) {
         No* prox = atual->prox;
         liberaForma(atual->forma);
@@ -83,4 +102,3 @@ void freeChao(Chao c) {
     }
     free(ch);
 }
-
