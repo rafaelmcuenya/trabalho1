@@ -12,50 +12,50 @@
 
 typedef void* Retangulo;
 
-Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, char* corp);
+Retangulo criaRetangulo(int i, double x, double y, double w, double h, char* corb, char* corp);
 /*
    Cria um retângulo com a âncora posicionada nos dados repassados pelos parâmetros 3 e 4, com tal forma possuindo um ID dado pelo primeiro parâmetro. 
    O mesmo terá comprimento e altura das informações enviadas pelos 4° e 5° parâmetros, respectivamente.
    As cores de borda e preenchimento são enviadas por meio dos parâmetros 6 e 7, e retorna um ponteiro para a forma recém criada.
 */
 
-double areaRet(Retangulo r);
+double areaRetangulo(Retangulo r);
 /*
    Calcula a área de um retângulo, baseando-se na fórmula geral dada por A = l*c, sendo 'c' o comprimento do retângulo, 'A' a área final e 'l' a largura do mesmo.
 */
 
-int idRet(Retangulo r);
+int idRetangulo(Retangulo r);
 /*
    Coleta o ID de um retângulo específico para possíveis manipulações no mesmo, retornando tal identificador.
 */
 
-void moveRet(Retangulo r, double x, double y);
+void moveRetangulo(Retangulo r, double x, double y);
 /*
    Por meio do ID repassado pelo primeiro parâmetro, move a âncora de tal forma em tantas coordenadas no eixo x e eixo y, valores repassados respectivamente pelos segundo e terceiro parâmetros.   
 */
 
-Retangulo clonaRet(Retangulo r);
+Retangulo clonaRetangulo(Retangulo r);
 /*
    Cria uma cópia idêntica do retângulo, retornando um ponteiro para o novo retângulo com os mesmos atributos.
 */
 
-double getXRet(Retangulo r);
+double getXRetangulo(Retangulo r);
 /*
    Retorna a coordenada X da âncora do retangulo.
 */
 
-double getYRet(Retangulo r);
+double getYRetangulo(Retangulo r);
 /*
    Retorna a coordenada Y da âncora do retangulo.
 */
 
-char* getCorBRet(Retangulo r);
+char* getCorBRetangulo(Retangulo r);
 /*
    Retorna a cor de borda do retangulo, descrita no padrão sRGB de 6 dígitos.
    ATENÇÃO: O chamador é responsável por liberar a memória retornada.
 */
 
-char* getCorPRet(Retangulo r);
+char* getCorPRetangulo(Retangulo r);
 /*
    Retorna a cor de preenchimento do retangulo, descrita no padrão sRGB de 6 dígitos.
    ATENÇÃO: O chamador é responsável por liberar a memória retornada.
@@ -87,7 +87,7 @@ void setCorPRetangulo(Retangulo r, char* novaCor);
    Altera a cor de preenchimento do retângulo.
 */
 
-void liberaRet(Retangulo r);
+void liberaRetangulo(Retangulo r);
 /*
    Libera toda a memória associada ao retangulo passado como parâmetro.Essa função deve ser utilizada sempre que o retangulo não for mais necessário.
 */
