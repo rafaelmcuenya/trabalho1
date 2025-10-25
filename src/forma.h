@@ -2,6 +2,10 @@
 #define FORMA_H
 
 #include <stdio.h>
+#include "circulo.h"
+#include "retangulo.h"
+#include "linha.h"
+#include "texto.h"
 
 typedef enum {
     Tc,
