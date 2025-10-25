@@ -146,11 +146,6 @@ char getAncoraTexto(Texto t){
     return txt->ancora;
 }
 
-TipoForma getTipo(Texto t){
-    (void)t;
-    return Tt;
-}
-
 double getXTexto(Texto t){
     if (!t){
         fprintf(stderr, "Erro: texto NULL em getXTexto\n");
