@@ -4,6 +4,7 @@
 #include "disparador.h"
 #include "carregador.h"
 #include "forma.h"
+#include "strdupi.h"
 
 typedef struct {
     int id;
