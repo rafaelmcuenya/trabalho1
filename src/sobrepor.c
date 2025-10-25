@@ -107,8 +107,8 @@ int sobrepoeCirculoRetangulo(Circulo c, Retangulo r){
     double cx = getXCirculo(c);
     double cy = getYCirculo(c);
     double raio = getRaioCirculo(c);
-    double rx = getXRet(r);
-    double ry = getYRet(r);
+    double rx = getXRetangulo(r);
+    double ry = getYRetangulo(r);
     double w = getLarguraRetangulo(r);
     double h = getAlturaRetangulo(r);
     double px = max(rx, min(cx, rx + w));
@@ -145,13 +145,13 @@ int sobrepoeCirculoTexto(Circulo c, Texto t){
 }
 
 int sobrepoeRetanguloRetangulo(Retangulo r1, Retangulo r2){
-    double x1 = getXRet(r1);
-    double y1 = getYRet(r1);
+    double x1 = getXRetangulo(r1);
+    double y1 = getYRetangulo(r1);
     double w1 = getLarguraRetangulo(r1);
     double h1 = getAlturaRetangulo(r1);
 
-    double x2 = getXRet(r2);
-    double y2 = getYRet(r2);
+    double x2 = getXRetangulo(r2);
+    double y2 = getYRetangulo(r2);
     double w2 = getLarguraRetangulo(r2);
     double h2 = getAlturaRetangulo(r2);
 
@@ -159,8 +159,8 @@ int sobrepoeRetanguloRetangulo(Retangulo r1, Retangulo r2){
 }
 
 int sobrepoeRetanguloLinha(Retangulo r, Linha l){
-    double rx = getXRet(r);
-    double ry = getYRet(r);
+    double rx = getXRetangulo(r);
+    double ry = getYRetangulo(r);
     double w = getLarguraRetangulo(r);
     double h = getAlturaRetangulo(r);
     double x1 = getX1Linha(l);
@@ -188,8 +188,8 @@ int sobrepoeRetanguloLinha(Retangulo r, Linha l){
 }
 
 int sobrepoeRetanguloTexto(Retangulo r, Texto t){
-    double rx = getXRet(r);
-    double ry = getYRet(r);
+    double rx = getXRetangulo(r);
+    double ry = getYRetangulo(r);
     double w = getLarguraRetangulo(r);
     double h = getAlturaRetangulo(r);
     double tx1, ty1, tx2, ty2;
