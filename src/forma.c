@@ -7,6 +7,7 @@
 #include "linha.h"
 #include "texto.h"
 #include "sobrepor.h"
+#include "strdupi.h"
 
 typedef struct{
     TipoForma tipo;
