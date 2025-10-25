@@ -38,11 +38,6 @@ Linha clonaLinha(Linha l);
    Cria uma cópia idêntica da linha, retornando um ponteiro para a nova linha com os mesmos atributos.
 */
 
-TipoForma getTipo(Linha l);
-/*
-   Retorna o tipo da forma como enum TipoForma linha.
-*/
-
 double getXLinha(Linha l);
 /*
    Retorna a coordenada X da âncora da linha.
