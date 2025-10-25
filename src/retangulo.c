@@ -12,11 +12,11 @@ typedef struct {
     double largura, altura;
     char corB[8];
     char corP[8];
-} RetStruct;
+} RetanguloStruct;
 
 int validaRetangulo(void* r) {
     if (!r) return 0;
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return (rect->id > 0) && (rect->largura > 0) && (rect->altura > 0) &&
            (rect->x == rect->x && rect->y == rect->y &&
             rect->largura == rect->largura && rect->altura == rect->altura) &&
@@ -24,7 +24,7 @@ int validaRetangulo(void* r) {
            (rect->corB[0] != '\0') && (rect->corP[0] != '\0');
 }
 
-Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, char* corp) {
+Retangulo criaRetangulo(int i, double x, double y, double w, double h, char* corb, char* corp) {
     if (i <= 0) {
         fprintf(stderr, "Erro: ID do retângulo inválido\n");
         return NULL;
@@ -46,7 +46,7 @@ Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, cha
         return NULL;
     }
     
-    RetStruct* r = (RetStruct*)malloc(sizeof(RetStruct));
+    RetanguloStruct* r = (RetanguloStruct*)malloc(sizeof(RetanguloStruct));
     if (!r) {
         fprintf(stderr, "Erro: falha na alocação do retângulo\n");
         return NULL;
@@ -78,37 +78,37 @@ Retangulo criaRet(int i, double x, double y, double w, double h, char* corb, cha
     return (Retangulo)r;
 }
 
-double areaRet(Retangulo r) {
+double areaRetangulo(Retangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em areaRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em areaRetangulo\n");
         return -1.0;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->largura * rect->altura;
 }
 
-int idRet(Retangulo r) {
+int idRetangulo(Retangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em idRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em idRetangulo\n");
         return -1;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->id;
 }
 
-void moveRet(Retangulo r, double dx, double dy) {
+void moveRetangulo(Retangulo r, double dx, double dy) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em moveRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em moveRetangulo\n");
         return;
     }
     
     if (dx != dx || dy != dy || isinf(dx) || isinf(dy)) {
-        fprintf(stderr, "Erro: parâmetros inválidos em moveRet\n");
+        fprintf(stderr, "Erro: parâmetros inválidos em moveRetangulo\n");
         return;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     double orig_x = rect->x;
     double orig_y = rect->y;
     rect->x += dx;
@@ -121,15 +121,15 @@ void moveRet(Retangulo r, double dx, double dy) {
     }
 }
 
-Retangulo clonaRet(Retangulo r) {
+Retangulo clonaRetangulo(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Erro: tentativa de clonagem de retângulo NULL\n");
         return NULL;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     int novoId = rect->id + 300;
-    Retangulo clone = criaRet(novoId, rect->x, rect->y, rect->largura, rect->altura, rect->corB, rect->corP);
+    Retangulo clone = criaRetangulo(novoId, rect->x, rect->y, rect->largura, rect->altura, rect->corB, rect->corP);
     
     if (!clone) {
         fprintf(stderr, "Erro: falha ao clonar retângulo %d\n", rect->id);
@@ -137,33 +137,33 @@ Retangulo clonaRet(Retangulo r) {
     return clone;
 }
 
-double getXRet(Retangulo r) {
+double getXRetangulo(Retanguloangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em getXRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em getXRetangulo\n");
         return -1000.0;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->x;
 }
 
-double getYRet(Retangulo r) {
+double getYRetangulo(Retangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em getYRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em getYRetangulo\n");
         return -1000.0;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->y;
 }
 
-char* getCorBRet(Retangulo r) {
+char* getCorBRetangulo(Retangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em getCorBRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em getCorBRetangulo\n");
         return NULL;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     char* temp = strdup(rect->corB);
     
     if (!temp) {
@@ -172,13 +172,13 @@ char* getCorBRet(Retangulo r) {
     return temp;
 }
 
-char* getCorPRet(Retangulo r) {
+char* getCorPRetangulo(Retangulo r) {
     if (!r) {
-        fprintf(stderr, "Erro: retângulo NULL em getCorPRet\n");
+        fprintf(stderr, "Erro: retângulo NULL em getCorPRetangulo\n");
         return NULL;
     }
     
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     char* temp = strdup(rect->corP);
     
     if (!temp) {
@@ -192,7 +192,7 @@ double getLarguraRetangulo(Retangulo r) {
         fprintf(stderr, "Erro: retângulo NULL em getLarguraRetangulo\n");
         return -1.0;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->largura;
 }
 
@@ -201,7 +201,7 @@ double getAlturaRetangulo(Retangulo r) {
         fprintf(stderr, "Erro: retângulo NULL em getAlturaRetangulo\n");
         return -1.0;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     return rect->altura;
 }
 
@@ -210,7 +210,7 @@ void setCorBRetangulo(Retangulo r, char* novaCor) {
         fprintf(stderr, "Erro: parâmetros inválidos em setCorBRetangulo\n");
         return;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     if (strlen(novaCor) >= 6) {
         strncpy(rect->corB, novaCor, 6);
         rect->corB[6] = '\0';
@@ -222,18 +222,18 @@ void setCorPRetangulo(Retangulo r, char* novaCor) {
         fprintf(stderr, "Erro: parâmetros inválidos em setCorPRetangulo\n");
         return;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     if (strlen(novaCor) >= 6) {
         strncpy(rect->corP, novaCor, 6);
         rect->corP[6] = '\0';
     }
 }
 
-void liberaRet(Retangulo r) {
+void liberaRetangulo(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Aviso: tentativa de liberar retângulo NULL\n");
         return;
     }
-    RetStruct* rect = (RetStruct*)r;
+    RetanguloStruct* rect = (RetanguloStruct*)r;
     free(rect);
 }
