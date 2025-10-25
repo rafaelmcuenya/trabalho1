@@ -10,7 +10,7 @@
 
 typedef void* Circulo;
 
-Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp);
+Circulo criaCirculo(int i, double x, double y, double r, char* corb, char* corp);
 /*
    Cria um círculo cujo ID é o 'i', com o centro (âncora) dado pelos 2° e 3° parâmetros e com um raio dado pelo quarto parâmetro.
    A cor de borda e preenchimento são dadas pelos dois últimos parâmetros.
@@ -18,42 +18,42 @@ Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp);
    ATENÇÃO: Será usado "000000" (preto) para borda e "FFFFFF" (branco) para preenchimento caso ocorra algum erro durante o processo.
 */
 
-double areaCircle(Circulo c);
+double areaCirculo(Circulo c);
 /*
    Calcula a área de um círculo com o ID repassado pelo primeiro parâmetro, baseando-se na fórmula geral dada por A = πr², sendo 'r' o raio do círculo, 'A' a área final e pi(π) uma constante universal equivalente a aproximadamente 3,14.
 */
 
-int idCircle(Circulo c);
+int idCirculo(Circulo c);
 /*
    Coleta o ID de um círculo específico para possíveis manipulações no mesmo, retornando tal identificador.
 */
 
-void moveCircle(Circulo c, double x, double y);
+void moveCirculo(Circulo c, double x, double y);
 /*
    Por meio do ID repassado pelo primeiro parâmetro, move a âncora de tal círculo em tantas coordenadas no eixo x e eixo y, valores repassados respectivamente pelos segundo e terceiro parâmetros.
 */
 
-Circulo clonaCircle(Circulo c);
+Circulo clonaCirculo(Circulo c);
 /*
    Cria uma cópia do círculo, retornando um ponteiro para o novo círculo com os mesmos atributos.
 */
 
-double getXCircle(Circulo c);
+double getXCirculo(Circulo c);
 /*
    Retorna a coordenada X da âncora do círculo.
 */
 
-double getYCircle(Circulo c);
+double getYCirculo(Circulo c);
 /*
    Retorna a coordenada Y da âncora do círculo.
 */
 
-char* getCorBCircle(Circulo c);
+char* getCorBCirculo(Circulo c);
 /*
    Retorna a cor de borda do círculo, descrita no padrão sRGB de 6 dígitos.
 */
 
-char* getCorPCircle(Circulo c);
+char* getCorPCirculo(Circulo c);
 /*
    Retorna a cor de preenchimento do círculo, descrita no padrão sRGB de 6 dígitos.
 */
@@ -79,7 +79,7 @@ void setCorPCirculo(Circulo c, char* novaCor);
    Altera a cor de preenchimento do círculo.
 */
 
-void liberaCircle(Circulo c);
+void liberaCirculo(Circulo c);
 /*
    Libera toda a memória associada ao círculo passado como parâmetro.Essa função deve ser utilizada sempre que o círculo não for mais necessário.
 */
