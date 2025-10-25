@@ -53,7 +53,7 @@ static Forma clonaFormaComCoresTrocadas(Forma original){
     switch (tipo){
         case Tc:{
             double raio = getRaioCirculo(getCirculoFromForma(original));
-            clone = criaForma(Tc, criaCircle(id + 1000, x, y, raio, corP, corB));
+            clone = criaForma(Tc, criaCirculo(id + 1000, x, y, raio, corP, corB));
             break;
         }
         case Tr:{
