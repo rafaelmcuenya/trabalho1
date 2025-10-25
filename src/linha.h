@@ -2,7 +2,6 @@
 #define LINHA_H
 
 #include <stdio.h>
-#include "forma.h"
 
 /*
    Uma linha é um segmento de reta delimitado por dois pontos, colineares e não sobrepostos, dispostos em um plano. 
