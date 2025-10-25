@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ctype.h>
 #include "circulo.h"
+#include "strdupi.h"
 
 typedef struct{
     int id;
