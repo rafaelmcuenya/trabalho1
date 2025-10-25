@@ -10,6 +10,7 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "strdupi.h"
 
 typedef struct NoArena{
     Forma forma;
