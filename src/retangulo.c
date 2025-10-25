@@ -136,11 +136,6 @@ Retangulo clonaRet(Retangulo r) {
     return clone;
 }
 
-TipoForma getTipo(Retangulo r) {
-    (void)r; 
-    return Tr;
-}
-
 double getXRet(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Erro: retângulo NULL em getXRet\n");
