@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "carregador.h"
 #include "forma.h"
+#include "strdupi.h"
 
 typedef struct NoCar {
     Forma f;
