@@ -59,7 +59,7 @@ static Forma clonaFormaComCoresTrocadas(Forma original){
         case Tr:{
             double largura = getLarguraRetangulo(getRetanguloFromForma(original));
             double altura = getAlturaRetangulo(getRetanguloFromForma(original));
-            clone = criaForma(Tr, criaRet(id + 1000, x, y, largura, altura, corP, corB));
+            clone = criaForma(Tr, criaRetangulo(id + 1000, x, y, largura, altura, corP, corB));
             break;
         }
         case Tl:{
