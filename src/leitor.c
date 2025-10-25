@@ -26,9 +26,9 @@ static int totalClonadas = 0;
 static char currentFontFamily[32] = "sans";
 static char currentFontWeight[8] = "n";
 static double currentFontSize = 12.0;
-static void cmdCriaCircle(int id, double x, double y, double r, char corb[], char corp[]){
+static void cmdCriaCirculo(int id, double x, double y, double r, char corb[], char corp[]){
     totalInstrucoes++;
-    Circulo circulo = criaCircle(id, x, y, r, corb, corp);
+    Circulo circulo = criaCirculo(id, x, y, r, corb, corp);
     if (circulo && chao){
         Forma forma = criaForma(Tc, circulo);
         inFormaChao(chao, forma);
@@ -227,7 +227,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
         if (strcmp(comando, "c") == 0){
             int id; double x, y, r; char corb[32], corp[32];
             if (sscanf(linha, "%*s %d %lf %lf %lf %31s %31s", &id, &x, &y, &r, corb, corp) == 6){
-                cmdCriaCircle(id, x, y, r, corb, corp);
+                cmdCriaCirculo(id, x, y, r, corb, corp);
             }
         }
         else if (strcmp(comando, "r") == 0){
