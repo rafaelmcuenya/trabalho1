@@ -40,10 +40,10 @@ char* getDescricaoDetalhada(Forma f) {
             Retangulo r = getRetanguloFromForma(f);
             double w = getLarguraRetangulo(r);
             double h = getAlturaRetangulo(r);
-            char* corP = getCorPRet(r);
-            char* corB = getCorBRet(r);
+            char* corP = getCorPRetangulo(r);
+            char* corB = getCorBRetangulo(r);
             sprintf(desc, "retângulo\nâncora em (%.3f, %.3f)\nlargura: %.2f\naltura: %.2f\npreenchimento: %s\nborda: %s",
-                   getXRet(r), getYRet(r), w, h, corP, corB);
+                   getXRetangulo(r), getYRetangulo(r), w, h, corP, corB);
             free(corP);
             free(corB);
             break;
