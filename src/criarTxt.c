@@ -27,10 +27,10 @@ char* getDescricaoDetalhada(Forma f) {
         case Tc: {
             Circulo c = getCirculoFromForma(f);
             double raio = getRaioCirculo(c);
-            char* corP = getCorPCircle(c);
-            char* corB = getCorBCircle(c);
+            char* corP = getCorPCirculo(c);
+            char* corB = getCorBCirculo(c);
             sprintf(desc, "círculo\nâncora em (%.3f, %.3f)\nraio: %.2f\npreenchimento: %s\nborda: %s",
-                   getXCircle(c), getYCircle(c), raio, corP, corB);
+                   getXCirculo(c), getYCirculo(c), raio, corP, corB);
             free(corP);
             free(corB);
             break;
