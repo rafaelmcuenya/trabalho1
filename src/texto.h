@@ -2,7 +2,6 @@
 #define TEXTO_H
 
 #include <stdio.h>
-#include "forma.h"
 
 /*
    Um texto é um conjunto de caracteres exibidos sobre um plano de forma linear. Tal estrutura possui uma âncora, que pode ser posicionada no começo do texto (i), no meio dele (m) ou em seu final (f).
