@@ -1,5 +1,6 @@
 #include <math.h>
 #include <string.h>
+#include <stdlib.h>
 #include "sobrepor.h"
 
 static double distancia(double x1, double y1, double x2, double y2){
