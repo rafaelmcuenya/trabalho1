@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include <ctype.h>
+#include "strdupi.h"
 #include "retangulo.h"
 
 typedef struct {
