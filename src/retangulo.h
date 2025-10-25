@@ -2,7 +2,6 @@
 #define RETANGULO_H
 
 #include <stdio.h>
-#include "forma.h"
 
 /*
    Um retângulo é uma forma geométrica composta por quatro pontos distintos entre si, interligados por segmentos de reta, e postos em um plano. 
