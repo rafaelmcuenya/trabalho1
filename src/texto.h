@@ -44,11 +44,6 @@ char getAncoraTexto(Texto t);
    Retorna o tipo de âncora (i, m ou f) associada ao texto.
 */
 
-TipoForma getTipo(Texto t);
-/*
-   Retorna o tipo da forma como enum TipoForma texto.
-*/
-
 double getXTexto(Texto t);
 /*
    Retorna a coordenada X da âncora do texto.
