@@ -11,11 +11,11 @@ typedef struct{
     double r;
     char corB[8];
     char corP[8];
-} CircleStruct;
+} CirculoStruct;
 
 int validaCirculo(void* circ){
     if (!circ) return 0;
-    CircleStruct* circle = (CircleStruct*)circ;
+    CirculoStruct* circle = (CirculoStruct*)circ;
   
     return (circle->id > 0) && 
            (circle->r > 0) && (circle->x == circle->x && circle->y == circle->y && circle->r == circle->r) &&
@@ -23,7 +23,7 @@ int validaCirculo(void* circ){
            (circle->corB[0] != '\0') && (circle->corP[0] != '\0');
 }
 
-Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp){
+Circulo criaCirculo(int i, double x, double y, double r, char* corb, char* corp){
     if (i <= 0){
         fprintf(stderr, "Erro: ID do círculo inválido\n");
         return NULL;
@@ -45,7 +45,7 @@ Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp){
         return NULL;
     }
     
-    CircleStruct* c = (CircleStruct*)malloc(sizeof(CircleStruct));
+    CirculoStruct* c = (CirculoStruct*)malloc(sizeof(CirculoStruct));
     if (!c){
         fprintf(stderr, "Erro: falha na alocação do círculo\n");
         return NULL;
@@ -76,36 +76,36 @@ Circulo criaCircle(int i, double x, double y, double r, char* corb, char* corp){
     return (Circulo)c;
 }
 
-double areaCircle(Circulo c){
+double areaCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em areaCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em areaCirculo\n");
         return -1.0;
     }
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     return circle->r * circle->r * 3.14;
 }
 
-int idCircle(Circulo c){
+int idCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em idCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em idCirculo\n");
         return -1;
     }
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     return circle->id;
 }
 
-void moveCircle(Circulo c, double dx, double dy){
+void moveCirculo(Circulo c, double dx, double dy){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em moveCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em moveCirculo\n");
         return;
     }
     
     if (dx != dx || dy != dy || isinf(dx) || isinf(dy)){
-        fprintf(stderr, "Erro: parâmetros inválidos em moveCircle\n");
+        fprintf(stderr, "Erro: parâmetros inválidos em moveCirculo\n");
         return;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     double orig_x = circle->x;
     double orig_y = circle->y;
     circle->x += dx;
@@ -119,16 +119,16 @@ void moveCircle(Circulo c, double dx, double dy){
     }
 }
 
-Circulo clonaCircle(Circulo c){
+Circulo clonaCirculo(Circulo c){
     if (!c){
         fprintf(stderr, "Erro: tentativa de clonar círculo NULL\n");
         return NULL;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     int novoId = circle->id * 1000 + (int)(circle->x + circle->y + circle->r);
     if (novoId <= circle->id) novoId = circle->id + 1000;
-    Circulo clone = criaCircle(novoId, circle->x, circle->y, circle->r, circle->corB, circle->corP);
+    Circulo clone = criaCirculo(novoId, circle->x, circle->y, circle->r, circle->corB, circle->corP);
     
     if (!clone){
         fprintf(stderr, "Erro: falha ao clonar círculo %d\n", circle->id);
@@ -136,33 +136,33 @@ Circulo clonaCircle(Circulo c){
     return clone;
 }
 
-double getXCircle(Circulo c){
+double getXCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em getXCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em getXCirculo\n");
         return -1000.0;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     return circle->x;
 }
 
-double getYCircle(Circulo c){
+double getYCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em getYCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em getYCirculo\n");
         return -1000.0;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     return circle->y;
 }
 
-char* getCorBCircle(Circulo c){
+char* getCorBCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em getCorBCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em getCorBCirculo\n");
         return NULL;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     char* copia = strdup(circle->corB);
     
     if (!copia){
@@ -171,13 +171,13 @@ char* getCorBCircle(Circulo c){
     return copia; 
 }
 
-char* getCorPCircle(Circulo c){
+char* getCorPCirculo(Circulo c){
     if (!c){
-        fprintf(stderr, "Erro: círculo NULL em getCorPCircle\n");
+        fprintf(stderr, "Erro: círculo NULL em getCorPCirculo\n");
         return NULL;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     char* copia = strdup(circle->corP);
     
     if (!copia){
@@ -192,7 +192,7 @@ double getRaioCirculo(Circulo c){
         return -1.0;
     }
     
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     return circle->r;
 }
 
@@ -201,7 +201,7 @@ void setCorBCirculo(Circulo c, char* novaCor){
         fprintf(stderr, "Erro: parâmetros inválidos em setCorBCirculo\n");
         return;
     }
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     if (strlen(novaCor) >= 6){
         strncpy(circle->corB, novaCor, 6);
         circle->corB[6] = '\0';
@@ -213,18 +213,18 @@ void setCorPCirculo(Circulo c, char* novaCor){
         fprintf(stderr, "Erro: parâmetros inválidos em setCorPCirculo\n");
         return;
     }
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     if (strlen(novaCor) >= 6){
         strncpy(circle->corP, novaCor, 6);
         circle->corP[6] = '\0';
     }
 }
 
-void liberaCircle(Circulo c){
+void liberaCirculo(Circulo c){
     if (!c){
         fprintf(stderr, "Erro: tentativa de liberar círculo NULL\n");
         return;
     }
-    CircleStruct* circle = (CircleStruct*)c;
+    CirculoStruct* circle = (CirculoStruct*)c;
     free(circle);
 }
