@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "texto.h"
+#include "strdupi.h"
 
 typedef struct{
     int id;
