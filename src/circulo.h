@@ -2,7 +2,6 @@
 #define CIRCULO_H
 
 #include <stdio.h>
-#include "forma.h" 
 
 /*
    Um círculo é uma forma geométrica descrita num plano, onde é composta por infinitos pontos equidistantes de um único e mesmo ponto, dado como centro do círculo, e onde tal distância é denominada raio do círculo.
