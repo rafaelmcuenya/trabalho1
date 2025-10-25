@@ -92,19 +92,19 @@ static double distanciaPontoSegmento(double px, double py, double x1, double y1,
 }
 
 int sobrepoeCirculoCirculo(Circulo c1, Circulo c2){
-    double x1 = getXCircle(c1);
-    double y1 = getYCircle(c1);
+    double x1 = getXCirculo(c1);
+    double y1 = getYCirculo(c1);
     double r1 = getRaioCirculo(c1);
-    double x2 = getXCircle(c2);
-    double y2 = getYCircle(c2);
+    double x2 = getXCirculo(c2);
+    double y2 = getYCirculo(c2);
     double r2 = getRaioCirculo(c2);
 
     return (distancia(x1, y1, x2, y2) <= (r1 + r2));
 }
 
 int sobrepoeCirculoRetangulo(Circulo c, Retangulo r){
-    double cx = getXCircle(c);
-    double cy = getYCircle(c);
+    double cx = getXCirculo(c);
+    double cy = getYCirculo(c);
     double raio = getRaioCirculo(c);
     double rx = getXRet(r);
     double ry = getYRet(r);
@@ -118,8 +118,8 @@ int sobrepoeCirculoRetangulo(Circulo c, Retangulo r){
 }
 
 int sobrepoeCirculoLinha(Circulo c, Linha l){
-    double cx = getXCircle(c);
-    double cy = getYCircle(c);
+    double cx = getXCirculo(c);
+    double cy = getYCirculo(c);
     double raio = getRaioCirculo(c);
     double x1 = getX1Linha(l);
     double y1 = getY1Linha(l);
@@ -131,8 +131,8 @@ int sobrepoeCirculoLinha(Circulo c, Linha l){
 }
 
 int sobrepoeCirculoTexto(Circulo c, Texto t){
-    double cx = getXCircle(c);
-    double cy = getYCircle(c);
+    double cx = getXCirculo(c);
+    double cy = getYCirculo(c);
     double raio = getRaioCirculo(c);
     double x1, y1, x2, y2;
     calcularBoundingBoxTexto(t, &x1, &y1, &x2, &y2);
