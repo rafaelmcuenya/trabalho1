@@ -6,7 +6,7 @@ ALUNO = Rafael Matui Cuenya
 CC = gcc
 
 # Flags de compilação (conforme especificação)
-CFLAGS = -g -std=c99 -fstack-protector-all -Wall -Wextra
+CFLAGS = -g -O0 -std=c99 -fstack-protector-all -Wall -Wextra
 LDFLAGS = 
 
 # Encontra todos os arquivos .c automaticamente
@@ -28,8 +28,12 @@ clean:
 # Recompilar tudo
 re: clean $(PROJ_NAME)
 
-# Valgrind
-valgrind: $(PROJ_NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(PROJ_NAME)
+# Valgrind com teste simples (apenas geo)
+valgrind-simple: $(PROJ_NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(PROJ_NAME) -f teste.geo -o saida
 
-.PHONY: clean re valgrind
+# Valgrind com teste completo (geo e qry)
+valgrind-complete: $(PROJ_NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(PROJ_NAME) -f teste.geo -q teste.qry -o saida
+
+.PHONY: clean re valgrind-simple valgrind-complete
