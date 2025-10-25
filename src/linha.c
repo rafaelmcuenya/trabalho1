@@ -3,6 +3,7 @@
 #include <string.h>
 #include <math.h>
 #include "linha.h"
+#include "strdupi.h"
 static int proximoIdLinha = 300; 
 
 typedef struct{
