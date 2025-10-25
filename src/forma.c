@@ -204,7 +204,7 @@ char* getCorBForma(Forma f){
     
     switch (form->tipo){
         case Tc: return getCorBCirculo(form->elemento);
-        case Tr: return getCorBordaRetangulo(form->elemento);
+        case Tr: return getCorBRetangulo(form->elemento);
         case Tl: return getCorLinha(form->elemento);
         case Tt: return getCorBTexto(form->elemento);
         default:
@@ -228,7 +228,7 @@ char* getCorPForma(Forma f){
     
     switch (form->tipo){
         case Tc: return getCorPCirculo(form->elemento);
-        case Tr: return getCorPreenchimentoRetangulo(form->elemento);
+        case Tr: return getCorPRetangulo(form->elemento);
         case Tl: return getCorLinha(form->elemento);
         case Tt: return getCorPTexto(form->elemento);
         default:
