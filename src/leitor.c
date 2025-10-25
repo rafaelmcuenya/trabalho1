@@ -37,9 +37,9 @@ static void cmdCriaCirculo(int id, double x, double y, double r, char corb[], ch
     }
 }
 
-static void cmdCriaRet(int id, double x, double y, double w, double h, char corb[], char corp[]){
+static void cmdCriaRetangulo(int id, double x, double y, double w, double h, char corb[], char corp[]){
     totalInstrucoes++;
-    Retangulo retangulo = criaRet(id, x, y, w, h, corb, corp);
+    Retangulo retangulo = criaRetangulo(id, x, y, w, h, corb, corp);
     if (retangulo && chao){
         Forma forma = criaForma(Tr, retangulo);
         inFormaChao(chao, forma);
@@ -234,7 +234,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
         else if (strcmp(comando, "r") == 0){
             int id; double x, y, w, h; char corb[32], corp[32];
             if (sscanf(linha, "%*s %d %lf %lf %lf %lf %31s %31s", &id, &x, &y, &w, &h, corb, corp) == 7){
-                cmdCriaRet(id, x, y, w, h, corb, corp);
+                cmdCriaRetangulo(id, x, y, w, h, corb, corp);
             }
         }
         else if (strcmp(comando, "l") == 0){
