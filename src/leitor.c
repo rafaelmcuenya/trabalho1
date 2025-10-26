@@ -90,29 +90,50 @@ static void cmdPD(int idDisp, double x, double y){
 
 static void cmdATCH(int idDisp, int idCesq, int idCdir){
     totalInstrucoes++;
-    if (disparadores[idDisp] && carregadores[idCesq] && carregadores[idCdir]){
-        encaixaCarregadores(disparadores[idDisp], carregadores[idCesq], carregadores[idCdir]);
-        printf("[QRY] Disparador %d: carregadores %d(esq) e %d(dir) encaixados\n", 
-               idDisp, idCesq, idCdir);
-    } else{
-        printf("[ERRO] Disparador %d ou carregadores %d/%d não encontrados\n", 
-               idDisp, idCesq, idCdir);
+    if (!disparadores[idDisp]) {
+        printf("[ERRO] Disparador %d não encontrado\n", idDisp);
+        return;
     }
+    if (!carregadores[idCesq]) {
+        printf("[ERRO] Carregador esquerdo %d não encontrado\n", idCesq);
+        return;
+    }
+    if (!carregadores[idCdir]) {
+        printf("[ERRO] Carregador direito %d não encontrado\n", idCdir);
+        return;
+    }
+    
+    encaixaCarregadores(disparadores[idDisp], carregadores[idCesq], carregadores[idCdir]);
+    printf("[QRY] Disparador %d: carregadores %d(esq) e %d(dir) encaixados\n", 
+           idDisp, idCesq, idCdir);
 }
 
 static void cmdLC(int idCarregador, int n){
     totalInstrucoes++;
     if (idCarregador >= 0 && idCarregador < 100){
+        if (carregadores[idCarregador]) {
+            printf("[ERRO] Carregador %d já existe\n", idCarregador);
+            return;
+        }
+        
         carregadores[idCarregador] = criaCarregador(idCarregador);
         if (chao && carregadores[idCarregador]){
+            int formasCarregadas = 0;
             for (int i = 0; i < n && !voidChao(chao); i++){
                 Forma forma = outFormaChao(chao);
                 if (forma){
                     empilhaCarregador(carregadores[idCarregador], forma);
+                    formasCarregadas++;
                 }
             }
-            printf("[QRY] Carregador %d: %d formas carregadas do chão\n", idCarregador, n);
+            printf("[QRY] Carregador %d: %d formas carregadas do chão\n", idCarregador, formasCarregadas);
+            
+            if (formasCarregadas < n) {
+                printf("[AVISO] Chão tinha apenas %d formas (solicitadas: %d)\n", formasCarregadas, n);
+            }
         }
+    } else {
+        printf("[ERRO] ID de carregador inválido: %d\n", idCarregador);
     }
 }
 
