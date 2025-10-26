@@ -283,15 +283,15 @@ void insereFormaArena(Arena a, Forma f){
     arena->tamanho++;
 }
 
-void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadasCount, int* formasClonadas, const char* nomeBase){
+void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadasCount, int* formasClonadas, const char* nomeBase, const char* outputDir){
     if (!a || !chao) return;
     ArenaStruct* arena = (ArenaStruct*)a;
     
     numFormasEsmagadas = 0;
     
-    if (nomeBase) {
-        char nomeAntes[256];
-        snprintf(nomeAntes, sizeof(nomeAntes), "%s-arena-antes.svg", nomeBase);
+    if (nomeBase && outputDir) {
+        char nomeAntes[PATH_LEN];
+        gerarNomeArenaSVG(nomeBase, "antes", outputDir, nomeAntes);
         desenharArenaSVG(a, nomeAntes);
         printf("[SVG] Arena antes do processamento: %s\n", nomeAntes);
     }
@@ -415,9 +415,9 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
         arena->tamanho--;
     }
 
-    if (nomeBase) {
-        char nomeCalc[256];
-        snprintf(nomeCalc, sizeof(nomeCalc), "%s-arena-calc.svg", nomeBase);
+    if (nomeBase && outputDir) {
+        char nomeCalc[PATH_LEN];
+        gerarNomeArenaSVG(nomeBase, "calc", outputDir, nomeCalc);
         desenharArenaSVG(a, nomeCalc);
         printf("[SVG] Arena com formas esmagadas: %s (%d formas esmagadas)\n", nomeCalc, numFormasEsmagadas);
     }
