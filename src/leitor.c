@@ -90,17 +90,28 @@ static void cmdPD(int idDisp, double x, double y){
 
 static void cmdATCH(int idDisp, int idCesq, int idCdir){
     totalInstrucoes++;
-    if (!disparadores[idDisp]) {
+    
+    if (idDisp < 0 || idDisp >= 100 || !disparadores[idDisp]){
         printf("[ERRO] Disparador %d não encontrado\n", idDisp);
         return;
     }
-    if (!carregadores[idCesq]) {
-        printf("[ERRO] Carregador esquerdo %d não encontrado\n", idCesq);
+
+    if (idCesq < 0 || idCesq >= 100){
+        printf("[ERRO] ID de carregador esquerdo inválido: %d\n", idCesq);
         return;
     }
-    if (!carregadores[idCdir]) {
-        printf("[ERRO] Carregador direito %d não encontrado\n", idCdir);
+    if (!carregadores[idCesq]){
+        carregadores[idCesq] = criaCarregador(idCesq);
+        printf("[QRY] Carregador %d (esq) criado vazio\n", idCesq);
+    }
+
+    if (idCdir < 0 || idCdir >= 100){
+        printf("[ERRO] ID de carregador direito inválido: %d\n", idCdir);
         return;
+    }
+    if (!carregadores[idCdir]){
+        carregadores[idCdir] = criaCarregador(idCdir);
+        printf("[QRY] Carregador %d (dir) criado vazio\n", idCdir);
     }
     
     encaixaCarregadores(disparadores[idDisp], carregadores[idCesq], carregadores[idCdir]);
@@ -111,7 +122,7 @@ static void cmdATCH(int idDisp, int idCesq, int idCdir){
 static void cmdLC(int idCarregador, int n){
     totalInstrucoes++;
     if (idCarregador >= 0 && idCarregador < 100){
-        if (carregadores[idCarregador]) {
+        if (carregadores[idCarregador]){
             printf("[ERRO] Carregador %d já existe\n", idCarregador);
             return;
         }
@@ -128,11 +139,11 @@ static void cmdLC(int idCarregador, int n){
             }
             printf("[QRY] Carregador %d: %d formas carregadas do chão\n", idCarregador, formasCarregadas);
             
-            if (formasCarregadas < n) {
+            if (formasCarregadas < n){
                 printf("[AVISO] Chão tinha apenas %d formas (solicitadas: %d)\n", formasCarregadas, n);
             }
         }
-    } else {
+    } else{
         printf("[ERRO] ID de carregador inválido: %d\n", idCarregador);
     }
 }
@@ -235,7 +246,7 @@ int getTotalDisparos(void){ return totalDisparos; }
 int getTotalEsmagadas(void){ return totalEsmagadas; }
 int getTotalClonadas(void){ return totalClonadas; }
 
-void abrirArquivo(FILE **f, const char *caminho) {
+void abrirArquivo(FILE **f, const char *caminho){
     *f = fopen(caminho, "r");
     if (!(*f)){
         fprintf(stderr, "Erro: Não foi possível abrir %s\n", caminho);
@@ -322,7 +333,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
     }
 }
 
-void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, const char* outputDir) {
+void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, const char* outputDir){
     FILE *f;
     abrirArquivo(&f, caminho);
     
@@ -340,7 +351,7 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
-    } else {
+    } else{
         char caminhoSvg[PATH_LEN];
         gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvg);
         svgGeo(caminhoSvg, chao);
