@@ -13,6 +13,7 @@
 #include "sobrepor.h"
 #include "strdupi.h"
 #include "criarTxt.h"
+#include "criarSvg.h"
 
 static Chao chao = NULL;
 static Arena arena = NULL;
@@ -28,6 +29,7 @@ static int totalClonadas = 0;
 static char currentFontFamily[32] = "sans";
 static char currentFontWeight[8] = "n";
 static double currentFontSize = 12.0;
+
 static void cmdCriaCirculo(int id, double x, double y, double r, char corb[], char corp[]){
     totalInstrucoes++;
     Circulo circulo = criaCirculo(id, x, y, r, corb, corp);
@@ -314,6 +316,8 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase){
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
+    } else {
+        svgGeo(nomeBase, chao);
     }
     fclose(f);
 }
