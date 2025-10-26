@@ -24,7 +24,7 @@ typedef struct{
 } ArenaStruct;
 
 static char* calculaCorComplementar(const char* cor){
-    if (!cor || strlen(cor) != 6) return strdup("000000");
+    if (!cor || strlen(cor) != 6) return strdupi("000000");
     
     char* complementar = malloc(7);
     if (!complementar) return NULL;
