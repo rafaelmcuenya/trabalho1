@@ -12,6 +12,7 @@
 #include "texto.h"
 #include "sobrepor.h"
 #include "strdupi.h"
+#include "criarTxt.h"
 
 static Chao chao = NULL;
 static Arena arena = NULL;
