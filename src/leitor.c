@@ -231,17 +231,15 @@ static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, doubl
 }
 
 
-static void cmdCALC(void){
+static void cmdCALC(const char* nomeBase) {
     totalInstrucoes++;
-    if (arena){
+    if (arena) {
         printf("[QRY] Calculando sobreposições na arena...\n");
         
         double pontuacaoRound = 0.0;
         int esmagadasRound = 0;
         int clonadasRound = 0;
-        
-        processaArena(arena, chao, &pontuacaoRound, &esmagadasRound, &clonadasRound);
-        
+        processaArena(arena, chao, &pontuacaoRound, &esmagadasRound, &clonadasRound, nomeBase);
         pontuacaoFinal += pontuacaoRound;
         totalEsmagadas += esmagadasRound;
         totalClonadas += clonadasRound;
