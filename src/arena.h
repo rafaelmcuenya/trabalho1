@@ -37,6 +37,11 @@ int getNumFormasArena(Arena a);
    Retorna o número de formas atualmente na arena.
 */
 
+void percorreArena(Arena arena, FILE* svgFile, void (*callback)(FILE*, Forma));
+/*
+  Percorre a arena forma por forma.
+*/
+
 void liberaArena(Arena a);
 /*
    Libera toda a memória associada à arena.
