@@ -342,7 +342,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
         else if (strcmp(comando, "rjd") == 0){
             int disp; double dx, dy, ix, iy;
             if (sscanf(linha, "%*s %d %lf %lf %lf %lf", &disp, &dx, &dy, &ix, &iy) == 5){
-                cmdRJD(disp, dx, dy, ix, iy);
+               cmdRJD(disp, dx, dy, ix, iy);
             }
         }
         else if (strcmp(comando, "calc") == 0){
