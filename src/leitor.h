@@ -44,7 +44,7 @@ int getTotalClonadas(void);
    Retorna o número total de formas clonadas.
 */
 
-void abrirArquivo(FILE **f, char *caminho);
+void abrirArquivo(FILE **f, const char *caminho);
 /*
    Abre um arquivo para leitura, tratando erros de abertura.
 */
