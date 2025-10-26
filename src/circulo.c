@@ -164,7 +164,7 @@ char* getCorBCirculo(Circulo c){
     }
     
     CirculoStruct* circle = (CirculoStruct*)c;
-    char* copia = strdup(circle->corB);
+    char* copia = strdupi(circle->corB);
     
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cor de borda\n");
@@ -179,7 +179,7 @@ char* getCorPCirculo(Circulo c){
     }
     
     CirculoStruct* circle = (CirculoStruct*)c;
-    char* copia = strdup(circle->corP);
+    char* copia = strdupi(circle->corP);
     
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cor de preenchimento\n");
