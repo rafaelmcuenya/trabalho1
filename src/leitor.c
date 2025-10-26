@@ -197,7 +197,6 @@ static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, doubl
     }
 
     printf("[QRY] Iniciando rajada no disparador %d, lado %c\n", idDisp, lado);
-    
     int disparos = 0;
     int maxDisparos = 100;
 
@@ -208,16 +207,16 @@ static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, doubl
 
     for (int i = 0; i < maxDisparos; i++){
         shftDisparador(disparadores[idDisp], lado, 1);
-        
         Forma forma = getPosDisparo(disparadores[idDisp]);
+    
         if (!forma){
             break;
         }
 
         double currentDx = dx + i * ix;
         double currentDy = dy + i * iy;
-
         Forma formaDisparada = disparaForma(disparadores[idDisp], currentDx, currentDy);
+        
         if (formaDisparada){
             insereFormaArena(arena, formaDisparada);
             printf("[QRY] Rajada %d: forma %d disparada\n", i, getIdForma(formaDisparada));
@@ -230,8 +229,7 @@ static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, doubl
     printf("[QRY] Rajada concluída: %d disparos realizados\n", disparos);
 }
 
-
-static void cmdCALC(const char* nomeBase){
+static void cmdCALC(const char* nomeBase, const char* outputDir){
     totalInstrucoes++;
     if (arena){
         printf("[QRY] Calculando sobreposições na arena...\n");
@@ -239,7 +237,7 @@ static void cmdCALC(const char* nomeBase){
         double pontuacaoRound = 0.0;
         int esmagadasRound = 0;
         int clonadasRound = 0;
-        processaArena(arena, chao, &pontuacaoRound, &esmagadasRound, &clonadasRound, nomeBase);
+        processaArena(arena, chao, &pontuacaoRound, &esmagadasRound, &clonadasRound, nomeBase, outputDir);
         pontuacaoFinal += pontuacaoRound;
         totalEsmagadas += esmagadasRound;
         totalClonadas += clonadasRound;
@@ -281,7 +279,7 @@ void abrirArquivo(FILE **f, const char *caminho){
     }
 }
 
-void processarComando(const char* linha, int ehQry, const char* nomeBase){
+void processarComando(const char* linha, int ehQry, const char* nomeBase, const char* outputDir){
     if (linha[0] == '\n' || linha[0] == '#' || linha[0] == '\0') return;
     
     char comando[10];
@@ -357,7 +355,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
             }
         }
         else if (strcmp(comando, "calc") == 0){
-            cmdCALC(nomeBase); 
+            cmdCALC(nomeBase, outputDir);
         }
     }
 }
@@ -374,7 +372,7 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
     
     char linha[1024];
     while (fgets(linha, sizeof(linha), f)){
-        processarComando(linha, ehQry, nomeBase);
+        processarComando(linha, ehQry, nomeBase, outputDir);
     }
     
     if (ehQry){
@@ -382,11 +380,7 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
         fecharTxt();
         
         char caminhoSvgFinal[PATH_LEN];
-        if (strlen(outputDir) > 0){
-            snprintf(caminhoSvgFinal, PATH_LEN, "%s/%s-final.svg", outputDir, nomeBase);
-        } else{
-            snprintf(caminhoSvgFinal, PATH_LEN, "%s-final.svg", nomeBase);
-        }
+        gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvgFinal);
         svgGeo(caminhoSvgFinal, chao);
         printf("[SVG] Arquivo final gerado: %s\n", caminhoSvgFinal);
     } else{
