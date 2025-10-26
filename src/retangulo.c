@@ -137,7 +137,7 @@ Retangulo clonaRetangulo(Retangulo r) {
     return clone;
 }
 
-double getXRetangulo(Retanguloangulo r) {
+double getXRetangulo(Retangulo r) {
     if (!r) {
         fprintf(stderr, "Erro: retângulo NULL em getXRetangulo\n");
         return -1000.0;
