@@ -151,9 +151,16 @@ void freeCarregador(Carregador car) {
     }
     CarregadorStruct* c = (CarregadorStruct*)car;
     
-    if (c->topo != NULL) {
-        fprintf(stderr, "Aviso: liberando carregador não vazio - formas não serão liberadas\n");
+    NoCar* atual = c->topo;
+    while (atual) {
+        NoCar* prox = atual->prox;
+        if (atual->f) {
+            liberaForma(atual->f); 
+        }
+        free(atual);
+        atual = prox;
     }
-    limpaCarregador(car); 
+    c->topo = NULL;
+    c->tamanho = 0;
     free(c);
 }
