@@ -29,10 +29,10 @@ int main(int argc, char *argv[]) {
 
     inicializarSistema();
 
-    processarArquivo(geoFile, 0, "saida");
+    processarArquivo(geoFile, 0, outputDir);
 
     if (qryFile) {
-        processarArquivo(qryFile, 1, "saida");
+       processarArquivo(qryFile, 1, outputDir);
     }
 
     finalizarSistema();
