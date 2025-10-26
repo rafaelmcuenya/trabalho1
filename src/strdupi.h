@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* strdup(const char* s) {
+static inline char* strdup(const char* s) {
     if (s == NULL) return NULL;
     size_t len = strlen(s) + 1;
     char* new_str = malloc(len);
