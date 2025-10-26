@@ -38,4 +38,9 @@ int criarDiretorioSeNecessario(const char* caminho);
    Função extra e de emergência caso seja necessário criar um diretório.
 */
 
+void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* outputDir, char* caminhoCompleto);
+/*
+   Gera o nome do SVG da arena.
+*/
+
 #endif

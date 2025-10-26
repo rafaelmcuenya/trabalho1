@@ -22,12 +22,14 @@ void insereFormaArena(Arena a, Forma f);
    Insere uma forma na arena para processamento posterior. As formas são armazenadas na ordem de inserção para processamento em pares.
 */
 
-void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadas, int* formasClonadas);
+void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadas, int* formasClonadas, const char* nomeBase, const char* outputDir);
 /*
-   Processa todas as formas na arena em pares sequenciais, aplicando as regras do jogo:
-   - Se há sobreposição e área(i) < área(i+1): forma i é esmagada (destruída);
-   - Se há sobreposição e área(i) >= área(i+1): troca cores e clona forma i;
-   - Se não há sobreposição: ambas voltam para o chão;
+   Processa todas as formas na arena em pares sequenciais, aplicando as regras do jogo.
+*/
+
+void desenharArenaSVG(Arena a, const char* filename);
+/*
+   Gera um arquivo SVG com o estado atual da arena
 */
 
 int getNumFormasArena(Arena a);

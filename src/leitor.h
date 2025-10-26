@@ -49,7 +49,7 @@ void abrirArquivo(FILE **f, const char *caminho);
    Abre um arquivo para leitura, tratando erros de abertura.
 */
 
-void processarComando(const char* linha, int ehQry, const char* nomeBase);
+void processarComando(const char* linha, int ehQry, const char* nomeBase, const char* outputDir);
 /*
    Processa uma linha de comando individual de um arquivo de entrada.
 */
