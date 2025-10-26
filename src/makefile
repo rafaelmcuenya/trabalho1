@@ -5,7 +5,7 @@ ALUNO = Rafael Matui Cuenya
 # Compilador
 CC = gcc
 
-# Flags de compilação (consertando a quebra de linha)
+# Flags de compilação
 CFLAGS = -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration
 LDFLAGS = -O0
 
@@ -16,6 +16,7 @@ OBJETOS = main.o leitor.o forma.o circulo.o retangulo.o linha.o texto.o \
 # Regra principal
 $(PROJ_NAME): $(OBJETOS)
 	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJETOS)
+	echo "Compilação bem sucedida."
 
 # Regra genérica para compilar .c para .o
 %.o: %.c
@@ -23,8 +24,8 @@ $(PROJ_NAME): $(OBJETOS)
 
 # DEPENDÊNCIAS ESPECÍFICAS DE CADA MÓDULO
 
-# Módulo principal
-main.o: main.c comandos.h forma.h chao.h disparador.h carregador.h arena.h \
+# Módulo principal - CORRIGIDO: trocado comandos.h por leitor.h
+main.o: main.c leitor.h forma.h chao.h disparador.h carregador.h arena.h \
         circulo.h retangulo.h linha.h texto.h sobrepor.h criarTxt.h criarSvg.h
 
 # Módulo leitor
@@ -53,8 +54,9 @@ criarSvg.o: criarSvg.c criarSvg.h
 # Regras utilitárias
 clean:
 	rm -f $(OBJETOS) $(PROJ_NAME)
+	echo "Limpeza realizada"
 
 valgrind: $(PROJ_NAME)
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(PROJ_NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(PROJ_NAME) -f teste.geo -o saida
 
 .PHONY: clean valgrind
