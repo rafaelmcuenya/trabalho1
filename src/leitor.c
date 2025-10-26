@@ -14,6 +14,7 @@
 #include "strdupi.h"
 #include "criarTxt.h"
 #include "criarSvg.h"
+#include "trataNomeArquivo.h"
 
 static Chao chao = NULL;
 static Arena arena = NULL;
@@ -300,12 +301,14 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
     }
 }
 
-void processarArquivo(const char* caminho, int ehQry, const char* nomeBase){
+void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, const char* outputDir) {
     FILE *f;
     abrirArquivo(&f, caminho);
     
     if (ehQry){
-        iniciarTxt(nomeBase);
+        char caminhoTxt[PATH_LEN];
+        gerarNomeTxt(nomeBase, outputDir, caminhoTxt);
+        iniciarTxt(caminhoTxt);
     }
     
     char linha[1024];
@@ -316,9 +319,10 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase){
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
-        svgQry(nomeBase, chao);
     } else {
-        svgGeo(nomeBase, chao);
+        char caminhoSvg[PATH_LEN];
+        gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvg);
+        svgGeo(caminhoSvg, chao);
     }
     fclose(f);
 }
