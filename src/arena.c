@@ -41,6 +41,18 @@ static FormaEsmagada* formasEsmagadas = NULL;
 static int numFormasEsmagadas = 0;
 static int capacidadeEsmagadas = 0;
 
+void percorreArena(Arena arena, FILE* svgFile, void (*callback)(FILE*, Forma)){
+    if (!arena || !svgFile || !callback) return;
+    
+    ArenaStruct* a = (ArenaStruct*)arena;
+    NoArena* atual = a->inicio;
+    
+    while (atual != NULL){
+        callback(svgFile, atual->forma);
+        atual = atual->prox;
+    }
+}
+
 static char* calculaCorComplementar(const char* cor){
     if (!cor || strlen(cor) != 6) return strdupi("000000");
     
