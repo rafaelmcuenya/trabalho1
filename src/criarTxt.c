@@ -10,10 +10,8 @@
 
 static FILE* txtFile = NULL;
 
-void iniciarTxt(const char* baseNome) {
-    char filename[256];
-    sprintf(filename, "%s.txt", baseNome);
-    txtFile = fopen(filename, "w");
+void iniciarTxt(const char* caminhoCompleto) {
+    txtFile = fopen(caminhoCompleto, "w");
 }
 
 void fecharTxt(void) {
