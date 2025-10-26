@@ -25,15 +25,15 @@ typedef struct{
     int tamanho;
 } ArenaStruct;
 
-typedef struct {
+typedef struct{
     int id;
     double x;
     double y;
     TipoForma tipo;
-    union {
-        struct { double w, h; } ret;   
-        struct { double r; } circ;    
-        struct { double x2, y2; } lin;  
+    union{
+        struct{ double w, h; } ret;   
+        struct{ double r; } circ;    
+        struct{ double x2, y2; } lin;  
     } dados;
 } FormaEsmagada;
 
@@ -105,10 +105,10 @@ static Forma clonaFormaComCoresTrocadas(Forma original){
     return clone;
 }
 
-static void adicionarFormaEsmagada(Forma forma) {
+static void adicionarFormaEsmagada(Forma forma){
     if (!forma) return;
     
-    if (numFormasEsmagadas >= capacidadeEsmagadas) {
+    if (numFormasEsmagadas >= capacidadeEsmagadas){
         capacidadeEsmagadas = capacidadeEsmagadas == 0 ? 10 : capacidadeEsmagadas * 2;
         formasEsmagadas = realloc(formasEsmagadas, capacidadeEsmagadas * sizeof(FormaEsmagada));
     }
@@ -119,19 +119,19 @@ static void adicionarFormaEsmagada(Forma forma) {
     fe->y = getYForma(forma);
     fe->tipo = getTipoForma(forma);
     
-    switch (fe->tipo) {
-        case Tr: {
+    switch (fe->tipo){
+        case Tr:{
             Retangulo r = getRetanguloFromForma(forma);
             fe->dados.ret.w = getLarguraRetangulo(r);
             fe->dados.ret.h = getAlturaRetangulo(r);
             break;
         }
-        case Tc: {
+        case Tc:{
             Circulo c = getCirculoFromForma(forma);
             fe->dados.circ.r = getRaioCirculo(c);
             break;
         }
-        case Tl: {
+        case Tl:{
             Linha l = getLinhaFromForma(forma);
             fe->dados.lin.x2 = getX2Linha(l);
             fe->dados.lin.y2 = getY2Linha(l);
@@ -142,112 +142,47 @@ static void adicionarFormaEsmagada(Forma forma) {
     }
 }
 
-void desenharArenaSVG(Arena a, const char* filename) {
-    if (!a || !filename) return;
+void desenharArenaSVG(Arena a, const char* filename){
+    if (!a || !filename){
+        printf("[ERRO] Arena ou filename NULL em desenharArenaSVG\n");
+        return;
+    }
     
-    FILE* svgFile = fopen(filename, "w");
-    if (!svgFile) return;
+    printf("[DEBUG] Gerando SVG da arena: %s\n", filename);
+    svgArena(filename, a);
     
-    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
-
-    ArenaStruct* arena = (ArenaStruct*)a;
-    NoArena* atual = arena->inicio;
-    
-    while (atual != NULL) {
-        Forma f = atual->forma;
-        if (f) {
-            TipoForma tipo = getTipoForma(f);
-            switch(tipo) {
-                case Tr: {
-                    Retangulo r = getRetanguloFromForma(f);
-                    double x = getXRetangulo(r);
-                    double y = getYRetangulo(r);
-                    double w = getLarguraRetangulo(r);
-                    double h = getAlturaRetangulo(r);
-                    char* corP = getCorPRetangulo(r);
-                    char* corB = getCorBRetangulo(r);
-                    
-                    fprintf(svgFile, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\" fill-opacity=\"0.5\"/>\n",
-                           x, y, w, h, corP, corB);
-                    free(corP);
-                    free(corB);
-                    break;
+    if (numFormasEsmagadas > 0){
+        FILE* svgFile = fopen(filename, "a"); 
+        if (svgFile){
+            printf("[DEBUG] Adicionando %d asteriscos de formas esmagadas\n", numFormasEsmagadas);
+            for (int i = 0; i < numFormasEsmagadas; i++){
+                FormaEsmagada* fe = &formasEsmagadas[i];
+                
+                double centroX = fe->x;
+                double centroY = fe->y;
+                
+                switch (fe->tipo){
+                    case Tr:
+                        centroX += fe->dados.ret.w / 2;
+                        centroY += fe->dados.ret.h / 2;
+                        break;
+                    case Tc:
+                        break;
+                    case Tl:
+                        centroX = (fe->x + fe->dados.lin.x2) / 2;
+                        centroY = (fe->y + fe->dados.lin.y2) / 2;
+                        break;
+                    case Tt:
+                        break;
                 }
-                case Tc: {
-                    Circulo c = getCirculoFromForma(f);
-                    double x = getXCirculo(c);
-                    double y = getYCirculo(c);
-                    double r = getRaioCirculo(c);
-                    char* corP = getCorPCirculo(c);
-                    char* corB = getCorBCirculo(c);
-                    
-                    fprintf(svgFile, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\" fill-opacity=\"0.5\"/>\n",
-                           x, y, r, corP, corB);
-                    free(corP);
-                    free(corB);
-                    break;
-                }
-                case Tl: {
-                    Linha l = getLinhaFromForma(f);
-                    double x1 = getX1Linha(l);
-                    double y1 = getY1Linha(l);
-                    double x2 = getX2Linha(l);
-                    double y2 = getY2Linha(l);
-                    char* cor = getCorLinha(l);
-                    
-                    fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"#%s\" stroke-width=\"1\" stroke-opacity=\"0.5\"/>\n",
-                           x1, y1, x2, y2, cor);
-                    free(cor);
-                    break;
-                }
-                case Tt: {
-                    Texto t = getTextoFromForma(f);
-                    double x = getXTexto(t);
-                    double y = getYTexto(t);
-                    char* texto = getTexto(t);
-                    char* corP = getCorPTexto(t);
-                    char* corB = getCorBTexto(t);
-                    
-                    fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"0.5\" fill-opacity=\"0.5\" stroke-opacity=\"0.5\">%s</text>\n",
-                           x, y, corP, corB, texto);
-                    free(texto);
-                    free(corP);
-                    free(corB);
-                    break;
-                }
+                
+                svgAsteriscoEsmagada(svgFile, centroX, centroY);
             }
+            fclose(svgFile);
+        } else{
+            printf("[ERRO] Não foi possível abrir arquivo para adicionar asteriscos: %s\n", filename);
         }
-        atual = atual->prox;
     }
-    
-    for (int i = 0; i < numFormasEsmagadas; i++) {
-        FormaEsmagada* fe = &formasEsmagadas[i];
-        
-        double centroX = fe->x;
-        double centroY = fe->y;
-        
-        switch (fe->tipo) {
-            case Tr:
-                centroX += fe->dados.ret.w / 2;
-                centroY += fe->dados.ret.h / 2;
-                break;
-            case Tc:
-                break;
-            case Tl:
-                centroX = (fe->x + fe->dados.lin.x2) / 2;
-                centroY = (fe->y + fe->dados.lin.y2) / 2;
-                break;
-            case Tt:
-                break;
-        }
-        
-        fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" fill=\"red\" font-size=\"8\" font-weight=\"bold\">*</text>\n",
-               centroX, centroY);
-    }
-    
-    fprintf(svgFile, "</svg>\n");
-    fclose(svgFile);
 }
 
 Arena criaArena(){
@@ -289,7 +224,7 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
     
     numFormasEsmagadas = 0;
     
-    if (nomeBase && outputDir) {
+    if (nomeBase && outputDir){
         char nomeAntes[PATH_LEN];
         gerarNomeArenaSVG(nomeBase, "antes", outputDir, nomeAntes);
         desenharArenaSVG(a, nomeAntes);
@@ -314,6 +249,7 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
                 *pontuacaoTotal += area1;
                 (*formasEsmagadasCount)++;
                 
+                printf("[DEBUG] Forma %d esmagada por forma %d\n", getIdForma(forma1), getIdForma(forma2));
                 adicionarFormaEsmagada(forma1);
                 
                 freeForma(forma1);
@@ -415,7 +351,7 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
         arena->tamanho--;
     }
 
-    if (nomeBase && outputDir) {
+    if (nomeBase && outputDir){
         char nomeCalc[PATH_LEN];
         gerarNomeArenaSVG(nomeBase, "calc", outputDir, nomeCalc);
         desenharArenaSVG(a, nomeCalc);
@@ -436,7 +372,7 @@ void liberaArena(Arena a){
     
     while (atual != NULL){
         NoArena* prox = atual->prox;
-        if (atual->forma) {
+        if (atual->forma){
             freeForma(atual->forma);
         }
         free(atual);
@@ -444,7 +380,7 @@ void liberaArena(Arena a){
     }
     free(arena);
 
-    if (formasEsmagadas) {
+    if (formasEsmagadas){
         free(formasEsmagadas);
         formasEsmagadas = NULL;
         numFormasEsmagadas = 0;
