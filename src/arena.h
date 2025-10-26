@@ -30,6 +30,11 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
    - Se não há sobreposição: ambas voltam para o chão;
 */
 
+void desenharArenaSVG(Arena a, const char* filename);
+/*
+   Gera um arquivo SVG com o estado atual da arena
+*/
+
 int getNumFormasArena(Arena a);
 /*
    Retorna o número de formas atualmente na arena.
