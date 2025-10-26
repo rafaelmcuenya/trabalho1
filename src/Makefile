@@ -7,7 +7,7 @@ CC = gcc
 
 # Flags de compilação
 CFLAGS = -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration
-LDFLAGS = -O0
+LDFLAGS = -O0 -lm
 
 # Lista de todos os arquivos objeto necessários
 OBJETOS = main.o leitor.o forma.o circulo.o retangulo.o linha.o texto.o \
