@@ -85,15 +85,11 @@ static void adicionarFormaSvg(Forma f) {
     }
 }
 
-void svgGeo(const char* baseNome, Chao chao) {
-    char filename[256];
-    sprintf(filename, "%s.svg", baseNome);
-    iniciarSvg(filename);
-    
+void svgGeo(const char* caminhoCompleto, Chao chao) {
+    iniciarSvg(caminhoCompleto);  
     if (chao) {
         percorreChao(chao, adicionarFormaSvg);
     }
-    
     finalizarSvg();
 }
 
