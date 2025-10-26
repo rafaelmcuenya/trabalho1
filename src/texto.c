@@ -54,9 +54,9 @@ Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimen
     txt->x = x;
     txt->y = y;
     txt->ancora = ancora;
-    txt->corBorda = strdup(corBorda);
-    txt->corPreenchimento = strdup(corPreenchimento);
-    txt->texto = strdup(texto);
+    txt->corBorda = strdupi(corBorda);
+    txt->corPreenchimento = strdupi(corPreenchimento);
+    txt->texto = strdupi(texto);
     
     if (!txt->corBorda || !txt->corPreenchimento || !txt->texto){
         fprintf(stderr, "Erro: falha na alocação de strings\n");
@@ -67,8 +67,8 @@ Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimen
         return NULL;
     }
 
-    txt->fontFamily = strdup("sans");
-    txt->fontWeight = strdup("n");
+    txt->fontFamily = strdupi("sans");
+    txt->fontWeight = strdupi("n");
     txt->fontSize = 12.0; 
     
     if (!txt->fontFamily || !txt->fontWeight){
@@ -131,7 +131,7 @@ char* getTexto(Texto t){
     }
     TextoStruct* txt = (TextoStruct*)t;
     
-    char* copia = strdup(txt->texto);
+    char* copia = strdupi(txt->texto);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cópia do texto\n");
     }
@@ -172,7 +172,7 @@ char* getCorBTexto(Texto t){
     }
     TextoStruct* txt = (TextoStruct*)t;
     
-    char* copia = strdup(txt->corBorda);
+    char* copia = strdupi(txt->corBorda);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cor de borda\n");
     }
@@ -186,7 +186,7 @@ char* getCorPTexto(Texto t){
     }
     TextoStruct* txt = (TextoStruct*)t;
     
-    char* copia = strdup(txt->corPreenchimento);
+    char* copia = strdupi(txt->corPreenchimento);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cor de preenchimento\n");
     }
@@ -232,14 +232,14 @@ void aplicaStyleTexto(Texto t, char* fontFamily, char* fontWeight, double fontSi
     free(txt->fontFamily);
     free(txt->fontWeight);
     
-    txt->fontFamily = strdup(fontFamily);
-    txt->fontWeight = strdup(fontWeight);
+    txt->fontFamily = strdupi(fontFamily);
+    txt->fontWeight = strdupi(fontWeight);
     txt->fontSize = fontSize;
     
     if (!txt->fontFamily || !txt->fontWeight){
         fprintf(stderr, "Erro: falha na alocação de estilo\n");
-        txt->fontFamily = strdup("sans");
-        txt->fontWeight = strdup("n");
+        txt->fontFamily = strdupi("sans");
+        txt->fontWeight = strdupi("n");
         txt->fontSize = 12.0;
     }
 }
@@ -251,7 +251,7 @@ char* getFontFamilyTexto(Texto t){
     }
     TextoStruct* txt = (TextoStruct*)t;
     
-    char* copia = strdup(txt->fontFamily);
+    char* copia = strdupi(txt->fontFamily);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da font family\n");
     }
@@ -265,7 +265,7 @@ char* getFontWeightTexto(Texto t){
     }
     TextoStruct* txt = (TextoStruct*)t;
     
-    char* copia = strdup(txt->fontWeight);
+    char* copia = strdupi(txt->fontWeight);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da font weight\n");
     }
@@ -298,7 +298,7 @@ void setCorBTexto(Texto t, char* novaCor){
     }
     TextoStruct* txt = (TextoStruct*)t;
     free(txt->corBorda);
-    txt->corBorda = strdup(novaCor);
+    txt->corBorda = strdupi(novaCor);
 }
 
 void setCorPTexto(Texto t, char* novaCor){
@@ -308,7 +308,7 @@ void setCorPTexto(Texto t, char* novaCor){
     }
     TextoStruct* txt = (TextoStruct*)t;
     free(txt->corPreenchimento);
-    txt->corPreenchimento = strdup(novaCor);
+    txt->corPreenchimento = strdupi(novaCor);
 }
 
 void liberaTexto(Texto t){
