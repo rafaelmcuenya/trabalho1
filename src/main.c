@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "strdupi.h"
+#include "trataNomeArquivo.h"
 
 int main(int argc, char *argv[]) {
     char *geoFile = NULL;
@@ -27,12 +28,19 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
+    if (outputDir) {
+        criarDiretorioSeNecessario(outputDir);
+    }
+
+    char nomeBase[FILE_NAME_LEN];
+    extrairNomeBase(geoFile, nomeBase);
+
     inicializarSistema();
 
-    processarArquivo(geoFile, 0, outputDir);
+    processarArquivo(geoFile, 0, nomeBase, outputDir);
 
     if (qryFile) {
-       processarArquivo(qryFile, 1, outputDir);
+        processarArquivo(qryFile, 1, nomeBase, outputDir);
     }
 
     finalizarSistema();
