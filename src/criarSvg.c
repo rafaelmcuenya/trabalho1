@@ -7,29 +7,14 @@
 #include "retangulo.h"
 #include "linha.h"
 #include "texto.h"
+#include "arena.h"  
 
-static FILE* svgFile = NULL;
-
-static void iniciarSvg(const char* filename) {
-    svgFile = fopen(filename, "w");
-    if (!svgFile) return;
-    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
-}
-
-static void finalizarSvg() {
-    if (!svgFile) return;
-    fprintf(svgFile, "</svg>\n");
-    fclose(svgFile);
-    svgFile = NULL;
-}
-
-static void adicionarFormaSvg(Forma f) {
+static void adicionarFormaSvg(FILE* svgFile, Forma f){
     if (!svgFile || !f) return;
     
     TipoForma tipo = getTipoForma(f);
-    switch(tipo) {
-        case Tr: { 
+    switch(tipo){
+        case Tr:{ 
             Retangulo r = getRetanguloFromForma(f);
             double x = getXRetangulo(r);
             double y = getYRetangulo(r);
@@ -43,7 +28,7 @@ static void adicionarFormaSvg(Forma f) {
             free(corB);
             break;
         }
-        case Tc: {  
+        case Tc:{  
             Circulo c = getCirculoFromForma(f);
             double x = getXCirculo(c);
             double y = getYCirculo(c);
@@ -56,7 +41,7 @@ static void adicionarFormaSvg(Forma f) {
             free(corB);
             break;
         }
-        case Tl: {  
+        case Tl:{  
             Linha l = getLinhaFromForma(f);
             double x1 = getX1Linha(l);
             double y1 = getY1Linha(l);
@@ -68,7 +53,7 @@ static void adicionarFormaSvg(Forma f) {
             free(cor);
             break;
         }
-        case Tt: {  
+        case Tt:{  
             Texto t = getTextoFromForma(f);
             double x = getXTexto(t);
             double y = getYTexto(t);
@@ -85,33 +70,78 @@ static void adicionarFormaSvg(Forma f) {
     }
 }
 
-void svgGeo(const char* caminhoCompleto, Chao chao) {
-    iniciarSvg(caminhoCompleto);  
-    if (chao) {
-        percorreChao(chao, adicionarFormaSvg);
+void svgArena(const char* caminhoCompleto, Arena arena){
+    if (!arena){
+        printf("[ERRO] Arena NULL em svgArena\n");
+        return;
     }
-    finalizarSvg();
+    
+    FILE* svgFile = fopen(caminhoCompleto, "w");
+    if (!svgFile){
+        printf("[ERRO] Não foi possível criar arquivo SVG da arena: %s\n", caminhoCompleto);
+        return;
+    }
+    
+    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    
+    printf("[DEBUG] Gerando SVG da arena com formas...\n");
+    percorreArena(arena, svgFile, adicionarFormaSvg);
+    
+    fprintf(svgFile, "</svg>\n");
+    fclose(svgFile);
+    printf("[SVG] Arquivo da arena gerado: %s\n", caminhoCompleto);
 }
 
-void svgQry(const char* caminhoCompleto, Chao chao) {
-    iniciarSvg(caminhoCompleto);  
-    if (chao) {
-        percorreChao(chao, adicionarFormaSvg);
-    }
-    finalizarSvg();
-}
-
-void svgAnotarDimensoesDisparo(double xOrigem, double yOrigem, double dx, double dy) {
+void svgGeo(const char* caminhoCompleto, Chao chao){
+    FILE* svgFile = fopen(caminhoCompleto, "w");
     if (!svgFile) return;
+    
+    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    
+    if (chao){
+        percorreChaoComFile(chao, svgFile, adicionarFormaSvg);
+    }
+    
+    fprintf(svgFile, "</svg>\n");
+    fclose(svgFile);
+}
+
+void svgQry(const char* caminhoCompleto, Chao chao){
+    FILE* svgFile = fopen(caminhoCompleto, "w");
+    if (!svgFile) return;
+    
+    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    
+    if (chao){
+        percorreChaoComFile(chao, svgFile, adicionarFormaSvg);
+    }
+    
+    fprintf(svgFile, "</svg>\n");
+    fclose(svgFile);
+}
+
+void svgAnotarDimensoesDisparo(FILE* svgFile, double xOrigem, double yOrigem, double dx, double dy){
+    if (!svgFile) return;
+    
     double xDestino = xOrigem + dx;
     double yDestino = yOrigem + dy;
 
-    fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" " "stroke=\"blue\" stroke-dasharray=\"5,5\" stroke-width=\"1\"/>\n", xOrigem, yOrigem, xDestino, yDestino);
+    fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"blue\" stroke-dasharray=\"5,5\" stroke-width=\"1\"/>\n", 
+            xOrigem, yOrigem, xDestino, yDestino);
     
-    fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" font-size=\"3\" fill=\"blue\">" "dx=%.2f dy=%.2f</text>\n", (xOrigem + xDestino)/2, (yOrigem + yDestino)/2 - 5, dx, dy);
+    fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" font-size=\"3\" fill=\"blue\">dx=%.2f dy=%.2f</text>\n", 
+            (xOrigem + xDestino)/2, (yOrigem + yDestino)/2 - 5, dx, dy);
 }
 
-void svgAsteriscoEsmagada(double x, double y) {
-    if (!svgFile) return;
+void svgAsteriscoEsmagada(FILE* svgFile, double x, double y){
+    if (!svgFile){
+        printf("[ERRO] SVG file NULL em svgAsteriscoEsmagada\n");
+        return;
+    }
+    
     fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" font-size=\"8\" fill=\"red\">*</text>\n", x, y);
+    printf("[DEBUG] Asterisco desenhado em (%.2f, %.2f)\n", x, y);
 }
