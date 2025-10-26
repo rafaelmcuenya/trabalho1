@@ -49,7 +49,7 @@ void liberaDisparador(Disparador d) {
     DisparadorStruct* dis = (DisparadorStruct*)d;
     
     if (dis->posDisparo) {
-        liberaForma(dis->posDisparo);
+        freeForma(dis->posDisparo);
     }
     free(dis);
 }
@@ -263,7 +263,7 @@ void freeDisparador(Disparador d) {
     if (!dis) return;
     
     if (dis->posDisparo) {
-        liberaForma(dis->posDisparo);
+        freeForma(dis->posDisparo);
         dis->posDisparo = NULL;
     }
     dis->cesq = NULL;
