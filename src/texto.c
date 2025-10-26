@@ -8,8 +8,8 @@
 typedef struct{
     int id;
     double x, y;
-    char* corBorda;
-    char* corPreenchimento;
+    char corBorda[8];
+    char corPreenchimento[8];
     char ancora; 
     char* texto;
     char* fontFamily;    
@@ -17,8 +17,29 @@ typedef struct{
     double fontSize;     
 }TextoStruct;
 
-Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimento, char ancora, char* texto){
+static void preencherCor(char* dest, const char* fonte, const char* corPadrao){
+    if (fonte && strlen(fonte) > 0){
+        const char* cor = (fonte[0] == '#') ? fonte + 1 : fonte;
+        int len = strlen(cor);
+        
+        if (len == 6){
+            strncpy(dest, cor, 6);
+        } else if (len < 6){
+            int zeros = 6 - len;
+            for (int i = 0; i < zeros; i++){
+                dest[i] = '0';
+            }
+            strncpy(dest + zeros, cor, len);
+        } else{
+            strncpy(dest, cor, 6);
+        }
+        dest[6] = '\0';
+    } else{
+        strcpy(dest, corPadrao);
+    }
+}
 
+Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimento, char ancora, char* texto){
     if (id <= 0){
         fprintf(stderr, "Erro: ID do texto inválido\n");
         return NULL;
@@ -54,15 +75,13 @@ Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimen
     txt->x = x;
     txt->y = y;
     txt->ancora = ancora;
-    txt->corBorda = strdupi(corBorda);
-    txt->corPreenchimento = strdupi(corPreenchimento);
+    
+    preencherCor(txt->corBorda, corBorda, "000000");
+    preencherCor(txt->corPreenchimento, corPreenchimento, "FFFFFF");
     txt->texto = strdupi(texto);
     
-    if (!txt->corBorda || !txt->corPreenchimento || !txt->texto){
-        fprintf(stderr, "Erro: falha na alocação de strings\n");
-        if (txt->corBorda) free(txt->corBorda);
-        if (txt->corPreenchimento) free(txt->corPreenchimento);
-        if (txt->texto) free(txt->texto);
+    if (!txt->texto){
+        fprintf(stderr, "Erro: falha na alocação do texto\n");
         free(txt);
         return NULL;
     }
@@ -73,7 +92,10 @@ Texto criaTexto(int id, double x, double y, char* corBorda, char* corPreenchimen
     
     if (!txt->fontFamily || !txt->fontWeight){
         fprintf(stderr, "Erro: falha na alocação de estilo\n");
-        liberaTexto(txt);
+        if (txt->fontFamily) free(txt->fontFamily);
+        if (txt->fontWeight) free(txt->fontWeight);
+        if (txt->texto) free(txt->texto);
+        free(txt);
         return NULL;
     }
     return txt;
@@ -286,7 +308,7 @@ int validaTexto(void* t){
     TextoStruct* txt = (TextoStruct*)t;
     
     return (txt->id > 0) && 
-           (txt->corBorda != NULL) && (txt->corPreenchimento != NULL) &&  (txt->texto != NULL) && 
+           (txt->corBorda[0] != '\0') && (txt->corPreenchimento[0] != '\0') &&  (txt->texto != NULL) && 
            (txt->ancora == 'i' || txt->ancora == 'm' || txt->ancora == 'f') &&
            (txt->fontFamily != NULL) && (txt->fontWeight != NULL) && (txt->fontSize > 0);
 }
@@ -297,8 +319,7 @@ void setCorBTexto(Texto t, char* novaCor){
         return;
     }
     TextoStruct* txt = (TextoStruct*)t;
-    free(txt->corBorda);
-    txt->corBorda = strdupi(novaCor);
+    preencherCor(txt->corBorda, novaCor, "000000");
 }
 
 void setCorPTexto(Texto t, char* novaCor){
@@ -307,16 +328,13 @@ void setCorPTexto(Texto t, char* novaCor){
         return;
     }
     TextoStruct* txt = (TextoStruct*)t;
-    free(txt->corPreenchimento);
-    txt->corPreenchimento = strdupi(novaCor);
+    preencherCor(txt->corPreenchimento, novaCor, "FFFFFF");
 }
 
 void liberaTexto(Texto t){
     if (!t) return;
     TextoStruct* txt = (TextoStruct*)t;
     
-    if (txt->corBorda) free(txt->corBorda);
-    if (txt->corPreenchimento) free(txt->corPreenchimento);
     if (txt->texto) free(txt->texto);
     if (txt->fontFamily) free(txt->fontFamily);
     if (txt->fontWeight) free(txt->fontWeight);
