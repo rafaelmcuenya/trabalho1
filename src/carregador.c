@@ -155,7 +155,7 @@ void freeCarregador(Carregador car) {
     while (atual) {
         NoCar* prox = atual->prox;
         if (atual->f) {
-            liberaForma(atual->f); 
+            freeForma(atual->f); 
         }
         free(atual);
         atual = prox;
