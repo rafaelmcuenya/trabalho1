@@ -89,8 +89,7 @@ static Forma clonaFormaComCoresTrocadas(Forma original){
     return clone;
 }
 
-// Função para gerar SVG da arena
-static void desenharArenaSVG(Arena a, const char* filename) {
+void desenharArenaSVG(Arena a, const char* filename) {
     if (!a || !filename) return;
     
     FILE* svgFile = fopen(filename, "w");
@@ -168,7 +167,6 @@ static void desenharArenaSVG(Arena a, const char* filename) {
         }
         atual = atual->prox;
     }
-    
     fprintf(svgFile, "</svg>\n");
     fclose(svgFile);
 }
