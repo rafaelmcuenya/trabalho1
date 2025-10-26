@@ -178,30 +178,79 @@ static void cmdDSP(int idDisp, double dx, double dy, bool svgFlag){
     }
 }
 
-static void cmdRJD(int idDisp, double dx, double dy, double ix, double iy){
+static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, double iy){
     totalInstrucoes++;
-    if (disparadores[idDisp] && arena){
-        printf("[QRY] Rajada no disparador %d\n", idDisp);
+    
+    if (idDisp < 0 || idDisp >= 100 || !disparadores[idDisp]) {
+        printf("[ERRO] Disparador %d não encontrado\n", idDisp);
+        return;
+    }
+    
+    if (lado != 'd' && lado != 'e') {
+        printf("[ERRO] Lado inválido para rajada: %c\n", lado);
+        return;
+    }
+    
+    if (!arena) {
+        printf("[ERRO] Arena não inicializada\n");
+        return;
+    }
+
+    DisparadorStruct* dis = (DisparadorStruct*)disparadores[idDisp];
+    
+    if (!dis->cesq || !dis->cdir) {
+        printf("[ERRO] Disparador %d não tem carregadores encaixados\n", idDisp);
+        return;
+    }
+
+    Carregador carregadorFonte = (lado == 'd') ? dis->cdir : dis->cesq;
+    
+    if (!carregadorFonte) {
+        printf("[ERRO] Carregador %s do disparador %d não encontrado\n", 
+               (lado == 'd') ? "direito" : "esquerdo", idDisp);
+        return;
+    }
+
+    if (voidCarregador(carregadorFonte)) {
+        printf("[ERRO] Carregador %s do disparador %d está vazio\n", 
+               (lado == 'd') ? "direito" : "esquerdo", idDisp);
+        return;
+    }
+
+    printf("[QRY] Rajada no disparador %d, lado %c\n", idDisp, lado);
+    int disparosRealizados = 0;
+    int i = 0;
+    
+    while (!voidCarregador(carregadorFonte)) {
+        shftDisparador(disparadores[idDisp], lado, 1);
         
-        int i = 0;
-        Carregador carregador = (getPosDisparo(disparadores[idDisp])) ? carregadores[getIdCarregador(getPosDisparo(disparadores[idDisp]))] : NULL;
-        while (carregador && !voidCarregador(carregador)){
-            shftDisparador(disparadores[idDisp], 'd', 1);
-          
-            double currentDx = dx + i * ix;
-            double currentDy = dy + i * iy;
-            Forma forma = disparaForma(disparadores[idDisp], currentDx, currentDy);
-            
-            if (forma){
-                insereFormaArena(arena, forma);
-                printf("[QRY] Rajada %d: forma %d disparada\n", i, getIdForma(forma));
-            }
-            i++;
-            totalDisparos++;
+        Forma forma = getPosDisparo(disparadores[idDisp]);
+        if (!forma) {
+            printf("[ERRO] Falha ao preparar forma para rajada %d\n", i);
+            break;
+        }
+        double currentDx = dx + i * ix;
+        double currentDy = dy + i * iy;
+
+        Forma formaDisparada = disparaForma(disparadores[idDisp], currentDx, currentDy);
+        if (formaDisparada) {
+            insereFormaArena(arena, formaDisparada);
+            printf("[QRY] Rajada %d: forma %d disparada com offset (%.2f, %.2f)\n", 
+                   i, getIdForma(formaDisparada), currentDx, currentDy);
+            disparosRealizados++;
+        } else {
+            printf("[ERRO] Rajada %d: falha ao disparar forma\n", i);
+        }
+        
+        i++;
+        totalDisparos++;
+        if (i > 1000) {
+            printf("[AVISO] Limite de segurança da rajada atingido\n");
+            break;
         }
     }
+    printf("[QRY] Rajada concluída: %d disparos realizados\n", disparosRealizados);
 }
-
 static void cmdCALC(void){
     totalInstrucoes++;
     if (arena){
