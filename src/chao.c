@@ -97,7 +97,7 @@ void freeChao(Chao c) {
  
     while (atual) {
         No* prox = atual->prox;
-        liberaForma(atual->forma);
+        freeForma(atual->forma);
         free(atual);
         atual = prox;
     }
