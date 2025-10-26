@@ -45,6 +45,16 @@ void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoComp
     }
 }
 
+void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* outputDir, char* caminhoCompleto){
+    if (!nomeBase || !sufixo || !outputDir || !caminhoCompleto) return;
+    
+    if (strlen(outputDir) > 0){
+        snprintf(caminhoCompleto, PATH_LEN, "%s/%s-arena-%s.svg", outputDir, nomeBase, sufixo);
+    } else{
+        snprintf(caminhoCompleto, PATH_LEN, "%s-arena-%s.svg", nomeBase, sufixo);
+    }
+}
+
 int criarDiretorioSeNecessario(const char* caminho){
     if (!caminho) return 0;
     
