@@ -14,6 +14,28 @@ typedef struct{
     char corP[8];
 } CirculoStruct;
 
+static void preencherCor(char* dest, const char* fonte, const char* corPadrao){
+    if (fonte && strlen(fonte) > 0){
+        const char* cor = (fonte[0] == '#') ? fonte + 1 : fonte;
+        int len = strlen(cor);
+        
+        if (len == 6){
+            strncpy(dest, cor, 6);
+        } else if (len < 6){
+            int zeros = 6 - len;
+            for (int i = 0; i < zeros; i++){
+                dest[i] = '0';
+            }
+            strncpy(dest + zeros, cor, len);
+        } else{
+            strncpy(dest, cor, 6);
+        }
+        dest[6] = '\0';
+    } else{
+        strcpy(dest, corPadrao);
+    }
+}
+
 int validaCirculo(void* circ){
     if (!circ) return 0;
     CirculoStruct* circle = (CirculoStruct*)circ;
@@ -57,23 +79,9 @@ Circulo criaCirculo(int i, double x, double y, double r, char* corb, char* corp)
     c->y = y;
     c->r = r;
     
-    if (corb && strlen(corb) >= 6){
-        strncpy(c->corB, corb, 6);
-        c->corB[6] = '\0';
-    } else{
-        fprintf(stderr, "Erro: cor de borda inválida, usando cor base: Preto\n");
-        strcpy(c->corB, "000000");
-    }
-    c->corB[7] = '\0';
+    preencherCor(c->corB, corb, "000000");
+    preencherCor(c->corP, corp, "FFFFFF");
     
-    if (corp && strlen(corp) >= 6){
-        strncpy(c->corP, corp, 6);
-        c->corP[6] = '\0';
-    } else{
-        fprintf(stderr, "Erro: cor de preenchimento inválida, usando cor base: Branco\n");
-        strcpy(c->corP, "FFFFFF"); 
-    }
-    c->corP[7] = '\0'; 
     return (Circulo)c;
 }
 
@@ -203,10 +211,7 @@ void setCorBCirculo(Circulo c, char* novaCor){
         return;
     }
     CirculoStruct* circle = (CirculoStruct*)c;
-    if (strlen(novaCor) >= 6){
-        strncpy(circle->corB, novaCor, 6);
-        circle->corB[6] = '\0';
-    }
+    preencherCor(circle->corB, novaCor, "000000");
 }
 
 void setCorPCirculo(Circulo c, char* novaCor){
@@ -215,10 +220,7 @@ void setCorPCirculo(Circulo c, char* novaCor){
         return;
     }
     CirculoStruct* circle = (CirculoStruct*)c;
-    if (strlen(novaCor) >= 6){
-        strncpy(circle->corP, novaCor, 6);
-        circle->corP[6] = '\0';
-    }
+    preencherCor(circle->corP, novaCor, "FFFFFF");
 }
 
 void liberaCirculo(Circulo c){
