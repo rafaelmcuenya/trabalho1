@@ -316,6 +316,7 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase){
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
+        svgQry(nomeBase, chao);
     } else {
         svgGeo(nomeBase, chao);
     }
