@@ -11,6 +11,8 @@
 #include "linha.h"
 #include "texto.h"
 #include "strdupi.h"
+#include "criarSvg.h"
+#include "trataNomeArquivo.h"
 
 typedef struct NoArena{
     Forma forma;
@@ -87,6 +89,90 @@ static Forma clonaFormaComCoresTrocadas(Forma original){
     return clone;
 }
 
+// Função para gerar SVG da arena
+static void desenharArenaSVG(Arena a, const char* filename) {
+    if (!a || !filename) return;
+    
+    FILE* svgFile = fopen(filename, "w");
+    if (!svgFile) return;
+    
+    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    
+    ArenaStruct* arena = (ArenaStruct*)a;
+    NoArena* atual = arena->inicio;
+    
+    while (atual != NULL) {
+        Forma f = atual->forma;
+        if (f) {
+            TipoForma tipo = getTipoForma(f);
+            switch(tipo) {
+                case Tr: {
+                    Retangulo r = getRetanguloFromForma(f);
+                    double x = getXRetangulo(r);
+                    double y = getYRetangulo(r);
+                    double w = getLarguraRetangulo(r);
+                    double h = getAlturaRetangulo(r);
+                    char* corP = getCorPRetangulo(r);
+                    char* corB = getCorBRetangulo(r);
+                    
+                    fprintf(svgFile, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\" fill-opacity=\"0.5\"/>\n",
+                           x, y, w, h, corP, corB);
+                    free(corP);
+                    free(corB);
+                    break;
+                }
+                case Tc: {
+                    Circulo c = getCirculoFromForma(f);
+                    double x = getXCirculo(c);
+                    double y = getYCirculo(c);
+                    double r = getRaioCirculo(c);
+                    char* corP = getCorPCirculo(c);
+                    char* corB = getCorBCirculo(c);
+                    
+                    fprintf(svgFile, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\" fill-opacity=\"0.5\"/>\n",
+                           x, y, r, corP, corB);
+                    free(corP);
+                    free(corB);
+                    break;
+                }
+                case Tl: {
+                    Linha l = getLinhaFromForma(f);
+                    double x1 = getX1Linha(l);
+                    double y1 = getY1Linha(l);
+                    double x2 = getX2Linha(l);
+                    double y2 = getY2Linha(l);
+                    char* cor = getCorLinha(l);
+                    
+                    fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"#%s\" stroke-width=\"1\" stroke-opacity=\"0.5\"/>\n",
+                           x1, y1, x2, y2, cor);
+                    free(cor);
+                    break;
+                }
+                case Tt: {
+                    Texto t = getTextoFromForma(f);
+                    double x = getXTexto(t);
+                    double y = getYTexto(t);
+                    char* texto = getTexto(t);
+                    char* corP = getCorPTexto(t);
+                    char* corB = getCorBTexto(t);
+                    
+                    fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"0.5\" fill-opacity=\"0.5\" stroke-opacity=\"0.5\">%s</text>\n",
+                           x, y, corP, corB, texto);
+                    free(texto);
+                    free(corP);
+                    free(corB);
+                    break;
+                }
+            }
+        }
+        atual = atual->prox;
+    }
+    
+    fprintf(svgFile, "</svg>\n");
+    fclose(svgFile);
+}
+
 Arena criaArena(){
     ArenaStruct* a = malloc(sizeof(ArenaStruct));
     if (!a) return NULL;
@@ -115,10 +201,19 @@ void insereFormaArena(Arena a, Forma f){
     arena->tamanho++;
 }
 
-void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadas, int* formasClonadas){
+void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmagadas, int* formasClonadas, const char* nomeBase){
     if (!a || !chao) return;
     ArenaStruct* arena = (ArenaStruct*)a;
+
+    if (nomeBase) {
+        char nomeAntes[256];
+        snprintf(nomeAntes, sizeof(nomeAntes), "%s-arena-antes.svg", nomeBase);
+        desenharArenaSVG(a, nomeAntes);
+        printf("[SVG] Arena antes do processamento: %s\n", nomeAntes);
+    }
+    
     NoArena* atual = arena->inicio;
+    NoArena* anterior = NULL;
     
     while (atual != NULL && atual->prox != NULL){
         Forma forma1 = atual->forma;
@@ -128,6 +223,8 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
         double area1 = areaForma(forma1);
         double area2 = areaForma(forma2);
         
+        NoArena* proximo = atual->prox->prox;
+        
         if (sobreposicao){
             if (area1 < area2){
                 *pontuacaoTotal += area1;
@@ -135,11 +232,21 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
                 
                 freeForma(forma1);
                 inFormaChao(chao, forma2);
-              
-                NoArena* proximo_par = atual->prox->prox;
-                free(atual->prox); 
-                atual->forma = NULL; 
-                atual->prox = proximo_par;
+                
+                if (anterior == NULL){
+                    arena->inicio = proximo;
+                } else{
+                    anterior->prox = proximo;
+                }
+                
+                if (atual->prox == arena->fim){
+                    arena->fim = anterior;
+                }
+                
+                free(atual->prox);
+                free(atual);
+                arena->tamanho -= 2;
+                atual = proximo;
                 
             } else{
                 char* corPreenchimento1 = getCorPForma(forma1);
@@ -171,32 +278,62 @@ void processaArena(Arena a, Chao chao, double* pontuacaoTotal, int* formasEsmaga
                     inFormaChao(chao, clone);
                     (*formasClonadas)++;
                 }
-              
-                NoArena* proximo_par = atual->prox->prox;
+                
+                if (anterior == NULL){
+                    arena->inicio = proximo;
+                } else{
+                    anterior->prox = proximo;
+                }
+                
+                if (atual->prox == arena->fim){
+                    arena->fim = anterior;
+                }
+                
                 free(atual->prox);
                 free(atual);
-                atual = proximo_par;
-                continue;
+                arena->tamanho -= 2;
+                atual = proximo;
             }
         } else{
             inFormaChao(chao, forma1);
             inFormaChao(chao, forma2);
-            NoArena* proximo_par = atual->prox->prox;
+            
+            if (anterior == NULL){
+                arena->inicio = proximo;
+            } else{
+                anterior->prox = proximo;
+            }
+            
+            if (atual->prox == arena->fim){
+                arena->fim = anterior;
+            }
+            
             free(atual->prox);
             free(atual);
-            atual = proximo_par;
-            continue;
+            arena->tamanho -= 2;
+            atual = proximo;
         }
-        atual = atual->prox;
     }
-
     if (atual != NULL){
         inFormaChao(chao, atual->forma);
+        
+        if (anterior == NULL){
+            arena->inicio = NULL;
+        } else{
+            anterior->prox = NULL;
+        }
+        arena->fim = anterior;
+        
         free(atual);
+        arena->tamanho--;
     }
-    arena->inicio = NULL;
-    arena->fim = NULL;
-    arena->tamanho = 0;
+
+    if (nomeBase) {
+        char nomeDepois[256];
+        snprintf(nomeDepois, sizeof(nomeDepois), "%s-arena-depois.svg", nomeBase);
+        desenharArenaSVG(a, nomeDepois);
+        printf("[SVG] Arena depois do processamento: %s\n", nomeDepois);
+    }
 }
 
 int getNumFormasArena(Arena a){
@@ -212,6 +349,9 @@ void liberaArena(Arena a){
     
     while (atual != NULL){
         NoArena* prox = atual->prox;
+        if (atual->forma) {
+            freeForma(atual->forma);
+        }
         free(atual);
         atual = prox;
     }
