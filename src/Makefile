@@ -9,10 +9,11 @@ CC = gcc
 CFLAGS = -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration
 LDFLAGS = -O0
 
-# Lista de todos os arquivos objeto necessários
 OBJETOS = main.o leitor.o forma.o circulo.o retangulo.o linha.o texto.o \
-          chao.o arena.o disparador.o carregador.o sobrepor.o criarTxt.o criarSvg.o
+          chao.o arena.o disparador.o carregador.o sobrepor.o criarTxt.o criarSvg.o \
+          trataNomeArquivo.o
 
+# Regra principal
 $(PROJ_NAME): $(OBJETOS)
 	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJETOS) -lm
 	echo "Compilação bem sucedida."
@@ -20,14 +21,13 @@ $(PROJ_NAME): $(OBJETOS)
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
-# DEPENDÊNCIAS ESPECÍFICAS DE CADA MÓDULO
-
 # Módulo principal
 main.o: main.c leitor.h forma.h chao.h disparador.h carregador.h arena.h \
-        circulo.h retangulo.h linha.h texto.h sobrepor.h criarTxt.h criarSvg.h
+        circulo.h retangulo.h linha.h texto.h sobrepor.h criarTxt.h criarSvg.h \
+        trataNomeArquivo.h
 
 # Módulo leitor
-leitor.o: leitor.c leitor.h criarTxt.h
+leitor.o: leitor.c leitor.h criarTxt.h trataNomeArquivo.h
 
 # Módulo forma
 forma.o: forma.c forma.h circulo.h retangulo.h linha.h texto.h sobrepor.h
@@ -47,7 +47,10 @@ carregador.o: carregador.c carregador.h forma.h
 # Módulos de processamento e saída
 sobrepor.o: sobrepor.c sobrepor.h circulo.h retangulo.h linha.h texto.h
 criarTxt.o: criarTxt.c criarTxt.h circulo.h retangulo.h linha.h texto.h forma.h
-criarSvg.o: criarSvg.c criarSvg.h
+criarSvg.o: criarSvg.c criarSvg.h circulo.h retangulo.h linha.h texto.h
+
+# Módulo de tratamento de nomes
+trataNomeArquivo.o: trataNomeArquivo.c trataNomeArquivo.h
 
 # Regras utilitárias
 clean:
