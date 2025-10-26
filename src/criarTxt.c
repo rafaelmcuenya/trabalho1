@@ -16,7 +16,7 @@ void iniciarTxt(const char* baseNome) {
     txtFile = fopen(filename, "w");
 }
 
-void fecharTxt() {
+void fecharTxt(void) {
     if (txtFile) fclose(txtFile);
 }
 
