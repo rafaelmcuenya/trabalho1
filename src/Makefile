@@ -5,26 +5,24 @@ ALUNO = Rafael Matui Cuenya
 # Compilador
 CC = gcc
 
-# Flags de compilação
+# Flags
 CFLAGS = -ggdb -O0 -std=c99 -fstack-protector-all -Werror=implicit-function-declaration
-LDFLAGS = -O0 -lm
+LDFLAGS = -O0
 
 # Lista de todos os arquivos objeto necessários
 OBJETOS = main.o leitor.o forma.o circulo.o retangulo.o linha.o texto.o \
           chao.o arena.o disparador.o carregador.o sobrepor.o criarTxt.o criarSvg.o
 
-# Regra principal
 $(PROJ_NAME): $(OBJETOS)
-	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJETOS)
+	$(CC) -o $(PROJ_NAME) $(LDFLAGS) $(OBJETOS) -lm
 	echo "Compilação bem sucedida."
 
-# Regra genérica para compilar .c para .o
 %.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 # DEPENDÊNCIAS ESPECÍFICAS DE CADA MÓDULO
 
-# Módulo principal - CORRIGIDO: trocado comandos.h por leitor.h
+# Módulo principal
 main.o: main.c leitor.h forma.h chao.h disparador.h carregador.h arena.h \
         circulo.h retangulo.h linha.h texto.h sobrepor.h criarTxt.h criarSvg.h
 
