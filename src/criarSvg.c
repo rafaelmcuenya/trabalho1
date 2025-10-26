@@ -93,15 +93,11 @@ void svgGeo(const char* caminhoCompleto, Chao chao) {
     finalizarSvg();
 }
 
-void svgQry(const char* baseNome, Chao chao) {
-    char filename[256];
-    sprintf(filename, "%s-consulta.svg", baseNome);
-    iniciarSvg(filename);
-    
+void svgQry(const char* caminhoCompleto, Chao chao) {
+    iniciarSvg(caminhoCompleto);  
     if (chao) {
         percorreChao(chao, adicionarFormaSvg);
     }
-    
     finalizarSvg();
 }
 
