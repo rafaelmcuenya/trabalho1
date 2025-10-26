@@ -164,7 +164,7 @@ char* getCorBRetangulo(Retangulo r) {
     }
     
     RetanguloStruct* rect = (RetanguloStruct*)r;
-    char* temp = strdup(rect->corB);
+    char* temp = strdupi(rect->corB);
     
     if (!temp) {
         fprintf(stderr, "Erro: falha na alocação da cor de borda\n");
@@ -179,7 +179,7 @@ char* getCorPRetangulo(Retangulo r) {
     }
     
     RetanguloStruct* rect = (RetanguloStruct*)r;
-    char* temp = strdup(rect->corP);
+    char* temp = strdupi(rect->corP);
     
     if (!temp) {
         fprintf(stderr, "Erro: falha na alocação da cor de preenchimento\n");
