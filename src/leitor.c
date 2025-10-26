@@ -210,7 +210,7 @@ int getTotalDisparos(void){ return totalDisparos; }
 int getTotalEsmagadas(void){ return totalEsmagadas; }
 int getTotalClonadas(void){ return totalClonadas; }
 
-void abrirArquivo(FILE **f, char *caminho){
+void abrirArquivo(FILE **f, const char *caminho) {
     *f = fopen(caminho, "r");
     if (!(*f)){
         fprintf(stderr, "Erro: Não foi possível abrir %s\n", caminho);
