@@ -1,55 +1,48 @@
 #ifndef CHAO_H
 #define CHAO_H
 
-#include <stdio.h>
 #include "forma.h"
-
-/*
-   O chão se trata de um local onde as formas lidas a partir do .geo serão criadas e armazenadas. 
-    Será do chão que os carregadores retirarão as formas, e também para onde as formas restantes após a arena retornarão, além do local onde as formas recém criadas, sejam elas pelo .geo ou clonadas, irão ser colocadas.
-*/
+#include <stdio.h>
 
 typedef void* Chao;
 
-Chao criaChao();
 /*
-   Cria um novo chão vazio.
+   Módulo responsável por gerenciar o chão, que é uma coleção de formas.
 */
 
-void inFormaChao(Chao c, Forma f);
+Chao criaChao(void);
 /*
-  Adiciona uma forma no final do chão.
+   Cria e retorna uma instância de chão vazia.
 */
 
-Forma outFormaChao(Chao c);
+void freeChao(Chao chao);
 /*
-   Remove e retorna a primeira forma do chão.
+   Libera toda a memória associada ao chão.
 */
 
-Forma seePFChao(Chao c);
+void inFormaChao(Chao chao, Forma forma);
 /*
-   Retorna, sem remover, a primeira forma do chão.
+   Insere uma forma no chão.
 */
 
-int voidChao(Chao c);
+Forma outFormaChao(Chao chao);
 /*
-   Verifica se o chão está vazio.
+   Remove e retorna uma forma do chão.
 */
 
-int tamChao(Chao c);
+int voidChao(Chao chao);
 /*
-   Retorna o número de formas atualmente no chão.
+   Retorna 1 se o chão estiver vazio, 0 caso contrário.
 */
 
-void percorreChao(Chao c, void (*funcao)(Forma));
+void percorreChao(Chao chao, void (*func)(Forma));
 /*
-  Percorre todas as formas do chão aplicando a função fornecida. A função recebe cada forma como parâmetro, sem modificar a estrutura do chão.
+   Percorre todas as formas do chão aplicando a função func.
 */
 
-void freeChao(Chao c);
+void percorreChaoComFile(Chao chao, FILE* svgFile, void (*func)(FILE*, Forma));
 /*
-   Libera toda a memória do chão.
-   Atenção: Esta função assume que o chão é proprietário exclusivo das formas.
+   Percorre todas as formas do chão aplicando a função func que recebe um FILE*.
 */
 
 #endif
