@@ -178,11 +178,16 @@ static void cmdDSP(int idDisp, double dx, double dy, bool svgFlag){
     }
 }
 
-static void cmdRJD(int idDisp, double dx, double dy, double ix, double iy){
+static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, double iy){
     totalInstrucoes++;
     
     if (idDisp < 0 || idDisp >= 100 || !disparadores[idDisp]){
         printf("[ERRO] Disparador %d não encontrado\n", idDisp);
+        return;
+    }
+    
+    if (lado != 'd' && lado != 'e'){
+        printf("[ERRO] Lado inválido para rajada: %c\n", lado);
         return;
     }
     
@@ -191,17 +196,17 @@ static void cmdRJD(int idDisp, double dx, double dy, double ix, double iy){
         return;
     }
 
-    printf("[QRY] Iniciando rajada no disparador %d\n", idDisp);
+    printf("[QRY] Iniciando rajada no disparador %d, lado %c\n", idDisp, lado);
     
     int disparos = 0;
-    int maxDisparos = 100; 
+    int maxDisparos = 100;
+
     if (!possuiCarregadorEsq(disparadores[idDisp]) || !possuiCarregadorDir(disparadores[idDisp])){
         printf("[ERRO] Disparador %d não tem carregadores encaixados\n", idDisp);
         return;
     }
 
     for (int i = 0; i < maxDisparos; i++){
-        char lado = (i % 2 == 0) ? 'd' : 'e';
         shftDisparador(disparadores[idDisp], lado, 1);
         
         Forma forma = getPosDisparo(disparadores[idDisp]);
@@ -219,12 +224,12 @@ static void cmdRJD(int idDisp, double dx, double dy, double ix, double iy){
             disparos++;
             totalDisparos++;
         } else{
-            printf("[ERRO] Falha ao disparar forma na rajada %d\n", i);
             break;
         }
     }
     printf("[QRY] Rajada concluída: %d disparos realizados\n", disparos);
 }
+
 
 static void cmdCALC(void){
     totalInstrucoes++;
@@ -346,9 +351,11 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
             cmdDSP(disp, dx, dy, (res == 4 && strcmp(flag, "v") == 0));
         }
         else if (strcmp(comando, "rjd") == 0){
-            int disp; double dx, dy, ix, iy;
-            if (sscanf(linha, "%*s %d %lf %lf %lf %lf", &disp, &dx, &dy, &ix, &iy) == 5){
-                cmdRJD(disp, dx, dy, ix, iy);
+            int disp; char lado; double dx, dy, ix, iy;
+            if (sscanf(linha, "%*s %d %c %lf %lf %lf %lf", &disp, &lado, &dx, &dy, &ix, &iy) == 6){
+                cmdRJD(disp, lado, dx, dy, ix, iy);
+            } else{
+                printf("[ERRO] Formato inválido para rjd: %s\n", linha);
             }
         }
         else if (strcmp(comando, "calc") == 0){
