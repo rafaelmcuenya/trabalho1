@@ -4,6 +4,7 @@
 #include <math.h>
 #include "linha.h"
 #include "strdupi.h"
+
 static int proximoIdLinha = 300; 
 
 typedef struct{
@@ -11,6 +12,28 @@ typedef struct{
     double x1, y1, x2, y2;
     char cor[8];
 } LinhaStruct;
+
+static void preencherCor(char* dest, const char* fonte, const char* corPadrao){
+    if (fonte && strlen(fonte) > 0){
+        const char* cor = (fonte[0] == '#') ? fonte + 1 : fonte;
+        int len = strlen(cor);
+        
+        if (len == 6){
+            strncpy(dest, cor, 6);
+        } else if (len < 6){
+            int zeros = 6 - len;
+            for (int i = 0; i < zeros; i++){
+                dest[i] = '0';
+            }
+            strncpy(dest + zeros, cor, len);
+        } else{
+            strncpy(dest, cor, 6);
+        }
+        dest[6] = '\0';
+    } else{
+        strcpy(dest, corPadrao);
+    }
+}
 
 Linha criaLinha(int i, double x1, double y1, double x2, double y2, char* cor){
     if (i <= 0){
@@ -23,11 +46,6 @@ Linha criaLinha(int i, double x1, double y1, double x2, double y2, char* cor){
         return NULL;
     }
     
-    if (strlen(cor) == 0){
-        fprintf(stderr, "Erro: cor da linha não pode ser vazia\n");
-        return NULL;
-    }
-
     if (x1 != x1 || y1 != y1 || x2 != x2 || y2 != y2 || 
         isinf(x1) || isinf(y1) || isinf(x2) || isinf(y2)){
         fprintf(stderr, "Erro: coordenadas da linha inválidas\n");
@@ -45,12 +63,8 @@ Linha criaLinha(int i, double x1, double y1, double x2, double y2, char* cor){
     l->y1 = y1;
     l->x2 = x2;
     l->y2 = y2;
-    strncpy(l->cor, cor, 7);
-    l->cor[7] = '\0';
     
-    if (strlen(cor) >= 7){
-        l->cor[7] = '\0';
-    }
+    preencherCor(l->cor, cor, "000000");
     
     if (i >= proximoIdLinha){
         proximoIdLinha = i + 1;
@@ -199,12 +213,11 @@ char* getCorLinha(Linha l){
     }
     LinhaStruct* linha = (LinhaStruct*)l;
 
-    char* copia = (char*)malloc(8 * sizeof(char));
+    char* copia = strdupi(linha->cor);
     if (!copia){
         fprintf(stderr, "Erro: falha na alocação da cor\n");
         return NULL;
     }
-    strcpy(copia, linha->cor);
     return copia;
 }
 
@@ -224,10 +237,7 @@ void setCorLinha(Linha l, char* novaCor){
         return;
     }
     LinhaStruct* linha = (LinhaStruct*)l;
-    if (strlen(novaCor) >= 6){
-        strncpy(linha->cor, novaCor, 6);
-        linha->cor[6] = '\0';
-    }
+    preencherCor(linha->cor, novaCor, "000000");
 }
 
 void liberaLinha(Linha l){
