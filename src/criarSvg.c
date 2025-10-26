@@ -38,7 +38,7 @@ static void adicionarFormaSvg(Forma f) {
             char* corP = getCorPRetangulo(r);
             char* corB = getCorBRetangulo(r);
             
-            fprintf(svgFile, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" fill=\"%s\" stroke=\"%s\" stroke-width=\"1\"/>\n", x, y, w, h, corP, corB);
+            fprintf(svgFile, "<rect x=\"%.2f\" y=\"%.2f\" width=\"%.2f\" height=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\"/>\n", x, y, w, h, corP, corB);
             free(corP);
             free(corB);
             break;
@@ -51,7 +51,7 @@ static void adicionarFormaSvg(Forma f) {
             char* corP = getCorPCirculo(c);
             char* corB = getCorBCirculo(c);
             
-            fprintf(svgFile, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"%.2f\" fill=\"%s\" stroke=\"%s\" stroke-width=\"1\"/>\n", x, y, r, corP, corB);
+            fprintf(svgFile, "<circle cx=\"%.2f\" cy=\"%.2f\" r=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"1\"/>\n", x, y, r, corP, corB);
             free(corP);
             free(corB);
             break;
@@ -64,7 +64,7 @@ static void adicionarFormaSvg(Forma f) {
             double y2 = getY2Linha(l);
             char* cor = getCorLinha(l);
             
-            fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"%s\" stroke-width=\"1\"/>\n", x1, y1, x2, y2, cor);
+            fprintf(svgFile, "<line x1=\"%.2f\" y1=\"%.2f\" x2=\"%.2f\" y2=\"%.2f\" stroke=\"#%s\" stroke-width=\"1\"/>\n", x1, y1, x2, y2, cor);
             free(cor);
             break;
         }
@@ -76,7 +76,7 @@ static void adicionarFormaSvg(Forma f) {
             char* corP = getCorPTexto(t);
             char* corB = getCorBTexto(t);
             
-            fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" fill=\"%s\" stroke=\"%s\" stroke-width=\"0.5\">%s</text>\n", x, y, corP, corB, texto);
+            fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" fill=\"#%s\" stroke=\"#%s\" stroke-width=\"0.5\">%s</text>\n", x, y, corP, corB, texto);
             free(texto);
             free(corP);
             free(corB);
