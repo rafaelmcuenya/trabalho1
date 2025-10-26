@@ -231,9 +231,9 @@ static void cmdRJD(int idDisp, char lado, double dx, double dy, double ix, doubl
 }
 
 
-static void cmdCALC(const char* nomeBase) {
+static void cmdCALC(const char* nomeBase){
     totalInstrucoes++;
-    if (arena) {
+    if (arena){
         printf("[QRY] Calculando sobreposições na arena...\n");
         
         double pontuacaoRound = 0.0;
@@ -357,7 +357,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase){
             }
         }
         else if (strcmp(comando, "calc") == 0){
-            cmdCALC();
+            cmdCALC(nomeBase); 
         }
     }
 }
@@ -380,6 +380,15 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
+        
+        char caminhoSvgFinal[PATH_LEN];
+        if (strlen(outputDir) > 0){
+            snprintf(caminhoSvgFinal, PATH_LEN, "%s/%s-final.svg", outputDir, nomeBase);
+        } else{
+            snprintf(caminhoSvgFinal, PATH_LEN, "%s-final.svg", nomeBase);
+        }
+        svgGeo(caminhoSvgFinal, chao);
+        printf("[SVG] Arquivo final gerado: %s\n", caminhoSvgFinal);
     } else{
         char caminhoSvg[PATH_LEN];
         gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvg);
