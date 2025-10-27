@@ -9,7 +9,7 @@
 #include "texto.h"
 #include "arena.h"  
 
-static void adicionarFormaSvg(FILE* svgFile, Forma f){
+void adicionarFormaSvg(FILE* svgFile, Forma f){
     if (!svgFile || !f) return;
     
     TipoForma tipo = getTipoForma(f);
