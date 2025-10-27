@@ -1,105 +1,110 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "chao.h"
 #include "forma.h"
-#include "strdupi.h"
+#include <stdlib.h>
+#include <stdio.h>
 
-typedef struct No {
+typedef struct NoChao{
     Forma forma;
-    struct No* prox;
-} No;
+    struct NoChao* prox;
+} NoChao;
 
-typedef struct {
-    No* inicio;
-    No* fim;
+struct ChaoStruct{
+    NoChao* inicio;
+    NoChao* fim;
     int tamanho;
-} ChaoStruct;
+};
 
-Chao criaChao() {
-    ChaoStruct* c = (ChaoStruct*)malloc(sizeof(ChaoStruct));
-    if (!c) return NULL;
-    c->inicio = NULL;
-    c->fim = NULL;
-    c->tamanho = 0;
-    return (Chao)c;
+Chao criaChao(void){
+    struct ChaoStruct* chao = malloc(sizeof(struct ChaoStruct));
+    if (!chao) return NULL;
+    
+    chao->inicio = NULL;
+    chao->fim = NULL;
+    chao->tamanho = 0;
+    return chao;
 }
 
-void inFormaChao(Chao c, Forma f) {
-    if (!c || !f) return;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    No* novo = (No*)malloc(sizeof(No));
+void freeChao(Chao chao){
+    if (!chao) return;
+    
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    NoChao* atual = c->inicio;
+    
+    while (atual != NULL){
+        NoChao* prox = atual->prox;
+        if (atual->forma){
+            freeForma(atual->forma);
+        }
+        free(atual);
+        atual = prox;
+    }
+    free(c);
+}
+
+void inFormaChao(Chao chao, Forma forma){
+    if (!chao || !forma) return;
+    
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    NoChao* novo = malloc(sizeof(NoChao));
     if (!novo) return;
     
-    novo->forma = f;
+    novo->forma = forma;
     novo->prox = NULL;
-
-    if (ch->fim == NULL) {
-        ch->inicio = novo;
-    } else {
-        ch->fim->prox = novo;
-    }
-    ch->fim = novo;
-    ch->tamanho++; 
-}
-
-Forma outFormaChao(Chao c) {
-    if (!c) return NULL;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    if (ch->inicio == NULL) return NULL;
-
-    No* aux = ch->inicio;
-    Forma f = aux->forma;
-    ch->inicio = aux->prox;
-
-    if (ch->inicio == NULL) {
-        ch->fim = NULL;
-    }
-
-    free(aux);
-    ch->tamanho--; 
-    return f;
-}
-
-Forma seePFChao(Chao c) {
-    if (!c) return NULL;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    if (ch->inicio == NULL) return NULL;
-    return ch->inicio->forma;
-}
-
-int voidChao(Chao c) {
-    if (!c) return 1;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    return (ch->inicio == NULL);
-}
-
-int tamChao(Chao c) {
-    if (!c) return 0;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    return ch->tamanho;
-}
-
-void percorreChao(Chao c, void (*funcao)(Forma)) {
-    if (!c || !funcao) return;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    No* atual = ch->inicio;
     
-    while (atual) {
-        funcao(atual->forma);
+    if (c->fim == NULL){
+        c->inicio = novo;
+    } else{
+        c->fim->prox = novo;
+    }
+    c->fim = novo;
+    c->tamanho++;
+}
+
+Forma outFormaChao(Chao chao){
+    if (!chao) return NULL;
+    
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    if (c->inicio == NULL) return NULL;
+    
+    NoChao* primeiro = c->inicio;
+    Forma forma = primeiro->forma;
+    
+    c->inicio = primeiro->prox;
+    if (c->inicio == NULL){
+        c->fim = NULL;
+    }
+    
+    free(primeiro);
+    c->tamanho--;
+    return forma;
+}
+
+int voidChao(Chao chao){
+    if (!chao) return 1;
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    return c->inicio == NULL;
+}
+
+void percorreChao(Chao chao, void (*func)(Forma)){
+    if (!chao || !func) return;
+    
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    NoChao* atual = c->inicio;
+    
+    while (atual != NULL){
+        func(atual->forma);
         atual = atual->prox;
     }
 }
 
-void freeChao(Chao c) {
-    if (!c) return;
-    ChaoStruct* ch = (ChaoStruct*)c;
-    No* atual = ch->inicio;
- 
-    while (atual) {
-        No* prox = atual->prox;
-        freeForma(atual->forma);
-        free(atual);
-        atual = prox;
+void percorreChaoComFile(Chao chao, FILE* svgFile, void (*func)(FILE*, Forma)){
+    if (!chao || !func || !svgFile) return;
+    
+    struct ChaoStruct* c = (struct ChaoStruct*)chao;
+    NoChao* atual = c->inicio;
+    
+    while (atual != NULL){
+        func(svgFile, atual->forma);
+        atual = atual->prox;
     }
-    free(ch);
 }
