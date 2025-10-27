@@ -35,4 +35,9 @@ void svgAsteriscoEsmagada(FILE* svgFile, double x, double y);
    Marca uma posição no SVG com um asterisco vermelho, indicando onde uma forma foi esmagada, após a arena.
 */
 
+void adicionarFormaSvg(FILE* svgFile, Forma f);
+/*
+   Adiciona uma forma ao arquivo SVG aberto.
+*/
+
 #endif
