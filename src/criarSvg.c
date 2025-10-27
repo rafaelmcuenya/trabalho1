@@ -83,12 +83,12 @@ void svgArena(const char* caminhoCompleto, Arena arena){
     }
     
     fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 1000 1000\">\n");
     
     printf("[DEBUG] Gerando SVG da arena com formas...\n");
     percorreArena(arena, svgFile, adicionarFormaSvg);
     
-    fprintf(svgFile, "</svg>\n");
+    fprintf(svgFile, "</svg>");
     fclose(svgFile);
     printf("[SVG] Arquivo da arena gerado: %s\n", caminhoCompleto);
 }
@@ -98,13 +98,13 @@ void svgGeo(const char* caminhoCompleto, Chao chao){
     if (!svgFile) return;
     
     fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 1000 1000\">\n");
     
     if (chao){
         percorreChaoComFile(chao, svgFile, adicionarFormaSvg);
     }
     
-    fprintf(svgFile, "</svg>\n");
+    fprintf(svgFile, "</svg>");
     fclose(svgFile);
 }
 
@@ -113,13 +113,13 @@ void svgQry(const char* caminhoCompleto, Chao chao){
     if (!svgFile) return;
     
     fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
-    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\" viewBox=\"0 0 1000 1000\">\n");
     
     if (chao){
         percorreChaoComFile(chao, svgFile, adicionarFormaSvg);
     }
     
-    fprintf(svgFile, "</svg>\n");
+    fprintf(svgFile, "</svg>");
     fclose(svgFile);
 }
 
