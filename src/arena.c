@@ -160,41 +160,48 @@ void desenharArenaSVG(Arena a, const char* filename){
         return;
     }
     
-    printf("[DEBUG] Gerando SVG da arena: %s\n", filename);
-    svgArena(filename, a);
-    
-    if (numFormasEsmagadas > 0){
-        FILE* svgFile = fopen(filename, "a"); 
-        if (svgFile){
-            printf("[DEBUG] Adicionando %d asteriscos de formas esmagadas\n", numFormasEsmagadas);
-            for (int i = 0; i < numFormasEsmagadas; i++){
-                FormaEsmagada* fe = &formasEsmagadas[i];
-                
-                double centroX = fe->x;
-                double centroY = fe->y;
-                
-                switch (fe->tipo){
-                    case Tr:
-                        centroX += fe->dados.ret.w / 2;
-                        centroY += fe->dados.ret.h / 2;
-                        break;
-                    case Tc:
-                        break;
-                    case Tl:
-                        centroX = (fe->x + fe->dados.lin.x2) / 2;
-                        centroY = (fe->y + fe->dados.lin.y2) / 2;
-                        break;
-                    case Tt:
-                        break;
-                }
-                
-                svgAsteriscoEsmagada(svgFile, centroX, centroY);
-            }
-            fclose(svgFile);
-        } else{
-            printf("[ERRO] Não foi possível abrir arquivo para adicionar asteriscos: %s\n", filename);
-        }
+    FILE* svgFile = fopen(filename, "w");
+    if (!svgFile){
+        printf("[ERRO] Não foi possível criar arquivo SVG da arena: %s\n", filename);
+        return;
     }
+    
+    fprintf(svgFile, "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n");
+    fprintf(svgFile, "<svg xmlns=\"http://www.w3.org/2000/svg\" version=\"1.1\">\n");
+    
+    ArenaStruct* arena = (ArenaStruct*)a;
+    NoArena* atual = arena->inicio;
+    while (atual != NULL){
+        adicionarFormaSvg(svgFile, atual->forma);
+        atual = atual->prox;
+    }
+    
+    for (int i = 0; i < numFormasEsmagadas; i++){
+        FormaEsmagada* fe = &formasEsmagadas[i];
+        double centroX = fe->x;
+        double centroY = fe->y;
+        
+        switch (fe->tipo){
+            case Tr:
+                centroX += fe->dados.ret.w / 2;
+                centroY += fe->dados.ret.h / 2;
+                break;
+            case Tc:
+                break;
+            case Tl:
+                centroX = (fe->x + fe->dados.lin.x2) / 2;
+                centroY = (fe->y + fe->dados.lin.y2) / 2;
+                break;
+            case Tt:
+                break;
+        }
+        
+        fprintf(svgFile, "<text x=\"%.2f\" y=\"%.2f\" font-size=\"8\" fill=\"red\">*</text>\n", centroX, centroY);
+    }
+    
+    fprintf(svgFile, "</svg>\n");
+    fclose(svgFile);
+    printf("[SVG] Arquivo da arena gerado: %s (com %d formas esmagadas)\n", filename, numFormasEsmagadas);
 }
 
 Arena criaArena(){
