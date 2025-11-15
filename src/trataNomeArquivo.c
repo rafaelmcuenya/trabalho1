@@ -25,16 +25,6 @@ void gerarNomeGeoSvg(const char* nomeBase, const char* outputDir, char* caminhoC
     }
 }
 
-void gerarNomeQrySvg(const char* nomeBase, const char* outputDir, char* caminhoCompleto){
-    if (!nomeBase || !outputDir || !caminhoCompleto) return;
-    
-    if (strlen(outputDir) > 0){
-        snprintf(caminhoCompleto, PATH_LEN, "%s/%s-consulta.svg", outputDir, nomeBase);
-    } else{
-        snprintf(caminhoCompleto, PATH_LEN, "%s-consulta.svg", nomeBase);
-    }
-}
-
 void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoCompleto){
     if (!nomeBase || !outputDir || !caminhoCompleto) return;
     
