@@ -43,4 +43,14 @@ void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* out
    Gera o nome do SVG da arena.
 */
 
+void gerarNomeQrySvg(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto);
+/*
+   Gera o nome do SVG do arquivo .qry.
+*/
+
+void gerarNomeQryTxt(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto);
+/*
+   Gera o nome do TXT do arquivo .qry.
+*/
+
 #endif
