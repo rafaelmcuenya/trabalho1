@@ -23,11 +23,6 @@ void gerarNomeGeoSvg(const char* nomeBase, const char* outputDir, char* caminhoC
    Gera o nome do SVG do arquivo .geo
 */
 
-void gerarNomeQrySvg(const char* nomeBase, const char* outputDir, char* caminhoCompleto);
-/*
-   Gera o nome do SVG do arquivo .qry, se necessário.
-*/
-
 void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoCompleto);
 /*
    Gera o nome do arquivo txt utilizado para os relatórios.
