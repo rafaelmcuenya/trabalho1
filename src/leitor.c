@@ -365,8 +365,11 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
     abrirArquivo(&f, caminho);
     
     if (ehQry){
+        char nomeBaseQry[FILE_NAME_LEN];
+        extrairNomeBase(caminho, nomeBaseQry);
+        
         char caminhoTxt[PATH_LEN];
-        gerarNomeTxt(nomeBase, outputDir, caminhoTxt);
+        gerarNomeQryTxt(nomeBase, nomeBaseQry, outputDir, caminhoTxt);
         iniciarTxt(caminhoTxt);
     }
     
@@ -378,11 +381,15 @@ void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, cons
     if (ehQry){
         txtFinal(getPontuacaoFinal(), getTotalInstrucoes(), getTotalDisparos(), getTotalEsmagadas(), getTotalClonadas());
         fecharTxt();
+    
+        char nomeBaseQry[FILE_NAME_LEN];
+        extrairNomeBase(caminho, nomeBaseQry);
         
         char caminhoSvgFinal[PATH_LEN];
-        gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvgFinal);
-        svgGeo(caminhoSvgFinal, chao);
-        printf("[SVG] Arquivo final gerado: %s\n", caminhoSvgFinal);
+        gerarNomeQrySvg(nomeBase, nomeBaseQry, outputDir, caminhoSvgFinal);
+        
+        svgQry(caminhoSvgFinal, chao);
+        printf("[SVG] Arquivo final com consulta gerado: %s\n", caminhoSvgFinal);
     } else{
         char caminhoSvg[PATH_LEN];
         gerarNomeGeoSvg(nomeBase, outputDir, caminhoSvg);
