@@ -11,7 +11,11 @@
 static FILE* txtFile = NULL;
 
 void iniciarTxt(const char* caminhoCompleto) {
+    if (txtFile) fclose(txtFile); 
     txtFile = fopen(caminhoCompleto, "w");
+    if (!txtFile) {
+        printf("[ERRO] Não foi possível criar arquivo TXT: %s\n", caminhoCompleto);
+    }
 }
 
 void fecharTxt(void) {
