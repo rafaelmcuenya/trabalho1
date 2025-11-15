@@ -55,6 +55,26 @@ void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* out
     }
 }
 
+void gerarNomeQrySvg(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto){
+    if (!nomeBaseGeo || !nomeBaseQry || !outputDir || !caminhoCompleto) return;
+    
+    if (strlen(outputDir) > 0){
+        snprintf(caminhoCompleto, PATH_LEN, "%s/%s-%s.svg", outputDir, nomeBaseGeo, nomeBaseQry);
+    } else{
+        snprintf(caminhoCompleto, PATH_LEN, "%s-%s.svg", nomeBaseGeo, nomeBaseQry);
+    }
+}
+
+void gerarNomeQryTxt(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto){
+    if (!nomeBaseGeo || !nomeBaseQry || !outputDir || !caminhoCompleto) return;
+    
+    if (strlen(outputDir) > 0){
+        snprintf(caminhoCompleto, PATH_LEN, "%s/%s-%s.txt", outputDir, nomeBaseGeo, nomeBaseQry);
+    } else{
+        snprintf(caminhoCompleto, PATH_LEN, "%s-%s.txt", nomeBaseGeo, nomeBaseQry);
+    }
+}
+
 int criarDiretorioSeNecessario(const char* caminho){
     if (!caminho) return 0;
     
