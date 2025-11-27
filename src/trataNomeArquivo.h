@@ -13,6 +13,11 @@
    Módulo responsável por tratar os nomes dos arquivos durante o processamento do programa.
 */
 
+void criarDiretorioRecursivo(const char* path);
+/*
+   FUNÇÃO NOVA: Cria diretórios recursivamente - CORREÇÃO CRÍTICA
+*/
+
 void extrairNomeBase(const char* caminhoCompleto, char* nomeBase);
 /*
    Extrai o nome base dos arquivos .geo/.qyr
@@ -26,11 +31,6 @@ void gerarNomeGeoSvg(const char* nomeBase, const char* outputDir, char* caminhoC
 void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoCompleto);
 /*
    Gera o nome do arquivo txt utilizado para os relatórios.
-*/
-
-int criarDiretorioSeNecessario(const char* caminho);
-/*
-   Função extra e de emergência caso seja necessário criar um diretório.
 */
 
 void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* outputDir, char* caminhoCompleto);
