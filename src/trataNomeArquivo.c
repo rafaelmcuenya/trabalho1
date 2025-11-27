@@ -1,5 +1,44 @@
 #include "trataNomeArquivo.h"
 #include <sys/stat.h>
+#include <string.h>
+
+#ifdef _WIN32
+#include <direct.h>
+#define mkdir _mkdir
+#endif
+
+void criarDiretorioRecursivo(const char* path){
+    if (!path || strlen(path) == 0) return;
+    
+    char tmp[PATH_LEN];
+    char *p = NULL;
+    size_t len;
+
+    snprintf(tmp, sizeof(tmp), "%s", path);
+    len = strlen(tmp);
+    
+    if (len > 0 && tmp[len - 1] == '/'){
+        tmp[len - 1] = 0;
+    }
+
+    for (p = tmp + 1; *p; p++){
+        if (*p == '/'){
+            *p = 0;
+            #ifdef _WIN32
+                _mkdir(tmp);
+            #else
+                mkdir(tmp, 0700);
+            #endif
+            *p = '/';
+        }
+    }
+
+    #ifdef _WIN32
+        _mkdir(tmp);
+    #else
+        mkdir(tmp, 0700);
+    #endif
+}
 
 void extrairNomeBase(const char* caminhoCompleto, char* nomeBase){
     if (!caminhoCompleto || !nomeBase) return;
@@ -18,6 +57,8 @@ void extrairNomeBase(const char* caminhoCompleto, char* nomeBase){
 void gerarNomeGeoSvg(const char* nomeBase, const char* outputDir, char* caminhoCompleto){
     if (!nomeBase || !outputDir || !caminhoCompleto) return;
     
+    criarDiretorioRecursivo(outputDir);
+    
     if (strlen(outputDir) > 0){
         snprintf(caminhoCompleto, PATH_LEN, "%s/%s.svg", outputDir, nomeBase);
     } else{
@@ -27,6 +68,8 @@ void gerarNomeGeoSvg(const char* nomeBase, const char* outputDir, char* caminhoC
 
 void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoCompleto){
     if (!nomeBase || !outputDir || !caminhoCompleto) return;
+    
+    criarDiretorioRecursivo(outputDir);
     
     if (strlen(outputDir) > 0){
         snprintf(caminhoCompleto, PATH_LEN, "%s/%s.txt", outputDir, nomeBase);
@@ -38,6 +81,8 @@ void gerarNomeTxt(const char* nomeBase, const char* outputDir, char* caminhoComp
 void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* outputDir, char* caminhoCompleto){
     if (!nomeBase || !sufixo || !outputDir || !caminhoCompleto) return;
     
+    criarDiretorioRecursivo(outputDir);
+    
     if (strlen(outputDir) > 0){
         snprintf(caminhoCompleto, PATH_LEN, "%s/%s-arena-%s.svg", outputDir, nomeBase, sufixo);
     } else{
@@ -47,6 +92,8 @@ void gerarNomeArenaSVG(const char* nomeBase, const char* sufixo, const char* out
 
 void gerarNomeQrySvg(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto){
     if (!nomeBaseGeo || !nomeBaseQry || !outputDir || !caminhoCompleto) return;
+    
+    criarDiretorioRecursivo(outputDir);
     
     if (strlen(outputDir) > 0){
         snprintf(caminhoCompleto, PATH_LEN, "%s/%s-%s.svg", outputDir, nomeBaseGeo, nomeBaseQry);
@@ -58,6 +105,8 @@ void gerarNomeQrySvg(const char* nomeBaseGeo, const char* nomeBaseQry, const cha
 void gerarNomeQryTxt(const char* nomeBaseGeo, const char* nomeBaseQry, const char* outputDir, char* caminhoCompleto){
     if (!nomeBaseGeo || !nomeBaseQry || !outputDir || !caminhoCompleto) return;
     
+    criarDiretorioRecursivo(outputDir);
+    
     if (strlen(outputDir) > 0){
         snprintf(caminhoCompleto, PATH_LEN, "%s/%s-%s.txt", outputDir, nomeBaseGeo, nomeBaseQry);
     } else{
@@ -67,27 +116,6 @@ void gerarNomeQryTxt(const char* nomeBaseGeo, const char* nomeBaseQry, const cha
 
 int criarDiretorioSeNecessario(const char* caminho){
     if (!caminho) return 0;
-    
-    char dir[PATH_LEN];
-    strcpy(dir, caminho);
-    
-    char* ultimaBarra = strrchr(dir, '/');
-    if (ultimaBarra != NULL){
-        *ultimaBarra = '\0';
-    }
-    
-    if (strlen(dir) == 0){
-        return 1;
-    }
-    
-    struct stat st ={0};
-    if (stat(dir, &st) == -1){
-        #ifdef _WIN32
-            return mkdir(dir);
-        #else
-            return mkdir(dir, 0700);
-        #endif
-    }
-    
+    criarDiretorioRecursivo(caminho);
     return 1;
 }
