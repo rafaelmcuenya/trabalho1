@@ -16,6 +16,19 @@
 #include "criarSvg.h"
 #include "trataNomeArquivo.h"
 
+static void construirCaminhoCompleto(const char* baseDir, const char* arquivo, char* caminhoCompleto){
+    if(!baseDir || strlen(baseDir) == 0){
+        strcpy(caminhoCompleto, arquivo);
+        return;
+    }
+    
+    if(baseDir[strlen(baseDir)-1] == '/'){
+        snprintf(caminhoCompleto, PATH_LEN, "%s%s", baseDir, arquivo);
+    }else{
+        snprintf(caminhoCompleto, PATH_LEN, "%s/%s", baseDir, arquivo);
+    }
+}
+
 static Chao chao = NULL;
 static Arena arena = NULL;
 static Disparador disparadores[100] ={0};
@@ -360,9 +373,12 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase, const 
     }
 }
 
-void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, const char* outputDir){
+void processarArquivo(const char* caminho, const char* inputDir, int ehQry, const char* nomeBase, const char* outputDir){
+    char caminhoCompleto[PATH_LEN];
+    construirCaminhoCompleto(inputDir, caminho, caminhoCompleto);
+    
     FILE *f;
-    abrirArquivo(&f, caminho);
+    abrirArquivo(&f, caminhoCompleto);
     
     if (ehQry){
         char nomeBaseQry[FILE_NAME_LEN];
