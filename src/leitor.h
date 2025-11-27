@@ -54,7 +54,7 @@ void processarComando(const char* linha, int ehQry, const char* nomeBase, const 
    Processa uma linha de comando individual de um arquivo de entrada.
 */
 
-void processarArquivo(const char* caminho, int ehQry, const char* nomeBase, const char* outputDir);
+void processarArquivo(const char* caminho, const char* inputDir, int ehQry, const char* nomeBase, const char* outputDir);
 /*
    Processa um arquivo completo de comandos de entrada.
 */
