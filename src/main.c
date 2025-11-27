@@ -37,10 +37,10 @@ int main(int argc, char *argv[]) {
 
     inicializarSistema();
 
-    processarArquivo(geoFile, 0, nomeBase, outputDir);
+    processarArquivo(geoFile, inputDir, 0, nomeBase, outputDir);
 
     if (qryFile) {
-        processarArquivo(qryFile, 1, nomeBase, outputDir);
+        processarArquivo(qryFile, inputDir, 1, nomeBase, outputDir);
     }
 
     finalizarSistema();
