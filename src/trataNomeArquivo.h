@@ -13,10 +13,11 @@
    Módulo responsável por tratar os nomes dos arquivos durante o processamento do programa.
 */
 
-void criarDiretorioRecursivo(const char* path);
+int criarDiretorioSeNecessario(const char* caminho);
 /*
-   FUNÇÃO NOVA: Cria diretórios recursivamente - CORREÇÃO CRÍTICA
+   Função extra e de emergência caso seja necessário criar um diretório.
 */
+
 
 void extrairNomeBase(const char* caminhoCompleto, char* nomeBase);
 /*
